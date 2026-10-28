@@ -7,7 +7,7 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
   <Accordion title="My Supabase project was paused">
     everydeck does not warn you before Supabase pauses a project.
 
-    While the project is paused, the read bridge cannot answer. After 1 hour you get an email and a banner. Your app's data in everydeck stays at the last read.
+    While the project is paused, the read bridge cannot answer. everydeck says in words that the Supabase project is paused. After 1 hour you get an email and a banner. Your app's data in everydeck stays at the last read.
 
     **What to do:** restore the project in your Supabase dashboard. everydeck checks the bridge again after 1, 5 and 15 minutes, then every hour, and as soon as the bridge picks up again. When it works, you get a "works again" email.
   </Accordion>
@@ -24,7 +24,7 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
   </Accordion>
 
   <Accordion title="The change door does not answer">
-    The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. everydeck tries again every hour and after every switch. Click **Check again** under **Technical › Changes from everydeck** once you fixed the cause.
+    The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. After a failure, the change door checks itself again, like the read bridge. It is also checked every hour and after every switch. Click **Check again** under **Technical › Changes from everydeck** once you fixed the cause.
   </Accordion>
 
   <Accordion title="My agent's safety check stopped a step">

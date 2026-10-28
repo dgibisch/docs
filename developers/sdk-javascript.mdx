@@ -1,0 +1,354 @@
+---
+title: "JavaScript and TypeScript SDK"
+description: "Reference for the everydeck SDK in the browser, on Node, Deno and Supabase Edge Functions, and in React Native: install, options, people, flows, errors, payments, AI calls and heartbeats."
+---
+
+Your coding agent adds and wires the SDK during the setup. This page is for you or a developer who wants to know what the code does, or wants to change it later.
+
+<Info>
+  The SDK never blocks your app. If everydeck cannot be reached, your app works unchanged. If the address, the key or the manifest digest is missing, the SDK switches itself off and says so at start.
+</Info>
+
+## Packages
+
+| Package | For |
+|---|---|
+| `@everydeck/sdk` | Your server: Node 22 or newer, Deno and Supabase Edge Functions. |
+| `@everydeck/sdk/browser` | Browser code with any framework or plain JavaScript, and React Native or Expo. |
+| `@everydeck/sdk/vite` | The source map upload in a Vite build. See [Source maps and page speed](/developers/source-maps-and-web-vitals). |
+| `@everydeck/sdk/outbox` | The outbox relay, for apps whose browser writes straight into the database. See [Going live](/developers/going-live#the-outbox). |
+
+The SDK has no runtime dependencies.
+
+## Install
+
+Your agent installs the exact version everydeck names, with your app's package manager:
+
+```bash
+npm install @everydeck/sdk@<version>
+```
+
+In a Supabase Edge Function or in Deno, import it with the version in the address:
+
+```ts
+import { createEverydeck } from "npm:@everydeck/sdk@<version>";
+```
+
+If your tool only installs packages that are at least one day old, your agent gets the newest such version by itself.
+
+## The three settings every client needs
+
+| Setting | What it is |
+|---|---|
+| `endpoint` | The everydeck address. The SDK adds the path itself. |
+| `credential` | A key. The browser key is public and stands in your code. The server key is secret and stays in your environment. |
+| `manifestDigest` | Names the approved version of your app map. everydeck refuses data without it. |
+
+Where each key goes is on [Going live](/developers/going-live).
+
+## Browser
+
+```ts
+import { initEverydeckBrowser } from "@everydeck/sdk/browser";
+
+export const everydeck = initEverydeckBrowser({
+  endpoint: "<everydeck address>",
+  credential: "<browser key>",
+  releaseKey: "<version, resolved at build time>",
+  manifestDigest: "<manifest digest>",
+  captureHosts: ["api.acme.com"],
+  screens: ["/", "/jobs/:jobId", "/checkout"],
+});
+```
+
+### Browser options
+
+Only these options are documented. Leave out the ones you do not need.
+
+| Option | What it does |
+|---|---|
+| `captureHosts` | The hosts of your own API. Failed requests to them are reported. Default: the page's own host. |
+| `screens` | The page patterns of your app, like `/jobs/:jobId`. Visits and the way to an error are sent only as these patterns. Without the list, the SDK keeps only the first part of each address. |
+| `apiRoutes` | The route patterns of your API. Requests in a flow are named by these patterns. |
+| `captureBackground: false` | Stops reporting failed requests outside a flow. |
+| `captureUnhandled: false` | Stops reporting unhandled errors and rejected promises. |
+| `capturePageViews: false` | Stops sending visits and sign-ins. |
+| `captureVitals: false` | Stops measuring page speed. |
+| `captureOrigin: false` | Stops remembering where people came from (UTM values and the referring domain). |
+| `correlate` | A function that returns `false` for addresses that should get no everydeck headers. See [CORS](#cors). |
+| `persist` | Keeps unsent events on the device. On by default for iPhone and Android, off on the web. |
+| `storage` | Where unsent events are kept. Needed on React Native: pass `AsyncStorage`. |
+| `runtime` | For Expo or React Native: `{ expo: { Updates, Application, Platform } }` or `{ reactNative: { Platform } }`. |
+| `client` | The store version, if the SDK cannot find it: `{ app_version, build }`. |
+| `usageConsent: "consented"` | Sends the person with usage counts. Without it, usage counts stay anonymous. |
+
+The web page also keeps up to 300 rejected events in the browser until the next visit. Turn that off with `persist: false`.
+
+### What the browser SDK captures without code
+
+- Unhandled errors and rejected promises.
+- Errors written with `console.error`.
+- Every failed request made with `fetch` or `XMLHttpRequest`, also outside a flow. To your own hosts: network errors, 4xx and 5xx. A 401 counts only while a person is signed in. To other hosts: only 5xx.
+- Visits and sign-ins, once you tell the SDK who is signed in.
+- Page speed. See [Source maps and page speed](/developers/source-maps-and-web-vitals#page-speed).
+
+It never sends request bodies, headers, form values, query strings, cookies or the page content.
+
+### People: setSubject and reset
+
+Call `setSubject` where the browser learns who is signed in, and `reset` where the person signs out.
+
+```ts
+supabase.auth.onAuthStateChange((_event, session) => {
+  everydeck.setSubject(session?.user.id ?? null);
+});
+
+async function signOut() {
+  await supabase.auth.signOut();
+  everydeck.reset();
+}
+```
+
+- `setSubject(null)` while the session is still loading is fine. It is no sign-out.
+- A reload with the same person is no new sign-in.
+- Without `setSubject`, every visit stays anonymous and Live shows **A visitor**.
+- If your app does not call `reset` at sign-out, a new sign-in of the same person on the same device is not reported.
+
+The person you set in the browser is a claim. Your server's identity stays the source that counts.
+
+### Flows in the browser: actions
+
+Wrap each user action you want to follow in `action`. Name it after the flow in your app map.
+
+```ts
+await everydeck.action(
+  "listing.create",
+  async (ctx) => {
+    const res = await ctx.fetch("/api/listings", { method: "POST", body });
+    if (!res.ok) return;
+  },
+  { objectType: "listing" },
+);
+```
+
+- The SDK reports start, end and failed requests of the action. It never claims a business success by itself.
+- Use `ctx.fetch` for the requests of the action. For a data client like supabase-js, pass `ctx.fetch` as its `global.fetch`.
+- Non-2xx answers, network errors and timeouts inside an action count as a failure, even if your app catches them.
+- `operationId` and `attemptId` let browser and server share one run. A retry is a new attempt.
+
+### Expected answers
+
+Some non-2xx answers are normal, like a 404 before a record exists. Declare them, so they open no case:
+
+```ts
+await ctx.fetch(url, init, { expect: [404] });
+// or for a data client in this action
+const client = createClient(url, key, { global: { fetch: ctx.expecting([404]) } });
+// or for the whole action
+await everydeck.action("profile.load", fn, { expectStatus: [404] });
+```
+
+If your code throws after an expected answer, that throw counts as its own failure. Handle the expected answer inside the action instead.
+
+When your app wraps a failed response in its own error, pass it on: `throw new Error(message, { cause: response })`. Then everydeck knows it is the same failure.
+
+### A result that ends in the browser
+
+If a flow ends in the browser, with no server and no database write in between, send the result from inside the action:
+
+```ts
+await everydeck.action("order.submit", async (ctx) => {
+  await provider.completeOrder();
+  everydeck.signal("order.submitted", ctx.operationId);
+});
+```
+
+The app map must mark this signal with `"source": "browser"`. everydeck accepts it from the public browser key only with this mark. A result from the server for the same run wins. If only the browser confirmed a fix, the case page and the protocol say so.
+
+### Requests that never answer
+
+If a request of a flow waits 30 seconds without an answer, the SDK reports it as hung. It never cancels or changes your request. See [Flows and journeys](/using/flows-and-journeys#requests-without-an-answer).
+
+### CORS
+
+Inside an action, the SDK adds three headers to captured requests: `x-everydeck-operation-id`, `x-everydeck-attempt-id` and `x-everydeck-session-id`. A request to another origin then sends a CORS preflight. Your API must allow these headers in `Access-Control-Allow-Headers`. Or exclude the address with `correlate: (url) => false`: the request is still captured, only without the link to your server. Check this before you go live.
+
+### Screens in apps without URL routing
+
+- **Expo Router:** call `everydeck.screen(pathname)` with `usePathname()` on each change.
+- **Apps without routes:** call `everydeck.screen("Checkout")` with a fixed screen name. Never put a name, id or input into it.
+
+## Server
+
+```ts
+import { createEverydeck } from "@everydeck/sdk";
+
+export const everydeck = createEverydeck({
+  endpoint: process.env.EVERYDECK_ENDPOINT,
+  credential: process.env.EVERYDECK_SERVER_KEY,
+  manifestDigest: process.env.EVERYDECK_MANIFEST_DIGEST,
+  releaseKey: "auto",
+  instanceId: "api",
+});
+```
+
+If your server already talks to Supabase with the service key, `everydeckFromSupabase(…)` reads these settings from your Supabase project instead. Then you set nothing at your host.
+
+### Server options
+
+| Option | What it does |
+|---|---|
+| `releaseKey: "auto"` | Finds the version by itself. See [Versions](#versions-release-key-auto). |
+| `instanceId` | A stable name for this part of your app, like `"api"` or `"cv-worker"`. everydeck then reports exactly this part when it goes silent. |
+| `sourceContext: false` | Stops sending code lines around an error. |
+
+### Results of flows: signal
+
+Send a signal after your database committed the change:
+
+```ts
+everydeck.signal("listing.created", operationId, {
+  objectType: "listing",
+  objectRef: listing.id,
+});
+```
+
+- The role of the step in your app map decides how a run ends, never the name of the signal.
+- Use the same run id as the browser. It comes in the request header `x-everydeck-operation-id`.
+- When a signal names a record, everydeck reads exactly that record again right after.
+
+### Errors
+
+Your agent wires the central error path of your server, the place that turns an exception into a 500:
+
+```ts
+everydeck.error("listing.create.failed", "type_error", {
+  operationId,
+  attemptId,
+  message: "Could not save the listing",
+  http: { method: "POST", route: "/listings/:id", status: 500, durationMs: 412 },
+  exc: err,
+});
+```
+
+- The error class is short, lowercase and stable, like `type_error` or `http_500`.
+- With `exc`, the SDK sends the stack and, for up to 5 frames in your own code, the line and 5 lines before and after. Libraries get no code lines.
+- The message must not contain personal data or secrets. The SDK also removes keys, tokens and e-mail addresses.
+
+There are also one-line helpers that report every 500 and every unhandled exception of a request:
+
+| Framework | Line |
+|---|---|
+| Express 4 and 5 | `everydeckExpress(app, everydeck)` |
+| Next.js 15 or newer | `export const onRequestError = everydeckOnRequestError(everydeck)` |
+| Next.js route handlers and API routes | `everydeckRoute`, `everydeckApiRoute` |
+| Supabase and Deno Edge Functions | `everydeckServe` |
+
+<Note>
+  The setup does not add these one-line helpers by itself yet. Your agent wires the error path instead. Errors outside a request, like in a background job or at start, need your own `everydeck.error(…)`.
+</Note>
+
+### Short-lived runtimes
+
+In Edge Functions and serverless handlers, wait for the SDK before you answer:
+
+```ts
+await everydeck.flush(2000);
+return new Response(body);
+```
+
+`false` means the events were not delivered.
+
+### Payments
+
+Send payment events from your server, after your app stored the change. Only a server key may report payments.
+
+```ts
+everydeck.payment("order_completed", {
+  orderId: order.id,
+  total: 49.0,
+  currency: "EUR",
+  product: "Pro plan",
+  quantity: 1,
+  subjectRef: user.id,
+  accountRef: org.id,
+});
+```
+
+| Event | When |
+|---|---|
+| `checkout_started` | Your app opens a checkout. |
+| `order_completed` | The provider's webhook says it is paid. |
+| `payment_failed` | Paid failed. Pass `reason`, the provider's short failure code. |
+| `order_refunded` | A refund. |
+| `checkout_abandoned` | A checkout expired. |
+
+- `total` is in the main unit of the currency. Divide cents by 100, except for currencies without decimals like JPY or IDR.
+- `currency` is an ISO 4217 code.
+- `orderId` (or `checkoutId`) is required and counts once per event, so a webhook that arrives twice is safe.
+- Without a person and an organization, the payment counts for nobody, and the SDK warns. In a webhook nobody is signed in: take them from what your app stored with the checkout.
+
+See [Money and AI costs](/using/money-and-ai-costs).
+
+### AI calls
+
+Wrap each AI client where your app creates it. The wrapper returns the same client.
+
+```ts
+const openai = everydeck.wrapOpenAI(new OpenAI());
+const anthropic = everydeck.wrapAnthropic(new Anthropic());
+
+await everydeck.aiContext({ flow: "cv_analysis", subjectRef: user.id, accountRef: org.id }, () =>
+  anthropic.messages.create({ /* … */ }),
+);
+```
+
+For an AI API without such a client, report the numbers after each call:
+
+```ts
+everydeck.aiCall({ provider: "google", requestModel: "<model>", inputTokens, outputTokens });
+```
+
+everydeck never stores the prompt, the answer or your provider key.
+
+### Heartbeats
+
+Every part of your app that must keep running sends a heartbeat. Without a number, the SDK uses 300 seconds:
+
+```ts
+setInterval(() => everydeck.heartbeat(), 300_000);
+```
+
+A scheduled job sends its heartbeat at the end of each run that worked, with its id from the app map:
+
+```ts
+everydeck.heartbeat(3600, { job: "retention_cleanup" });
+```
+
+Heartbeats never count toward your monthly events. See [App parts and heartbeats](/using/app-parts-and-heartbeats) for schedules in SQL and GitHub Actions.
+
+### Messages and usage
+
+- `everydeck.messageSent({ conversationType, conversationRef, senderRef, text, appHosts })` sends only metadata: a checksum of the text and whether it holds a phone number, a foreign link or a payment request. The text never leaves your app. See [Moderation](/using/moderation).
+- `everydeck.usage(kind, type, ref)` counts views, saves, contacts, impressions and clicks of a record. `kind` is `view`, `save`, `contact`, `impression` or `click`.
+- `everydeck.search(group, results)` counts searches per group, like an area. Never pass the search text.
+
+## Versions: release key "auto"
+
+Let the SDK find the version of your app. Use `releaseKey: "auto"` on the server. In the browser, pass the value your server found, or resolve it at build time with `resolveReleaseKey()` if your app has no server (for example in Vite's `define`).
+
+The rule:
+
+1. `EVERYDECK_RELEASE_KEY`, if it is set to something other than `auto`.
+2. Otherwise the commit of the deploy, from your host or CI (for example `GITHUB_SHA`, `VERCEL_GIT_COMMIT_SHA`, `RENDER_GIT_COMMIT`, `CF_PAGES_COMMIT_SHA`, `COMMIT_REF`, `SOURCE_VERSION`, `CI_COMMIT_SHA`), as `git:` and the first 12 characters.
+3. Otherwise your local git commit, with `+dirty.` and a short hash when there are uncommitted changes.
+
+So a fix shows up as a new version after a restart. Do not set a fixed `EVERYDECK_RELEASE_KEY`. Keep your app's runtime files, like logs, ignored by git, or they change the version.
+
+## Updating the SDK
+
+Ask your agent to raise the versions to the ones everydeck names. Restart a running dev server afterwards, because it may still hold the old module. Never patch SDK files.
+
+## Limits in the SDK
+
+The SDK keeps at most 500 events in memory and drops events over 8 KiB. What it drops arrives as a data gap. All values are on [Limits and plans](/reference/limits-and-plans#in-the-sdks).

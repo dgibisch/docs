@@ -1,0 +1,58 @@
+---
+title: "Stack overview and provider status"
+description: "Technical › System shows the building blocks of your app and whether everydeck saw them working. Cases show when a provider like Supabase or Vercel reports an incident."
+---
+
+## The stack overview
+
+Go to **Technical › System**. It needs a role that may see code: Owner, Admin, Agency or Viewer.
+
+The page shows the building blocks your coding agent found in your code, in four columns:
+
+| Column | For example |
+|---|---|
+| **Interface** | Your web app |
+| **Processing** | Backend, worker, queue |
+| **Data and access** | Database, sign-in, storage |
+| **Connected services** | Email, payments, analytics, hosting and others |
+
+### States of a building block
+
+| State | Meaning |
+|---|---|
+| **Recognized in code** | Only found in the code. |
+| **Instrumented** | everydeck is built in. |
+| **Communication observed** | A success in the last 24 hours. |
+| **Errors observed** | The latest evidence is an error. |
+| **No current statement** | The evidence is older than 24 hours. |
+
+"Recognized does not mean working: green appears only with evidence of success in the last 24 hours."
+
+Click a building block to see its connections that have evidence (imports, calls, queues), its flows, its open cases, the places in your code and the reported requests with their p50 and p95. Backend and worker also show their heartbeats.
+
+If the app map names no building blocks, the page derives them from your flows and marks them as derived. Providers and connections are then not proven.
+
+## Provider status
+
+When your app has an error or cannot be reached, the case page checks whether a provider of your app reports an incident right now. If so, it says: "This error may come from the provider, not from your app. everydeck checks the provider’s public status page." With the provider's name, the level, since when, and a link **Status page**.
+
+everydeck checks these providers:
+
+- Supabase
+- Vercel
+- Render
+- Stripe
+- OpenAI
+- Anthropic
+
+A provider counts only if your app uses it, according to your app map, your host or your connected Supabase project. everydeck sends no data of your app to the status pages. It keeps only the name, level, time, link and affected areas, not the text of the message.
+
+## What there is not
+
+- No statement whether a service works when your app reports nothing about it.
+- No usage or free limits at your providers.
+- No warning before Supabase pauses your project.
+- No status pages of other providers.
+- No provider status outside a case.
+
+{/* screenshot: Technical › System with the four columns and one building block opened */}

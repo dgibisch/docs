@@ -1,0 +1,116 @@
+---
+title: "App parts and heartbeats"
+description: "Each part of your app that must keep running sends a heartbeat. The Engine room shows which parts are running, late or silent over the last 12 hours, and how scheduled jobs report."
+---
+
+A **part** of your app is a server process or a scheduled job that must keep running: your API, a worker, the outbox relay, a nightly import. Each part sends a small sign of life, a **heartbeat**, every 5 minutes.
+
+Heartbeats never count toward your monthly events, and they keep arriving when your limit is reached.
+
+## The Engine room
+
+Go to **Technical** and open the card **Engine room** ("last 12 hours"). It needs a role that may see code: Owner, Admin, Agency or Viewer.
+
+- One row per part: a server instance that sends heartbeats, or a job from your app map with its name.
+- How often it reports, like "every 5 min" or "every hour".
+- The last sign, like "last sign 2 min ago", or "never reported".
+- Twelve dots for the last 12 hours. A dot is empty if the part sent nothing in that hour.
+- A mark only when a part is **late** or **silent**.
+- At the top: how many parts are running, for example "3 of 4 running".
+
+If your app sent no heartbeat yet, the card says "No heartbeats from your app yet."
+
+The overview shows only the sum in its footer: how many parts are alive and the last sign. See [Overview](/using/overview#footer).
+
+### Late and silent
+
+| State | When |
+|---|---|
+| **late** | Later than one period plus 15 seconds. |
+| **silent** | After two periods plus 30 seconds. With 5 minutes, that is 10 minutes and 30 seconds. |
+
+After a restart or a deploy, the old instances are replaced. They do not count as an outage: "n replaced instances (restart or deploy) are not counted as an outage."
+
+### A heartbeat is no proof of the whole app
+
+The card **Reachability and heartbeats** keeps two statements apart:
+
+- **Missing heartbeats** are a monitoring gap, not an outage.
+- A **confirmed outage** needs a failed [reachability check](/using/reachability-checks).
+
+A heartbeat from your backend does not prove a working database behind it.
+
+## When a part goes silent
+
+- **One part goes silent** while the rest still sends: you get one email and a banner. It ends when the part sends again.
+- **The whole app goes silent:** a case opens, "Your app stopped sending heartbeats". It closes by itself with the next heartbeat.
+- **A scheduled job misses two periods:** a case opens, for example "Job has not reported for 2 periods". It closes when the job reports again. This runs in production only.
+
+See [Flows and journeys](/using/flows-and-journeys#silent-jobs).
+
+## How scheduled jobs report
+
+Your coding agent adds the heartbeat to each job it finds. There are three ways.
+
+<Tabs>
+  <Tab title="Jobs in your code">
+    The job sends its heartbeat at the end of each run that worked:
+
+    ```ts
+    everydeck.heartbeat(3600, { job: "nightly_import" });
+    ```
+
+    See the [JavaScript SDK](/developers/sdk-javascript#heartbeats) or the [Python SDK](/developers/sdk-python#heartbeats-of-jobs).
+  </Tab>
+  <Tab title="Schedules in SQL (pg_cron)">
+    The command runs inside everydeck's outbox, so the heartbeat is written in the same transaction:
+
+    ```sql
+    select cron.schedule('nightly_import', '0 3 * * *',
+      $$ select everydeck_outbox.run_job('nightly_import', $job$ call import_listings() $job$) $$);
+    ```
+
+    A failed command rolls back its writes and reports `error`. No key is in the SQL. The outbox relay delivers the heartbeat.
+  </Tab>
+  <Tab title="Schedules outside your app">
+    A GitHub Actions workflow, or the cron of a host that runs no code of your app, ends with a check-in step. See [below](#schedules-outside-your-app).
+  </Tab>
+</Tabs>
+
+A heartbeat can carry a result: `ok`, `error`, or `in_progress` at the start. On the [Setup page](/using/setup-page), a job is **Working** only after a run that worked, and **Last run failed** after a failed one.
+
+If a job really cannot send a heartbeat, Setup says "everydeck can’t watch this job" instead of waiting for data.
+
+### Schedules outside your app
+
+For a job in GitHub Actions, add two things at GitHub, for your repository:
+
+- the secret `EVERYDECK_SERVER_KEY`,
+- the variable `EVERYDECK_URL`.
+
+Setup shows this as the part **Heartbeat key at GitHub Actions**. Your agent never sets them. The workflow ends with this step:
+
+```yaml
+- name: everydeck check-in
+  if: always()
+  continue-on-error: true
+  env:
+    EVERYDECK_URL: ${{ vars.EVERYDECK_URL }}
+    EVERYDECK_SERVER_KEY: ${{ secrets.EVERYDECK_SERVER_KEY }}
+    STATUS: ${{ job.status == 'success' && 'ok' || 'error' }}
+  run: 'curl -fsS --max-time 10 -X POST "$EVERYDECK_URL/v1/jobs/nightly_import/check-in?status=$STATUS" -H "authorization: Bearer $EVERYDECK_SERVER_KEY"'
+```
+
+A check-in with a revoked key never fails your workflow. The check-in accepts only a job from your approved app map.
+
+## When you remove everydeck
+
+Every schedule gets its own command back before everydeck removes the outbox. If that is not safely possible, everydeck removes nothing and names the schedule. See [Removing everydeck](/reference/remove-everydeck).
+
+## What there is not
+
+- No history longer than 12 hours.
+- No parts without an SDK heartbeat.
+- A failed job run opens no case of its own. Only a silent job does.
+
+{/* screenshot: Technical, Engine room card with parts, twelve dots and "3 of 4 running" */}

@@ -84,22 +84,57 @@
               "using/people",
               "using/your-data",
               "using/changing-data",
-              "using/moderation"
+              "using/moderation",
+              "using/organizations",
+              "using/data-guards"
             ]
           },
           {
             "group": "Insights",
             "pages": [
+              "using/numbers",
               "using/flows-and-journeys",
               "using/money-and-ai-costs"
+            ]
+          },
+          {
+            "group": "Technical",
+            "pages": [
+              "using/developer-view",
+              "using/changes",
+              "using/app-parts-and-heartbeats",
+              "using/stack-and-provider-status",
+              "using/reachability-checks",
+              "using/app-email-delivery"
             ]
           },
           {
             "group": "Settings",
             "pages": [
               "using/emails-and-notifications",
+              "using/weekly-email",
               "using/team-and-roles",
               "using/setup-page"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Developers",
+        "groups": [
+          {
+            "group": "SDK reference",
+            "pages": [
+              "developers/sdk-javascript",
+              "developers/sdk-python"
+            ]
+          },
+          {
+            "group": "Build and deploy",
+            "pages": [
+              "developers/platforms",
+              "developers/source-maps-and-web-vitals",
+              "developers/going-live"
             ]
           }
         ]
@@ -116,7 +151,8 @@
               "reference/delete-account-or-app",
               "reference/security-and-privacy",
               "reference/troubleshooting",
-              "reference/faq"
+              "reference/faq",
+              "reference/glossary"
             ]
           }
         ]

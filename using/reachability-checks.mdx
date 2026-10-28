@@ -1,0 +1,63 @@
+---
+title: "Reachability checks"
+description: "everydeck can call a public address of your app from outside every 5 minutes. Two failures in a row open an outage case, one success closes it."
+---
+
+A reachability check calls a public address of your app from the outside, for example `https://app.acme.com/health`. It tells you when your app cannot be reached at all, even if it sends no errors.
+
+## Create a check
+
+<Steps>
+  <Step title="Open the card">
+    Go to **Technical**, card **Reachability and heartbeats**, part **Reachability checks**.
+  </Step>
+  <Step title="Enter the address">
+    Type the address under **Public URL (https)**.
+  </Step>
+  <Step title="Create it">
+    Click **Create check (every 300 s)**.
+  </Step>
+</Steps>
+
+Only Owners and Admins can create, pause and remove checks. Every change is in the protocol. Roles that may see code can see the checks.
+
+On Free, each app has **1** check, and a check runs at most every **5 minutes**.
+
+The check also appears under **Settings › App › Connections** as "Uptime check:" with its address.
+
+## States
+
+| State | Meaning |
+|---|---|
+| **Reachable** | The last call worked. |
+| **Unreachable** | Two calls in a row failed. |
+| **Unchecked** | Not called yet. |
+| **Paused** | You paused it. |
+
+Use **Pause**, **Enable** and **Remove** on each check.
+
+## What counts as success
+
+- An answer with HTTP status 200 to 399.
+- everydeck reads only the status and the time until the headers arrive. It does not read the content of the answer and stores nothing of it.
+- A check waits at most its timeout, 5 seconds unless set otherwise. A slow address fails after that time and holds up no other checks.
+- everydeck follows no redirects and never calls private networks.
+
+## Outage and recovery
+
+- **Two failures in a row** count as an outage. A case opens, with an email (row **App unreachable** in [Emails and notifications](/using/emails-and-notifications)).
+- **One success** closes the case ("Reachable again"), with an email (row **Back up**). This also holds after **Pause** and **Enable**.
+
+The case says itself: "with a single probe location a network problem on everydeck's side cannot be ruled out."
+
+While an account is waiting to be deleted, no checks run.
+
+## What it does not check
+
+- The expiry of your SSL certificate or your domain.
+- Required pages like an imprint or a privacy page.
+- More than one location.
+- The content of the answer.
+- Services that do not speak HTTP.
+
+{/* screenshot: Reachability checks card with one check in state Reachable */}

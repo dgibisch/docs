@@ -1,0 +1,148 @@
+---
+title: "Python SDK"
+description: "Reference for the everydeck SDK on Python servers like FastAPI: install, the client, signals, errors, payments, AI calls, heartbeats and the release key."
+---
+
+The Python SDK is for your server, for example a FastAPI app or a worker. Your coding agent adds and wires it during the setup. For the browser part of your app, see the [JavaScript and TypeScript SDK](/developers/sdk-javascript).
+
+<Info>
+  The SDK never blocks your app. If the address, the key or the manifest digest is missing, it switches itself off and says so at start. Do not switch it off yourself in code: then your app stays silent when a setting is missing or renamed.
+</Info>
+
+## Install
+
+Your agent adds the package `everydeck` with the exact version everydeck names to the requirements of the part that runs it. That includes the requirements a Docker build sees.
+
+```text
+everydeck==<version>
+```
+
+## The client
+
+Create one client per process. Your agent passes the everydeck address, the server key and the manifest digest the way your app reads its settings.
+
+```python
+from everydeck import Everydeck
+
+import os
+
+everydeck = Everydeck(
+    os.environ["EVERYDECK_ENDPOINT"],
+    os.environ["EVERYDECK_SERVER_KEY"],
+    release_key="auto",
+    manifest_digest=os.environ["EVERYDECK_MANIFEST_DIGEST"],
+    heartbeat_interval=300,
+)
+```
+
+If your server talks to Supabase with the service key, `Everydeck.from_supabase(…)` reads these settings from your Supabase project. Then you set nothing at your host. Otherwise you add three settings at your host: see [Going live](/developers/going-live#what-to-set-where).
+
+| Option | What it does |
+|---|---|
+| `release_key="auto"` | Finds the version by itself, with the same rule as the JavaScript SDK. See [Versions](/developers/sdk-javascript#versions-release-key-auto). |
+| `heartbeat_interval=300` | Sends a heartbeat every 300 seconds. |
+| `source_context=False` | Stops sending code lines around an error. |
+
+## FastAPI and Starlette
+
+One line reports every unhandled exception of a request and every answer from 500 to 599:
+
+```python
+from everydeck.asgi import EverydeckMiddleware
+
+app.add_middleware(EverydeckMiddleware, everydeck=everydeck)
+```
+
+It sends the method, the route as a pattern like `/orders/:id`, the status, the duration, the error class, the cleaned message and the stack. Never bodies, query strings or cookies. Your app's answer stays unchanged. A 4xx counts as an answer of your app, not as an error.
+
+<Note>
+  There is no Flask or Django integration (WSGI). The setup also does not add this middleware by itself yet: your agent wires the central error path with `everydeck.error(…)` instead.
+</Note>
+
+## Results of flows: signal
+
+Send a signal after the commit, with the record of the result:
+
+```python
+everydeck.signal("listing.created", operation_id, object_type="listing", object_ref=listing.id)
+```
+
+Take the run id from the request header `x-everydeck-operation-id`, which the browser SDK sets. Then browser and server share one run.
+
+## Errors
+
+```python
+from everydeck import error_class_of
+
+everydeck.error(
+    "listing.create.failed",
+    error_class_of(e),
+    operation_id=operation_id,
+    attempt_id=attempt_id,
+    http={"method": "POST", "route": "/listings/:id", "status": 500, "duration_ms": 412},
+    exc=e,
+)
+```
+
+- The keys of `http` are written in snake_case, as above.
+- `error_class_of(e)` turns an exception into a short class and keeps acronyms together: `APIError` becomes `api_error`.
+- With `exc`, the SDK sends the stack and, for up to 5 frames in your own code, the line and 5 lines before and after. Libraries and the standard library get none.
+- Errors outside a request, like in a background job, need their own `everydeck.error(…)`.
+
+## Payments
+
+```python
+everydeck.payment(
+    "order_completed",
+    order_id=order.id,
+    total=49.0,
+    currency="EUR",
+)
+```
+
+The events and rules are the same as in the JavaScript SDK: see [Payments](/developers/sdk-javascript#payments). Without a person and an organization, the payment counts for nobody, and the SDK writes a warning to your log.
+
+## AI calls
+
+```python
+from openai import OpenAI
+
+client = everydeck.wrap_openai(OpenAI())
+
+with everydeck.ai_context(flow="cv_analysis", subject_ref=user.id, account_ref=org.id):
+    client.chat.completions.create(...)
+```
+
+`everydeck.wrap_anthropic(Anthropic())` works the same, also for async clients. For an AI API without such a client, report the numbers after each call:
+
+```python
+everydeck.ai_call(provider="google", request_model="<model>", input_tokens=120, output_tokens=480)
+```
+
+everydeck never stores the prompt, the answer or your provider key.
+
+## Heartbeats of jobs
+
+A scheduled job sends its heartbeat at the end of each run that worked, with its id from the app map:
+
+```python
+everydeck.heartbeat(3600, job="retention_cleanup")
+```
+
+See [App parts and heartbeats](/using/app-parts-and-heartbeats).
+
+## Checking requests from everydeck
+
+Requests from everydeck to your app carry a signature. If you build your own app bridge, check each request with one call:
+
+```python
+from everydeck.verify import verify_everydeck_request
+
+result = verify_everydeck_request(method, str(request.url), request.headers, await request.body(), keys=[KEY])
+```
+
+The read bridge from the SDK does this by itself.
+
+## Dates from the read bridge
+
+The read bridge sends a calendar day (a column of type `date`) as midnight UTC of that day, in any time zone of your server. Your own code gets dates as before.

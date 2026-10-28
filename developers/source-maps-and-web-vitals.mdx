@@ -1,0 +1,117 @@
+---
+title: "Source maps and page speed"
+description: "How everydeck shows browser errors with your own file, line and function through source maps, where the upload key goes, and how it measures Core Web Vitals per page."
+---
+
+## Source maps
+
+Your app's browser code is bundled before it ships. Without help, an error points to a place in the bundle. With source maps, everydeck shows the source file, line, column and function, with the code lines around it, like `src/pages/Checkout.tsx:8 formatTotal`.
+
+Your coding agent adds the upload to your build during the setup. You only add one key where your app is built.
+
+### How it is built in
+
+<Tabs>
+  <Tab title="Vite">
+    ```ts vite.config.ts
+    import { everydeckSourceMaps } from "@everydeck/sdk/vite";
+
+    export default defineConfig({
+      plugins: [react(), everydeckSourceMaps({ url: "<everydeck address>" })],
+    });
+    ```
+
+    The plugin turns on source maps itself.
+  </Tab>
+  <Tab title="Any other bundler">
+    Turn on source maps for the browser build, then add two commands after the build:
+
+    ```bash
+    everydeck-sourcemaps inject <output folder> && everydeck-sourcemaps upload <output folder> --url <everydeck address>
+    ```
+
+    For Next.js, set `productionBrowserSourceMaps: true` and use `.next/static` as the folder. The command comes with `@everydeck/sdk`.
+  </Tab>
+</Tabs>
+
+`inject` gives every built file a debug id: a short snippet at the start of the first line, so no line moves. The browser SDK sends this id with each error, and everydeck finds the matching map.
+
+### The upload key
+
+The upload uses its own key, `EVERYDECK_SOURCEMAPS_KEY`. It can only upload source maps for one environment. Every other use is refused. It does not expire and works until you revoke it.
+
+The build reads it from the build environment or from your app's env files (`.env`, `.env.local`, `.env.<mode>`, `.env.<mode>.local`). The build environment wins.
+
+Where to add it at Vercel, Netlify or GitHub Actions is on [Keys at your host](/connect/github-and-hosting#upload-key-for-source-maps).
+
+<Warning>
+  Never put the key under a public name like `VITE_`, `NEXT_PUBLIC_`, `PUBLIC_`, `EXPO_PUBLIC_` or `REACT_APP_`. Then the build uploads nothing and names the variable, never its value.
+</Warning>
+
+Without the key, the build still works. It only uploads nothing, and browser errors show a place in the bundle ("No code lines").
+
+Under **Technical**, the card **Source map upload keys** lists the keys of each environment: who issued it, when it was last used and the uploads in this hour. Owners and Admins can click **New upload key** (shown once) or **Revoke**.
+
+### What happens to the maps
+
+- After the upload, every map and its `sourceMappingURL` comment are removed from the build output. This also happens without a key or when the upload failed. Your maps are never public.
+- everydeck stores each map without the code of your libraries. Every other line is cleaned like an error message: secrets, tokens and e-mail addresses are removed.
+- Maps are resolved when an error arrives. Errors from a build without maps are not resolved later, and older cases are not grouped again.
+- The same error stays the same case after a new deploy.
+
+### Limits
+
+| Limit | Value |
+|---|---|
+| Uploads per key and hour | 300 |
+| Data per key and hour | 96 MiB |
+| Size of one map | 8 MiB |
+| Maps per build | 32 MiB |
+| Builds kept per environment | the latest 20 |
+
+If a key reaches its hourly limit, you get an email and Technical says "Limit reached this hour".
+
+### Not supported
+
+- React Native and Expo (Hermes)
+- Supabase Edge Functions
+- Source maps from Vercel's own build output
+- Index maps with `sections`
+
+<Note>
+  If your build also uses Sentry's Vite or Rollup plugin with `sourcemaps.filesToDeleteAfterUpload`, that plugin deletes the maps before everydeck's plugin runs. Remove the `.map` pattern from that list and keep the rest. everydeck's plugin removes every map after its own upload.
+</Note>
+
+## Page speed
+
+The browser SDK measures every page view by itself, with Google's `web-vitals` library built in. You add nothing.
+
+| Value | What it means | Good | Poor |
+|---|---|---|---|
+| LCP | When the largest content is shown | up to 2.5 s | over 4 s |
+| INP | How fast the page reacts to clicks and taps | up to 200 ms | over 500 ms |
+| CLS | How much the content jumps | up to 0.1 | over 0.25 |
+
+In between, the rating is **Needs work**. The SDK also measures FCP and TTFB.
+
+### How it is shown
+
+- everydeck shows the p75 per page: three out of four visits were at least this fast.
+- Under 20 visits of a page, there is no value and no rating yet, only how many visits were measured, like "3 visits measured so far".
+- You find it on [Journeys](/using/flows-and-journeys#journeys) in **How fast your pages load**, slowest pages first, with a line for LCP per day.
+- On the page of a version under [Changes](/using/changes), **Load times before and after** compares the 7 days before a version with the days after.
+
+### Where it is measured
+
+- In every browser, also on phones. Not in native apps (React Native, Expo, Capacitor).
+- CLS is reported only by Chromium browsers (Chrome, Edge, Opera, Samsung Internet). In Firefox and Safari it stays empty.
+- Page changes of a single-page app count as their own visits only in browsers that report soft navigations (Chromium 151 or newer). Otherwise the loaded page counts.
+
+### What it costs you
+
+Page views never count toward your 10,000 monthly events, and they keep arriving above your limit. Per app and day, everydeck measures up to 20,000 page views and up to 200 different pages. Further pages that day are grouped as "Other pages". Daily values are kept for 30 days.
+
+To turn it off, set `captureVitals: false` in the browser SDK.
+
+{/* screenshot: Journeys card "How fast your pages load" with p75 values and ratings */}
+{/* screenshot: a case page showing a browser error resolved to src/pages/Checkout.tsx with code lines */}

@@ -1,0 +1,48 @@
+---
+title: "Data loss and impossible values"
+description: "everydeck watches your app's data. If a large part of a kind of data disappears at once, you get an urgent alert. Prices of 0 or empty required fields open a case."
+---
+
+Each time everydeck reads all records of your app, it compares the counts with the last read. Two guards look at the result. They need no AI and no setup.
+
+## Data loss
+
+If at least 10 % of a kind of data is gone at once, and there were at least 100 records before, a critical case opens right away, for example "Listings dropped from 1,200 to 300".
+
+- Records your team deleted or archived from everydeck do not count as lost. The case says so: "removed on purpose in everydeck, not counted as lost".
+- It runs in production only.
+
+You get an urgent alert by email at once: "Urgent: Listings in Acme dropped from 1,200 to 300", with the last new version of your app before it. This email always comes, even if you turned other emails off. It goes to Owners, Admins and Agency.
+
+### What to do
+
+The case page shows before, after, the times and the rule: "A drop of 10 % or more from at least 100 entries is a case at once." Then:
+
+1. Check whether this was deleted on purpose.
+2. If not, restore it from your backup.
+3. Close the case. It stays open until you close it, because an equally low count does not mean the data is back.
+
+everydeck restores nothing itself.
+
+## Impossible values
+
+everydeck knows from your app map what each field is. From that, and only that, it finds values that cannot be right:
+
+| Finding | Example title |
+|---|---|
+| A price or amount of 0 or less | "3 listings with price 0 or less" |
+| An empty field that your database marks as required | "2 bookings without start date" |
+| A kind of data that is suddenly empty | "Listings: suddenly empty, 40 before" |
+
+These open a case of the kind **Implausible value**, with the level warning. It closes by itself when nothing is wrong any more.
+
+## What there is not
+
+- No check in development.
+- No backup status.
+- No restore.
+- Only kinds of data that the read bridge counts.
+
+See also [Cases and repairs](/using/cases-and-repairs#kinds-of-cases) and [Needs you](/using/needs-you#order).
+
+{/* screenshot: data loss case page with before, after and the rule */}

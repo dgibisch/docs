@@ -1,0 +1,87 @@
+---
+title: "Web, iPhone and Android"
+description: "What everydeck captures in browsers, in apps built with Capacitor, Expo or React Native, and on your server, how it shows platforms and what it does not capture, like native crashes."
+---
+
+everydeck measures through its SDKs. What it sees depends on where your code runs.
+
+## What is captured where
+
+| | Browser | App in a store (Capacitor, Expo, React Native) | Server |
+|---|---|---|---|
+| Errors in your own code | Yes | Yes, in the JavaScript of the app | Yes |
+| Failed requests | Yes | Yes | 500 to 599, with the helpers or the error path |
+| Flows and results | Yes | Yes | Yes |
+| Visits and sign-ins | Yes, after `setSubject` | Yes, each `screen()` counts | No |
+| Page speed | Yes | No | No |
+| Source code lines for errors | With source maps | No (Hermes is not supported) | Yes, read from the running file |
+| Events kept when offline | No | Yes, sent at the next start | No |
+| Crash of the app itself | No | **No** | No |
+
+<Warning>
+  Crashes of native iPhone and Android apps are not captured. everydeck sees errors in the app's own code and on your server, not a crash of the app itself. Those appear in App Store Connect, the Google Play Console or a crash reporter. everydeck does not read crashes from Sentry, Crashlytics, App Store Connect or the Play Console.
+</Warning>
+
+If your app map names iPhone or Android, or events came from there in the last 30 days, everydeck says this openly under **Technical** ("Not captured.") and in the task for your coding agent.
+
+## Browsers
+
+The browser SDK reads errors from Chrome, Edge, Opera, Samsung Internet, Firefox on every device, Safari on the Mac and every browser on iPhone and iPad (they all run on Safari's engine there). The same error from different browsers lands in one case.
+
+- Without a source map, a case groups by error class and the name of the top function. Line, column and message do not count, because every engine writes them differently.
+- Safari leaves out some callers in strict code. The top of the stack stays the same, the way below it can be shorter.
+- An error with no stack and no place at all, like "Script error." from a script of another site without `crossorigin`, shows as "at unknown location".
+- Internet Explorer is not supported.
+
+## Apps from a store
+
+The browser SDK finds out where it runs and adds it to every event:
+
+- **Capacitor:** the platform, and the version and build if `@capacitor/app` is installed.
+- **Chrome extension:** the version from its manifest.
+- **Electron, Tauri, Flutter web:** the kind of app.
+- **Expo and React Native:** pass the modules, the SDK does not import them. See `runtime` in the [browser options](/developers/sdk-javascript#browser-options).
+
+It also adds the operating system with its major version and the device class (phone, tablet, desktop). Never a device model, an id or the user agent. A server key can never claim to be a phone.
+
+### Keeping events on the device
+
+In the native apps, unsent events are kept on the device and sent at the next start. everydeck counts each one once.
+
+- **Capacitor** keeps them in the WebView's storage.
+- **React Native and Expo** have no such storage. Pass `storage: AsyncStorage` and call `everydeck.persist()` when the app goes to the background:
+
+```ts
+AppState.addEventListener("change", (state) => {
+  if (state === "background") void everydeck.persist();
+});
+```
+
+Without a storage on React Native, events sent while offline are lost.
+
+### Fixes for store apps
+
+A web deploy does not reach an app installed from a store. When your agent reports a fix, it names the app version per platform. The case page then follows each platform, for example "Android: waiting for the store".
+
+## How everydeck shows platforms
+
+Platforms appear only if your app had runs on at least two app platforms in the last 30 days. A run without a platform counts as web. The server is no app platform.
+
+The words are **Web**, **iOS**, **iPhone**, **iPad**, **Android**, **Desktop app**, **Browser extension** and **Server**. everydeck says **iPhone** instead of **iOS** when all iOS events came from phones, and **iPad** when all came from tablets.
+
+- **Live:** each row names its platform, with the app version for store apps, like "iPhone 2.3".
+- **Errors:** each case says where it happens, like "Web and Android".
+- **Numbers:** where a number counts over more than one platform, the split stands below it, like "Web 80 · iPhone 20". Someone active on two platforms counts on both, so the split can add up to more.
+- **People:** which platforms a person used, with the newest app version they sent.
+- **Filter:** only **Flows** and **Journeys** have a platform filter. All other pages show everything and name the platform per row.
+
+## Servers
+
+| Language | Tested runtimes |
+|---|---|
+| TypeScript | Node 22 or newer, Deno and Supabase Edge Functions |
+| Python | For example FastAPI and workers |
+
+Other languages, like Go, Ruby, PHP or Java, are recognized during the setup, but everydeck does not measure there.
+
+{/* screenshot: Live with rows from Web and iPhone, showing "iPhone 2.3" */}

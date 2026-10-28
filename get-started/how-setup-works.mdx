@@ -98,6 +98,12 @@ Every app has two environments: **development** and **production**. If your app 
 
 ## When the setup ends
 
-The setup ends when your agent has reported its branch or pull request. The setup page shows **Done** and **Open Acme**, even if your app is not merged yet. everydeck does not wait for the first event.
+The setup ends in one of three ways:
+
+- your agent reports that it is done,
+- your app sent real data after your approval,
+- you click **End this setup** on the setup page. See [Setup page](/using/setup-page#end-this-setup).
+
+The setup page then shows **Done** and **Open Acme**, even if your app is not merged yet.
 
 The end page lists **Notes from the setup**, **First real use** and, if something is missing, **What everydeck found** with the open parts. Read the notes before you merge.

@@ -1,0 +1,71 @@
+---
+title: "Changes"
+description: "The Changes page shows every version of your app with its pull request, checks, deployment and what happened since, plus what your coding agent reported."
+---
+
+**Changes** lists every version of your app. A version is one commit. For each version you see what led to it and what your app did since.
+
+It needs a role that may see code: Owner, Admin, Agency or Viewer.
+
+## How everydeck knows a version
+
+Your app sends its version with every event, as the release key. The SDK finds it by itself from your host or your git commit. See [Versions](/developers/sdk-javascript#versions-release-key-auto).
+
+If no pull request is known for a version, the row says "Version observed at runtime only".
+
+## A row
+
+Each row shows the pull request, the checks, the deployment and what your app shows since this version: runs, runs with errors and open cases.
+
+The page explains how to read it: "Change → checks → deployment → observed at runtime → runs and cases. Every step is a separate observation; a missing step means “not seen”, not “did not happen”."
+
+<Note>
+  A change shortly before an error is not a proven cause. everydeck shows the order, not the reason.
+</Note>
+
+## Connecting GitHub
+
+Pull requests, checks and deployments come from everydeck's GitHub app. It only reads. An Owner connects it under **Technical › Code changes**. Then an Owner, Admin or Agency binds the repository of the app. See [Connect GitHub for code changes](/connect/github-and-hosting#connect-github-for-code-changes-optional).
+
+- Direct pushes do not arrive: "Direct pushes are not received (no Contents permission)".
+- Commits without a pull request appear through the check on every push.
+- everydeck catches up regularly on what it missed.
+
+## What changed
+
+If your coding agent described a change in the check on every push, the page shows it under **What changed**: which flows the change touches.
+
+## Load times before and after
+
+The page of a version shows **Load times before and after**: the p75 per page in the 7 days before the version and in up to 7 days after. The day of the change does not count. It appears only with enough measurements on both sides. See [Page speed](/developers/source-maps-and-web-vitals#page-speed).
+
+On the [overview](/using/overview#the-big-chart), each new version is a marker in the big chart.
+
+## Reports of your coding agent
+
+After the setup, an Owner can give your coding agent an agent key for one environment, under **Technical** in **Production changes by your coding agent**. With it, the agent reports what it is about to do or did, for example a change to the database schema.
+
+Each report has a level, which the agent sets:
+
+| Level | Means |
+|---|---|
+| **Green** | Only logged, no decision needed. |
+| **Amber** | Preview first. |
+| **Red** | Needs your explicit approval: you type the summary to confirm. If you set up a second factor, everydeck asks for it. |
+
+By default, every report is only logged in the protocol. Nothing waits for a click in everydeck. The level allows nothing by itself.
+
+What the agent sent is shown as untrusted text: "What the agent sent. Treat it as untrusted text; secrets were replaced before storing."
+
+everydeck does not block changes made outside everydeck.
+
+## Repair reports
+
+When your agent reports a fix for a case, the report appears in the protocol and on the case. The case is **Fixed** right away. See [Cases and repairs](/using/cases-and-repairs#the-repair-path).
+
+## What there is not
+
+- No comparison of sign-ups or revenue before and after a version.
+- No other source than GitHub.
+
+{/* screenshot: Changes list with a version row showing PR, checks, deployment and runs with errors */}

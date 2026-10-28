@@ -1,0 +1,46 @@
+---
+title: "Organizations"
+description: "If your app has teams, companies or workspaces, everydeck shows each organization with its people, the functions they use, their problems and their runs."
+---
+
+If your app groups people into organizations, like teams, companies or workspaces, everydeck shows them under **Organizations**. Everyone who can see the app can open them.
+
+## Where organizations come from
+
+Each organization comes from your app's server events. everydeck knows an organization by the id your server sends with an event.
+
+A person belongs to an organization in two ways, and the page says which:
+
+- **observed:** a server event named both the person and the organization,
+- **according to the app:** your app's user data says so.
+
+## Names
+
+The name of an organization comes only from your server: the SDK sends it when your app identifies a person with the name of their organization. Without it, the page says "no name approved", or the organization shows with its short address.
+
+Each organization has a short address like `ORG-3`. It keeps your app's own id out of the address bar and the browser history.
+
+## The page of an organization
+
+- **People:** who belongs to it, with the evidence.
+- **Functions used** over the chosen number of days.
+- **Problems:** open cases that hit this organization.
+- **All runs.**
+
+On the overview, a card shows organizations if your app has them. Otherwise that place shows "What people use most".
+
+## Money per organization
+
+If your app has plans or payments per organization, Owners, Admins, Agency and Viewers see the plan and the revenue. Support sees no amounts. See [Money and AI costs](/using/money-and-ai-costs).
+
+## Deleting an organization's data
+
+Owners and Admins can delete everything everydeck stored about a customer. It works like the [privacy deletion of a person](/using/people#privacy-deletion-of-a-person).
+
+## What there is not
+
+- No name rule for organizations, and no check whether their names arrive.
+- The read bridge delivers no organization names for this page.
+- everydeck does not merge two ids of the same organization.
+
+{/* screenshot: organization page ORG-3 with People, Functions used, Problems and All runs */}

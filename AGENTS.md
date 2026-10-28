@@ -31,6 +31,8 @@ Someone who built an app with an AI coding agent and "understands nothing" about
   - Clerk and Auth0 are recognized but not connected: no sign-in links or password reset there. Those need Supabase Auth.
   - Native iPhone and Android crashes are not captured.
 - The only email address is support@everydeck.ai.
+- Positioning: everydeck is a real backend for everything in your app, like the admin of a Shopify store. Your team sees records and edits them where the owner allowed it. Never describe the app's data as "read only" to the user. The read bridge is only the technical way everydeck reads; editing goes through the change door.
+- There is no separate email when a case is fixed. Emails come when a case comes back (**Came back**).
 
 ## Never include
 

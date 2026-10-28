@@ -1,0 +1,36 @@
+---
+title: "Email delivery of your app"
+description: "What everydeck knows about the emails your app sends to its users, what it does not know, and where to see the delivery of everydeck's own emails to your team."
+---
+
+There are two kinds of email. They are easy to mix up.
+
+## Emails your app sends
+
+Your app sends its own emails, like a welcome email or a booking confirmation, through a mail provider.
+
+What everydeck knows: if your app map has a flow that sends email, everydeck counts its runs. A run means your app handed the email to the mail provider.
+
+What everydeck does not know:
+
+- whether an email was delivered or bounced,
+- whether it landed in spam,
+- whether your app sends through Supabase's built-in email service.
+
+everydeck connects to no mail provider. For delivery, look at your mail provider's own dashboard.
+
+<Note>
+  Emails that everydeck triggers in your app, like a sign-in link or a password reset, are sent by Supabase Auth as your app's own emails. See [People](/using/people#help-actions).
+</Note>
+
+## Emails everydeck sends to your team
+
+Under **Settings › Workspace › Members**, Owners see **Recent deliveries**: every email everydeck sent to your team, with its result:
+
+- "accepted by the mail transport"
+- "rejected"
+- "outcome unconfirmed"
+
+If an email is rejected, everydeck shows a banner, because another email would not arrive either. It ends with the next email that is delivered.
+
+Which emails everydeck sends is on [Emails and notifications](/using/emails-and-notifications).

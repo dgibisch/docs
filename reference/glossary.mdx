@@ -1,0 +1,91 @@
+---
+title: "Glossary"
+description: "The words everydeck uses, in plain language: case, flow, run, expectation, change door, read bridge, outbox, version, Needs you, Fixed, Came back and more."
+---
+
+<AccordionGroup>
+  <Accordion title="Agent key">
+    A key for your coding agent, for one environment. It lets the agent report changes and pick up repairs. Valid for 30 days. See [Changes](/using/changes#reports-of-your-coding-agent).
+  </Accordion>
+  <Accordion title="App map">
+    The file `everydeck/app-map.json` your coding agent writes during the setup: the tables, pages, flows, jobs and services of your app, each with its place in the code. You approve what everydeck derives from it. See [How setup works](/get-started/how-setup-works#the-app-map).
+  </Accordion>
+  <Accordion title="Approve">
+    Your one click on the setup page. It allows what everydeck will see and do in your app. Later, new permissions ask again.
+  </Accordion>
+  <Accordion title="Case">
+    A bundle of events of the same kind of problem, with a short address like `ACME-14`. It is a way of grouping work, not a proven cause. See [Cases and repairs](/using/cases-and-repairs).
+  </Accordion>
+  <Accordion title="Came back">
+    A case your agent fixed or you marked as fixed, where the same error happened again in the reported or a later version. It opens again with the same address, and you get an email.
+  </Accordion>
+  <Accordion title="Change door">
+    everydeck's own Edge Function in your Supabase project, `everydeck-write-door`. It makes the changes your team starts in everydeck, and only what you switched on. See [Changing data](/using/changing-data).
+  </Accordion>
+  <Accordion title="Data gap">
+    A time in which everydeck is missing data, for example because the SDK dropped events at its limit. A data gap is not a failure. It means everydeck cannot judge.
+  </Accordion>
+  <Accordion title="Developer view">
+    A switch that shows technical details next to the plain words on every page. See [Developer view](/using/developer-view).
+  </Accordion>
+  <Accordion title="Environment">
+    Every app has two: development and production. Each has its own keys, data and cases. See [Going live](/developers/going-live).
+  </Accordion>
+  <Accordion title="Event">
+    What your app sends to everydeck: errors, signals of flows, logs and breadcrumbs. Free includes 10,000 a month. Heartbeats, page loads, visits and sign-ins never count.
+  </Accordion>
+  <Accordion title="Expectation">
+    A rule between two signals: after A, B must arrive within a set time. If B does not come, a case **Missed expectation** opens. See [Flows and journeys](/using/flows-and-journeys).
+  </Accordion>
+  <Accordion title="Fixed">
+    The state of a case after your coding agent reported a fix, or after you clicked **Mark as fixed**. everydeck then watches. If the same error happens again, the case shows **Came back**.
+  </Accordion>
+  <Accordion title="Flow and run">
+    "A flow is something your app does again and again; a run is one time it happened." For example signing in, creating a listing or paying.
+  </Accordion>
+  <Accordion title="Heartbeat">
+    A small sign of life a part of your app sends every 5 minutes. Missing heartbeats are a monitoring gap, not an outage. See [App parts and heartbeats](/using/app-parts-and-heartbeats).
+  </Accordion>
+  <Accordion title="Hung">
+    A run in which a request waited at least 30 seconds without an answer. Three such runs at the same place in 24 hours open a case **No answer**.
+  </Accordion>
+  <Accordion title="Manifest digest">
+    A setting every SDK client sends. It names the approved version of your app map. Without it, everydeck refuses the data.
+  </Accordion>
+  <Accordion title="Monitoring gap">
+    A case for something that went silent: no heartbeats, a job that did not report, or a flow that stopped sending after a new version. Not a confirmed outage.
+  </Accordion>
+  <Accordion title="Needs you">
+    Your to-do list in everydeck: the cases and decisions that need a person. See [Needs you](/using/needs-you).
+  </Accordion>
+  <Accordion title="Open · watched">
+    A new error that touches no flow with business consequences and few people so far. It shows on the Errors page only and becomes a task when it grows.
+  </Accordion>
+  <Accordion title="Outbox">
+    For apps whose browser writes straight into the database. A trigger writes a short note in the same transaction, and a relay sends it to everydeck. So only confirmed results arrive. See [The outbox](/developers/going-live#the-outbox).
+  </Accordion>
+  <Accordion title="Part">
+    One thing your app needs connected, like sign-in, payments or a scheduled job. The Setup page shows each part with its state. See [Setup page](/using/setup-page).
+  </Accordion>
+  <Accordion title="Probe run">
+    The test events your coding agent sends during the setup. They count nowhere: no person, no case on the Errors page, no email.
+  </Accordion>
+  <Accordion title="Protocol">
+    The log of who did what and when in everydeck, with before and after. Kept for 90 days on Free.
+  </Accordion>
+  <Accordion title="Read bridge">
+    The connection through which everydeck reads your app's records. Your app opens it to everydeck, so everydeck never needs your app's address. It reads exactly what you approved. See [Your app's data](/using/your-data).
+  </Accordion>
+  <Accordion title="Reachability check">
+    A call from outside to a public address of your app. Two failures in a row are a confirmed outage. See [Reachability checks](/using/reachability-checks).
+  </Accordion>
+  <Accordion title="Signal">
+    A message from your app that a step of a flow happened, like "listing created". The role of the step in your app map decides how a run ends.
+  </Accordion>
+  <Accordion title="Source map">
+    A file that maps your bundled browser code back to your source files, so errors show your own file and line. See [Source maps](/developers/source-maps-and-web-vitals).
+  </Accordion>
+  <Accordion title="Version (release)">
+    One commit of your app, as your app reports it with every event. The SDK finds it by itself with the release key `auto`. See [Changes](/using/changes).
+  </Accordion>
+</AccordionGroup>

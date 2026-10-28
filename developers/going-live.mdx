@@ -1,0 +1,99 @@
+---
+title: "Going live"
+description: "Development and production in everydeck, which key goes where, which EVERYDECK settings you add at your host, and how the outbox brings results from your database to everydeck."
+---
+
+This page collects what you need when your app goes to production. The steps after the merge are on [Apps on GitHub and a host](/connect/github-and-hosting).
+
+## Two environments
+
+Every app has **development** and **production**. Each has its own keys, data and cases. Production does not appear in everydeck's addresses, development has `?env=dev` at the end.
+
+| Your app was set up | Writes to | Going live |
+|---|---|---|
+| On a connected Supabase project | production | Nothing extra. everydeck adds its parts to your project after you approve. |
+| Locally | development | Your step. Create production keys under **Keys** and set them at your host. |
+
+A locally set up app does not switch to production by itself. Until the first event from production arrives, **Setup** says "Waiting for your deployment". Merged code alone sends nothing.
+
+Flows checked only locally wait for their first real event in production. everydeck confirms them by itself.
+
+## Kinds of keys
+
+everydeck creates every key itself and shows it once. Your agent never sends a key to everydeck.
+
+| Key | Secret? | Where it goes |
+|---|---|---|
+| Browser key | No, it is public like a Sentry DSN. It can only send events. | In the code that starts the browser SDK. It reaches production with your pull request. |
+| Server key | Yes | Your local, git-ignored env file, and the environment of your server at your host. |
+| Upload key for source maps | Yes | The environment where your app is built. |
+| Read bridge key | Yes | Set by everydeck or your agent for the read bridge. You do not handle it. |
+| Agent key | Yes | Outside your repository, for your coding agent. Valid for 30 days. |
+
+To replace a key, go to **Settings › App › Keys** and click **Replace**. The old key keeps working for 1 day.
+
+## What to set where
+
+| Setting | Where | When |
+|---|---|---|
+| `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY`, `EVERYDECK_MANIFEST_DIGEST` | The environment variables of your server at your host | Only if your own server does not read its settings from Supabase with the service key. The setup page shows them with **Show the values**. |
+| `EVERYDECK_SOURCEMAPS_KEY` | The build environment (Vercel, Netlify, GitHub Actions or another place that builds) | For every app with browser code. See [Source maps](/developers/source-maps-and-web-vitals#the-upload-key). |
+| `EVERYDECK_SERVER_KEY` (secret) and `EVERYDECK_URL` (variable) | GitHub, for your repository | Only if scheduled jobs run in GitHub Actions. See [App parts and heartbeats](/using/app-parts-and-heartbeats#schedules-outside-your-app). |
+
+The setup page and **Setup › To do** list exactly the ones your app needs. You cannot send these to your agent: they are steps at your host.
+
+<Warning>
+  Do not set a fixed `EVERYDECK_RELEASE_KEY`. The SDK finds the version by itself. See [Versions](/developers/sdk-javascript#versions-release-key-auto).
+</Warning>
+
+### On a connected Supabase project
+
+everydeck sets the settings of its own functions and its Vault entries in your project itself. The values never go to your agent or into the chat. Your own Edge Functions read their everydeck settings from the project when you deploy them as usual.
+
+If you deploy everydeck's own functions again yourself with the Supabase CLI, Supabase turns its JWT check back on for them, and everydeck can no longer reach them.
+
+## The outbox
+
+Some apps write from the browser straight into the database, for example with the Supabase client and row level security. Then there is no server that could report "this was saved". The browser cannot prove it either: it does not know whether the database really committed.
+
+The outbox solves this:
+
+<Steps>
+  <Step title="A trigger writes a note">
+    A trigger on your table writes a short note into `everydeck_outbox.event`, in the same transaction as your change. If the change is rolled back, the note is gone too. So only confirmed results arrive.
+  </Step>
+  <Step title="The relay sends it">
+    The relay reads waiting notes in order, sends them to everydeck in batches, and deletes a batch only after everydeck accepted it. everydeck counts each event once.
+  </Step>
+  <Step title="everydeck records the result">
+    The result joins the browser's start of the same run. In Live, these events show as **Supabase**.
+  </Step>
+</Steps>
+
+### What goes through it
+
+Only references: the name of the signal, the run id, the person, the organization, the kind and id of the record and the platform. Never column values or texts. The outbox table is closed to `anon`, `authenticated` and Supabase's Data API.
+
+### When it runs
+
+- **On Supabase:** a schedule calls the function `everydeck-outbox-relay` every 5 seconds while notes wait, and every 5 minutes with a heartbeat. A quiet app costs no extra calls. A result arrives within seconds.
+- **On plain PostgreSQL:** `npx everydeck-outbox-relay` runs as a worker of your app. It delivers every 5 seconds.
+
+If your own server reports every result, there is no outbox, no schedule and no relay.
+
+### When it stops
+
+The relay is a job of your app, named "everydeck outbox relay". It sends its heartbeat only after a run that delivered everything. If it misses two periods, a case opens in production: "Job "everydeck outbox relay" has not reported for 2 periods".
+
+A note everydeck refuses for good stays in `everydeck_outbox.event` with its error and is never sent again. everydeck does not show these anywhere else.
+
+### Limits
+
+- A deleted row cannot be a result: it leaves nothing a signal could point to.
+- At most 1,000 notes per run.
+
+## Updating everydeck later
+
+When everydeck names newer package versions, ask your agent to raise them. If a new version could change more in your app than you allowed, everydeck asks you first with **Allow** and **Not now**. See [Changing data](/using/changing-data#new-permissions).
+
+{/* screenshot: setup end page with "One extra step: add these three settings" and Show the values */}
