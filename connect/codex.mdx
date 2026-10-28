@@ -1,0 +1,33 @@
+---
+title: "Codex"
+description: "Connect Codex to everydeck by asking Codex to set up the MCP server, sign in, restart and paste the setup sentence in a new chat."
+---
+
+## Connect
+
+<Steps>
+  <Step title="Ask Codex to add everydeck">
+    Paste this into Codex in the folder of your app, with the address `https://app.everydeck.ai/mcp` (also shown on the setup page):
+
+    ```text
+    Set up the MCP server everydeck: Streamable HTTP, address <address from the setup page>, sign-in with OAuth. Then sign me in.
+    ```
+  </Step>
+  <Step title="Sign in">
+    Codex opens the sign-in in its own browser. Sign in to everydeck there and click **Allow**.
+  </Step>
+  <Step title="Restart and open a new chat">
+    Restart Codex and open a new chat in this folder. The everydeck tools are only there after a restart, in a new chat.
+  </Step>
+  <Step title="Paste the sentence">
+    Paste the sentence from the setup page into the new chat.
+  </Step>
+</Steps>
+
+**Other way:** in Codex, go to **Settings › MCP servers › Add server**, choose **Streamable HTTP**, paste the address, save, restart and click **Authenticate**.
+
+**Using the Codex CLI?** The setup page shows the two commands: `codex mcp add everydeck --url <address>` and `codex mcp login everydeck`.
+
+## Model
+
+everydeck was tested with GPT-6 Astra at medium reasoning. With another model the setup may leave parts out; everydeck shows you what is still open.

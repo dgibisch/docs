@@ -1,0 +1,59 @@
+---
+title: "Security"
+description: "The Security page shows what Supabase's Security Advisor reports about your database, in plain words. everydeck also checks the code your app ships to browsers for secret keys."
+---
+
+everydeck checks two things after each new version of your app in production:
+
+1. What **Supabase's Security Advisor** reports about your database.
+2. Whether the code your app ships to browsers contains a **secret key**.
+
+## The Security page
+
+The page lists what the Security Advisor of Supabase reports about the database of your app, with the level Supabase gives each point: **Error**, **Warning** or **Info**.
+
+Each point has:
+
+- one sentence in plain words, for example "Anyone with the public key of your app can read and change every row of this table, because access protection (RLS) is switched off.",
+- **How to fix it (Supabase)**, the link to Supabase's own guide,
+- **Affected**: the parts with the name Supabase gives them, like `public.jobs`. The first five are visible right away, the rest under "and n more".
+
+For a rule everydeck does not know yet, it shows "Supabase says:" with Supabase's own text.
+
+<Note>
+  Only points of level **Error** appear under Needs you, together as one case. everydeck sends no email about the others.
+</Note>
+
+## This is intended
+
+Some points are on purpose. For example "Access protection is on, but no rule lets anyone in" is often intended for tables only your server uses.
+
+Click **This is intended** on such a point. The page then says "Marked as intended by" the person, with the date. It comes back when something new is affected. To undo, click **Show it again**.
+
+The security case closes by itself when no error is left at Supabase, or each one is marked as intended.
+
+## When the page is empty or not checked
+
+| The page says | What it means |
+|---|---|
+| Not checked yet. | everydeck asks Supabase after the next version of your app runs. |
+| Supabase is not connected to this app | everydeck cannot read its security advice. Connect Supabase on the setup page. |
+| everydeck may not read the security advice of this Supabase project. | Connect Supabase again to allow it. |
+| The last check could not reach Supabase. | everydeck tries again with the next version of your app. |
+| Supabase reports nothing about the security of this database. | Nothing to do. |
+
+## Secret keys in your shipped code
+
+After each new version, everydeck loads your app's start page and its scripts and looks for keys that must never reach a browser: Stripe secret keys, private keys, OpenAI and Anthropic keys, and Supabase's secret keys (`service_role` and `sb_secret_`). Public keys, like Supabase's `anon` or publishable key, do not count.
+
+If it finds one, a case opens: the kind of key "in the code your app ships to browsers", with file, line and column. everydeck keeps only the kind and the place, never the key.
+
+**What to do:** treat the key as leaked. Create a new one at the provider and delete the old one. Move the key to your server and ship a new version. The case closes by itself when that version is clean.
+
+The check reads at most 40 scripts and 40 MiB together. If it could not read all of them, you get a banner and one email.
+
+## What it does not check
+
+- Tables and storage buckets from the outside. Row access is checked only through Supabase's advice, so only with Supabase connected.
+- Pages other than the start page and its scripts.
+- Outdated packages with known security holes.

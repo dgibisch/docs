@@ -1,0 +1,61 @@
+---
+title: "Removing everydeck from your app"
+description: "Take everything everydeck added out of your app: functions, the outbox, triggers, settings and keys. Your app keeps running as before."
+---
+
+You can take everydeck out of your app at any time. Your app keeps running as before. everydeck stops receiving and reading.
+
+Go to **Settings › Acme › General** and find **Remove everydeck from Acme**. Only Owners can do this.
+
+"Takes out everything everydeck added to the app: functions, the outbox, triggers, settings and keys. Your app keeps running as before."
+
+## With a Supabase connection
+
+Click **Remove everydeck**. everydeck removes its parts through the Supabase connection of your project, one by one, and then disconnects. Each part shows **removed**, **was not there** or **not removed** with the reason.
+
+What it removes:
+
+- schedules and triggers,
+- the schemas `everydeck_outbox`, `everydeck_door` and `everydeck_read`,
+- the role `everydeck_reader`,
+- the function `public.everydeck_server_config()`,
+- Vault entries, its entries in the migration history,
+- its Edge Functions and their settings.
+
+Built-in care:
+
+- Every drop is careful (`RESTRICT`, never `CASCADE`). If something of your app depends on a part, that part stays, and the list says why.
+- The extensions `pg_cron` and `pg_net` stay.
+- Your scheduled jobs get their own command back first. If a schedule cannot be restored safely, everydeck removes nothing and names the schedule.
+
+When it is done: "everydeck is removed from Acme. Nothing of everydeck is left in the Supabase project."
+
+<Note>
+  If everydeck stops in the middle (for example a restart), the card shows "The removal stopped" after at most 2 minutes, with the reason. Start it again: what is already gone shows as **was not there**.
+</Note>
+
+## Without a connection
+
+The card says everydeck has no connection to your Supabase project, and shows three steps to do it yourself:
+
+1. In the SQL editor of the project, run the SQL shown.
+2. Delete the functions and settings with the Supabase CLI.
+3. In your repository, delete the files listed.
+
+Or copy the task for your coding agent. Then click **I removed it myself**.
+
+<Warning>
+  Also delete the listed files in your repository, or everydeck comes back with the next migration.
+</Warning>
+
+## What happens on everydeck's side
+
+In both cases, everydeck revokes all keys of the app, disconnects the read bridge and app bridges, turns off the change door and disconnects coding agents.
+
+## Disconnecting Supabase only
+
+**Disconnect** under **Settings › App › Connections** deletes everydeck's access keys to Supabase. What everydeck added stays in your project. Remove it with the steps above, like any migration.
+
+## Deleting the app
+
+To delete the app in everydeck too, see [Deleting your account or app](/reference/delete-account-or-app).

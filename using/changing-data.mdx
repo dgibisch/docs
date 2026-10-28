@@ -1,0 +1,100 @@
+---
+title: "Changing data"
+description: "Change records of your app from everydeck through the change door: only what you approved, with reasons, undo and a protocol. Learn the switches, Allow and Not now."
+---
+
+Your team can change records of your app from everydeck, for example fix a typo in a listing, archive an old booking or delete spam. everydeck changes only what you approved.
+
+## The change door
+
+For an app on Supabase, everydeck adds its own Edge Function `everydeck-write-door` to your Supabase project after you approve. It is not in your repository. We call it the **change door**.
+
+It writes like your Supabase dashboard does, but only what is switched on. Everything else the door refuses by itself.
+
+- Each change runs in one transaction, so your app's triggers, rules and foreign keys apply.
+- If your database refuses a change, its message comes back word for word, with e-mail addresses masked.
+- The door accepts only signed requests from everydeck.
+
+Through the door your team can:
+
+- **Data in your app:** edit, archive, delete with what goes with them, and remove a single message.
+- **Users of your app** (Supabase Auth accounts): send a sign-in link, send a password reset email, resend the confirmation email, suspend and restore access, edit their details, delete an account. See [People](/using/people#help-actions).
+
+Not through the door: creating records, bulk changes and imports.
+
+<Note>
+  Apps with their own server can offer changes through their own app bridge instead. The standard setup does not build one.
+</Note>
+
+## What is on after you approve
+
+When you approve, the content people of your app see, people and messages are on. Technical tables (roles, imports, notifications, mail, jobs, settings) are off. The approval box says "IDs, owners and timestamps are never editable."
+
+## Settings: Changes from everydeck
+
+Go to **Technical › Changes from everydeck**. The card says: "Everything below works as approved. Switch something here only if you want it different."
+
+It has two parts:
+
+- **Users of your app:** the accounts people use to sign in (Supabase Auth).
+- **Data in your app:** records in your tables, like in the Table Editor of your Supabase dashboard. Technical kinds say "Off since the approval: everydeck counts them as technical, not as what your app is about."
+
+For each kind, click **Turn off** or **Turn on**. You can only turn on what your approved app map allows.
+
+**Turn all changes off** removes everydeck's write access to your app right away: everydeck deletes its write door in your Supabase project. Reading and errors keep working. Approving a new app map turns it on again.
+
+Only Owners and Admins can change these settings. Others can see them.
+
+### New permissions
+
+A new version of everydeck may be able to do more in your app than you allowed. Then the card says, for example, "everydeck can now also archive bookings." with two buttons:
+
+- **Allow:** everydeck updates the change door in your app now.
+- **Not now:** everydeck keeps the change door as it is and does not email you about it again.
+
+Until you allow it, everything keeps working as you approved it. The question also appears under **Needs you**, and you get one email. Less always applies right away. A new approval keeps your switches.
+
+### When the door does not answer
+
+everydeck checks the door when it starts, every hour, and after each rollout or switch. If the door does not answer, the page says "The change door in your app does not answer everydeck, so changes from here are paused." with the reason and **Check again**.
+
+## Editing a record
+
+On a record page, click a value ("Click to change"), change it and save under the field. Or click **Edit** to change all editable fields.
+
+- **Never editable:** ids and references, owners, timestamps, values your database keeps itself, and fields another system manages.
+- everydeck checks only the form of a value (number, yes or no, date, value from the list). It has no rules of its own. If your app refuses, its message appears at the field.
+- **Changed in the meantime:** if your app changed the record since everydeck read it, nothing is saved. The page shows the current values. Change again and save.
+
+### Reasons
+
+A reason is required for archiving, deleting, fields marked as needing one, and exporting personal data. The reason goes into the protocol and to your app.
+
+### Deleting
+
+Deleting is red: it needs the typed name and a reason, and it cannot be undone. Before you delete, the page shows what goes with it in the database, what stays without a link, and what would stop the delete. If the table has `deleted_at` or `is_deleted`, everydeck deletes softly, like your app does.
+
+### Second factor
+
+Deleting objects and people and red actions ask for a fresh confirmation with your second factor (an authenticator app), if you set one up. The confirmation stays fresh for 10 minutes. Editing, archiving and exporting do not ask for it.
+
+### Undo and the protocol
+
+Every change is in the protocol: who, when, why, before and after for each field. "Undo sets the old value, only if nothing changed since."
+
+- Undo works for field edits, for 1 day.
+- There is no undo for archiving, deleting and bulk changes.
+
+### Export
+
+Export a list as CSV, with the declared fields only, page by page as the filtered list shows. If the list is longer or the read stops, the export says "X of Y" and is marked as incomplete in the protocol.
+
+## Who may do what
+
+| Action | Roles |
+|---|---|
+| Edit, archive, undo | Owner, Admin |
+| Delete | Owner, Admin |
+| Export | Owner, Admin |
+| Remove a message, actions on records | Owner, Admin, Support |
+| See values | All roles |

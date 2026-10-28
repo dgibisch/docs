@@ -1,0 +1,70 @@
+---
+title: "Setup page"
+description: "The Setup page shows which parts of your app are connected and working, what still needs a decision, and how to finish open parts with your coding agent or end a setup."
+---
+
+After your first approval, the **Setup** page shows how far your app is connected. At the top it always says how many parts are not connected yet, until everything works. There is no progress bar.
+
+The side bar shows **Setup · 3 open** until everything is done. The overview shows a quiet row with **Finish setup**, which you can hide.
+
+## Three tabs
+
+- **To do** (the default): open parts, **Needs your decision** and **New in your app**. The order follows what matters most for you: money and scheduled jobs first, then email and push, then ways through the app, then sign-in, AI and data.
+- **All parts:** every part in groups: People and sign-in, Ways through the app, Money, Email and push, AI, Background jobs, Data and code.
+- **About this setup:** the technical details of the setup.
+
+## States of a part
+
+Each part has exactly one state:
+
+| State | Meaning |
+|---|---|
+| Working | Connected, and everydeck saw real data of exactly this part. |
+| Connected, waiting for data | Connected, not used yet. This is normal. |
+| Connected, nothing arrives | Your app sent at least 50 signals since the approval, but none from this part for 48 hours. It may be connected in the wrong place. |
+| Not connected | Not set up yet. |
+| Check: does your app have this? | A weak finding. You decide. |
+| Not in this app | With the reason and who said it. |
+| Not checked yet | everydeck could not check this area. It does not count as missing. |
+| Last run failed | A scheduled job reported a failed run. |
+
+"Connected" is never the goal. "Working" is.
+
+## Finishing open parts
+
+Open a row to see what the part brings, what everydeck found (the place in your code) and what your agent said. Then:
+
+- **Ask your agent to connect it** (the button names your connected tool),
+- **Copy instructions**, if no agent is connected,
+- **Your app doesn't have this**, with a reason (up to 200 characters). You can undo it.
+
+**Ask … to finish all** sends up to 50 open parts at once, in the order of To do.
+
+The row then updates by itself: **Sent to** your agent, **is working on it**, **is done … needs your approval** (with **Review and approve**), **Connected, waiting for data**, **Working**.
+
+- If your agent does not pick it up for 1 day, the row says so and offers **Copy instructions instead**.
+- If your agent goes quiet for 30 minutes after picking it up, the row says it "stopped before it finished" and offers **Send it again**.
+
+### When your agent and everydeck disagree
+
+If your agent says a part does not apply, but everydeck found it in your code, **Needs your decision** shows both sides. You decide.
+
+### Parts only you can do
+
+Some parts are steps at your host, like **Upload key at Vercel** or **Heartbeat key at GitHub Actions**. They show where to add the key, the name to copy and **Show the key**. You cannot send these to your agent. See [Keys at your host](/connect/github-and-hosting#keys-at-your-host).
+
+## Money not connected
+
+If a money part is open, Money is dimmed in the side bar and the page says "Payments aren't connected yet". If you say your app takes no money, Money disappears from the side bar.
+
+## End this setup
+
+While a setup is running, the page where you connect your app (the one from the [Quickstart](/quickstart)) has the link **End this setup**. It asks: your agent "stops here and everydeck ends this setup. What is already set up in Acme stays. You can set it up again anytime." Click **End setup**, or **Keep going**.
+
+## Keep everydeck working after every update
+
+Setup also shows the state of the check on every push: **Check on every push**, "Added, waiting for the first push", or when all everydeck calls were in place on the last push. If you said no to the check, the card **Keep everydeck working after every update** offers **Copy the prompt for your coding agent**. See [Apps on GitHub and a host](/connect/github-and-hosting#keep-everydeck-working-after-every-update).
+
+## Reminder email
+
+48 hours after your first approval, if a part is still open, you get one email **Setup isn't finished**. You can turn it off under **Settings › Notifications**.

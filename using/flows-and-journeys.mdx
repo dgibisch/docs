@@ -1,0 +1,64 @@
+---
+title: "Flows and journeys"
+description: "Flows show what your app does again and again and how each run ended. Journeys show where people get lost, whether they come back and where they come from."
+---
+
+## Flows
+
+"A flow is something your app does again and again; a run is one time it happened." For example signing in, creating a listing or paying.
+
+Flows come from your approved app map. A flow without a signal shows as "Planned, not yet instrumented." Sign-in, sign-up and the core object of your app (what people create most) are always built in, never only planned.
+
+### How a run ends
+
+| State | Meaning |
+|---|---|
+| Result in time | The result arrived within its deadline. |
+| Result recorded | The server reported the result. There is no deadline to judge. |
+| Result late | The result came after its deadline. |
+| Failed | A declared failure, or the deadline passed without a result. |
+| Ended without result | Another end of your app, neither result nor failure. |
+| In progress, then Completion not confirmed | No end and no new evidence for 30 minutes. Neither success nor failure. |
+| Hung | A request of this run got no answer for at least 30 seconds. |
+| Not judgeable | A contradiction or a data gap over the deadline. |
+
+A result reported only by the browser is marked "browser only".
+
+### The Flows page
+
+Choose 7 or 30 days. The table **All flows** shows runs, failed, succeeded, median and p95 duration, runs per day and the state. Durations come from your app's own clock.
+
+### Requests without an answer
+
+If a request in a flow waits 30 seconds without an answer, the run ends as **Hung**. everydeck never cancels or changes your app's request. One hang is no alarm. From 3 runs with a hang at the same place in 24 hours, a case opens with an email. "No error was thrown, so error trackers stay silent."
+
+### Silent jobs
+
+Background jobs of your app (cron, scheduled functions, workers) send a heartbeat. If a job misses two of its periods, a case opens, for example "Job has not reported for 2 periods". It closes by itself when the job reports again. This runs in production only.
+
+## Journeys
+
+**Journeys** shows how the same people go step by step through the main flows of your app, where they get lost, whether they come back and where they come from.
+
+Choose the last 7, 30 (the default) or 90 days.
+
+- **The sentence at the top,** for example "In the last 30 days 120 people used Acme and 40 completed Checkout." and where most get lost.
+- **Funnels:** up to three chains of flows from your app map. The step that loses the most people is marked. **See the n** opens the list of these people.
+- **Do they come back?** For people who started in the same week, the share active again on day 1, 2, 3, 5, 7, 10, 14, 21 and 30. Over the last 8 weeks.
+- **Where people come from:** from the first visit, the UTM values and the domain of the referring page, never its path or query. The card appears once everydeck has recorded an origin.
+- **How fast your pages load:** the p75 of LCP, INP and CLS per page, rated by Google's limits. Under 20 visits of a page, everydeck shows no value yet, only how many visits were measured.
+
+If your app runs on more than one platform, you can filter by platform.
+
+## Active and new
+
+"Active" means at least one visit in the period (30 days by default), or anything else the person did in your app. "New" means signed up in that period, from your app's own sign-up date where it delivers one.
+
+Page loads, visits and sign-ins never count toward your monthly events.
+
+## What it does not do
+
+- No custom funnels or custom alerts. everydeck knows deadlines between two signals, silent signals after a new version and silent jobs.
+- No split by language or country, only by platform.
+- No session recordings, rage clicks or form drop-offs.
+- People without an id count in no funnel.

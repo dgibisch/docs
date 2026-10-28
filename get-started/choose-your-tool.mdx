@@ -1,0 +1,56 @@
+---
+title: "Choosing your AI tool"
+description: "Which AI coding tools work with everydeck, how they connect, which models were tested and what to know about stacks and databases."
+---
+
+everydeck works with any AI coding tool that supports MCP over HTTP with OAuth sign-in. The setup page offers ten tools. Pick the one you build your app with.
+
+| Tool | How it connects | Page |
+|---|---|---|
+| Claude Code | One command, then sign in with `/mcp` | [Claude Code](/connect/claude-code) |
+| Claude app | Custom connector in Settings | [Claude app](/connect/claude-app) |
+| Codex | Ask Codex to set up the server, or add it in Settings | [Codex](/connect/codex) |
+| Cursor | **Add to Cursor** button | [Cursor](/connect/cursor) |
+| Lovable | Custom MCP server under Connectors | [Lovable](/connect/lovable) |
+| VS Code (Copilot Chat in Agent mode) | **Open in VS Code** button | [Other tools](/connect/other-tools) |
+| Devin Desktop (formerly Windsurf) | Two commands in your terminal | [Other tools](/connect/other-tools) |
+| Replit | **Add to Replit** button | [Other tools](/connect/other-tools) |
+| Bolt | Custom MCP server under Connectors | [Other tools](/connect/other-tools) |
+| v0 | Your own server under MCPs | [Other tools](/connect/other-tools) |
+
+Claude Code is the default choice on the setup page.
+
+## Which model to use
+
+everydeck cannot see which model your agent runs on. It only measured a few combinations, one run each, on one app. This is what was tested:
+
+- **Claude Code:** tested with Opus 5.5 at effort medium or higher. Choose it with `/model` and `/effort` before you paste the sentence. A smaller model or a lower effort may leave parts out or stop halfway.
+- **Codex:** tested with GPT-6 Astra at medium reasoning. With another model the setup may leave parts out.
+- **Lovable, Bolt and v0** choose the model themselves.
+- **Cursor, VS Code, Devin, the Claude app and Replit** were not measured.
+
+Whatever model you use, everydeck shows you what is still open. A weaker model leaves more open parts, but it cannot report a false "done". See [Setup page](/using/setup-page).
+
+## What your app can be built with
+
+everydeck reads every codebase, but it measures only with tested adapters:
+
+- **Browser:** any framework or plain JavaScript.
+- **Server, TypeScript:** Node 22 or newer, or Deno and Supabase Edge Functions.
+- **Server, Python:** for example FastAPI.
+
+Other languages are recognized during the setup, but everydeck does not measure there.
+
+To read your app's data, everydeck needs **Postgres** (for example Supabase). Firestore is recognized but not read. MySQL, MongoDB and other databases are not supported.
+
+<Warning>
+  Crashes of native iPhone and Android apps are not captured. everydeck sees errors in the app's own code and on your server, not a crash of the app itself. Those appear in App Store Connect, the Google Play Console or a crash reporter.
+</Warning>
+
+## Sign-in providers
+
+People features like sign-in links, password reset emails and suspending accounts need **Supabase Auth**. everydeck recognizes Clerk and Auth0 in your code, but it does not connect to them. So for apps on Clerk or Auth0 there are no sign-in links and no password reset from everydeck.
+
+## If your tool only installs older packages
+
+Some tools only install package versions that are at least one day old. Your agent then gets the newest such version of the everydeck packages automatically. You do not need to do anything.

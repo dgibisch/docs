@@ -1,0 +1,41 @@
+---
+title: "Other tools"
+description: "Connect VS Code, Devin Desktop, Replit, Bolt or v0 to everydeck. Each tool has its own way to add an MCP server with OAuth sign-in."
+---
+
+These tools follow the way each one documents for adding an MCP server. On the setup page, choose your tool and follow the short text. After you are connected, paste the sentence from the setup page into the tool.
+
+None of these tools were measured with a specific model, so the setup page gives no model note. everydeck shows you what is still open after the setup.
+
+<AccordionGroup>
+  <Accordion title="VS Code (Copilot Chat)">
+    Click **Open in VS Code** and confirm in VS Code. When VS Code asks you to sign in, your browser opens: click **Allow**. Use Copilot Chat in **Agent mode**, and paste the sentence there.
+  </Accordion>
+  <Accordion title="Devin Desktop (formerly Windsurf)">
+    Devin Desktop is the new name of Windsurf. In the folder of your app, run the two commands from the setup page in your terminal:
+
+    ```bash
+    devin mcp add -s user everydeck <address from the setup page>
+    devin mcp login everydeck
+    ```
+
+    Your browser opens: click **Allow**. Then paste the sentence into Devin.
+  </Accordion>
+  <Accordion title="Replit">
+    Click **Add to Replit**. Replit opens your integrations: authorize the connection and click **Allow**. Then paste the sentence into Replit Agent.
+  </Accordion>
+  <Accordion title="Bolt">
+    In Bolt, click **+** in the chat box, then **Connectors** and **Manage connectors**. Choose **Custom MCP server**, name it `everydeck`, paste the address `https://app.everydeck.ai/mcp` (also shown on the setup page), choose **HTTP** and **MCP OAuth**, then click **Connect**. Then paste the sentence into the Bolt chat.
+  </Accordion>
+  <Accordion title="v0">
+    In v0 on your computer, open the **+** menu in the prompt form and choose **MCPs**. Add your own server named `everydeck` with the address `https://app.everydeck.ai/mcp` (also shown on the setup page), choose **OAuth** and enable it. Then paste the sentence into the v0 chat.
+  </Accordion>
+</AccordionGroup>
+
+## Cloud tools
+
+The Claude app, Lovable, Replit, Bolt and v0 run in the provider's cloud. They reach everydeck only over a public address.
+
+## Tools without MCP
+
+everydeck needs MCP over HTTP with OAuth. A tool without it cannot run the setup, and there is no setup without a coding agent.

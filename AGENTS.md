@@ -1,33 +1,47 @@
-> **First-time setup**: Customize this file for your project. Prompt the user to customize this file for their project.
-> For Mintlify product knowledge (components, configuration, writing standards),
-> install the Mintlify skill: `npx skills add https://mintlify.com/docs`
+# everydeck docs: instructions for writing pages
 
-# Documentation project instructions
+This repository is the public user documentation of everydeck (app.everydeck.ai), built with Mintlify.
 
-## About this project
+- Pages are MDX files with YAML frontmatter.
+- Navigation, colors, logo and links live in `docs.json`. Every page must be listed there, and every page listed there must exist.
+- Folders: `get-started/`, `connect/`, `using/`, `reference/`. The introduction is `index.mdx`, the quickstart `quickstart.mdx`.
 
-- This is a documentation site built on [Mintlify](https://mintlify.com)
-- Pages are MDX files with YAML frontmatter
-- Configuration lives in `docs.json`
-- Use the Mintlify MCP server, `https://mcp.mintlify.com`, to edit content and settings via MCP
-- Use the Mintlify docs MCP server, `https://www.mintlify.com/docs/mcp`, to query information about using Mintlify via MCP
+## Who we write for
 
-## Terminology
+Someone who built an app with an AI coding agent and "understands nothing" about backends. Write so they can follow without help.
 
-{/* Add product-specific terms and preferred usage */}
-{/* Example: Use "workspace" not "project", "member" not "user" */}
+## Writing rules (strict)
 
-## Style preferences
+- English only. Plain words, short sentences, one idea per sentence.
+- No em dashes and no en dashes anywhere. Use commas, periods or colons.
+- Second person ("you"), active voice, sentence case for headings.
+- Bold for UI elements, with the exact label from the product: click **Approve**, **Copy fix for Claude Code**, **Mark as fixed**.
+- Code formatting for commands, file names and paths.
+- Every page has `title` and `description` in the frontmatter. The description is one or two sentences for search engines.
+- Use Mintlify components where they help: `Steps`, `Note`, `Warning`, `Info`, `Tabs`, `Accordion`, `Card`. No badges or pills.
+- Use the neutral example app "Acme" (case addresses like `ACME-14`, people like `P-7`).
 
-{/* Add any project-specific style rules below */}
+## Content rules (strict)
 
-- Use active voice and second person ("you")
-- Keep sentences concise — one idea per sentence
-- Use sentence case for headings
-- Bold for UI elements: Click **Settings**
-- Code formatting for file names, commands, paths, and code references
+- Only state what the product really does. Every number, deadline and limit exactly as the product has it. If you are not sure, leave it out and ask.
+- Do not invent features, prices or plans. everydeck is free in this first version; Free is the only plan.
+- Say known gaps honestly where they matter, for example:
+  - Lovable Cloud cannot be connected yet. Reading and changing data needs the app's own Supabase project.
+  - Setting up in Lovable needs more than Lovable's free daily credits. Do not quote Lovable's prices.
+  - Clerk and Auth0 are recognized but not connected: no sign-in links or password reset there. Those need Supabase Auth.
+  - Native iPhone and Android crashes are not captured.
+- The only email address is support@everydeck.ai.
 
-## Content boundaries
+## Never include
 
-{/* Define what should and shouldn't be documented */}
-{/* Example: Don't document internal admin features */}
+- Internal code paths, file names of everydeck's own code, migration numbers, internal environment variable names, internal order or ticket names.
+- Names of pilot, customer or test apps, names of people, internal decisions.
+- German text.
+- UUIDs. Short addresses like `ACME-14` are fine.
+
+## Checking your work
+
+- `docs.json` must be valid JSON.
+- Every page in the navigation must exist.
+- Search for em dashes (U+2014) and en dashes (U+2013) before you finish: there must be none.
+- If available, run `npx mint broken-links` and `npx mint validate`.

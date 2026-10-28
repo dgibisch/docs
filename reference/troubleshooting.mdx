@@ -1,0 +1,92 @@
+---
+title: "Troubleshooting"
+description: "Fix common everydeck problems: a paused Supabase project, a read bridge that does not answer, an agent that was stopped or went quiet, a pairing code, and more."
+---
+
+<AccordionGroup>
+  <Accordion title="My Supabase project was paused">
+    everydeck does not warn you before Supabase pauses a project.
+
+    While the project is paused, the read bridge cannot answer. After 1 hour you get an email and a banner. Your app's data in everydeck stays at the last read.
+
+    **What to do:** restore the project in your Supabase dashboard. everydeck checks the bridge again after 1, 5 and 15 minutes, then every hour, and as soon as the bridge picks up again. When it works, you get a "works again" email.
+  </Accordion>
+
+  <Accordion title="The read bridge does not answer">
+    If the read bridge fails for 1 hour, you get an email and a banner. The email says what everydeck knows:
+
+    - **If the bridge refused everydeck's key**, the email is about the key. The bridge may still use an old key. After a new bridge key, everydeck signs with both keys for 1 day, then only with the new one.
+    - **Otherwise** it is about whether your app runs and answers. For a bridge on your own server, check that the server is up. For a bridge on Supabase, check that the project is not paused.
+
+    <Warning>
+      If you deployed everydeck's functions again yourself with the Supabase CLI, Supabase turned its JWT check back on, and everydeck can no longer reach them. Write to [support@everydeck.ai](mailto:support@everydeck.ai) if this happened.
+    </Warning>
+  </Accordion>
+
+  <Accordion title="The change door does not answer">
+    The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. everydeck tries again every hour and after every switch. Click **Check again** under **Technical › Changes from everydeck** once you fixed the cause.
+  </Accordion>
+
+  <Accordion title="My agent's safety check stopped a step">
+    The setup page says your tool's own safety check stopped one step. Nothing from that step reached everydeck.
+
+    - **Claude Code:** type `/permissions`, open **Recently denied**, select the step if it is what you asked for and press Enter to approve it once. Then click **Done** on the setup page.
+    - **Other tools:** the page shows what your agent wrote. If it asks you something, answer there. Then click **Done**.
+
+    If your agent is no longer waiting, click **Done** and paste the sentence the page shows into your agent.
+
+    everydeck never asks you to add a permission rule or to turn a check off.
+  </Accordion>
+
+  <Accordion title="My agent went quiet during the setup">
+    Silence is normal while your agent works on your code. After 45 minutes without a call to everydeck, the setup page says it has not heard from your agent.
+
+    - If your agent asked you something, answer it there.
+    - Only if your agent says it is done or waits for nothing, paste the sentence from the page into it. It picks up where it stopped.
+
+    After you approve, the page waits 5 minutes. If your agent has not gone on by then, it shows one short sentence to paste: "Approved, continue the everydeck setup."
+  </Accordion>
+
+  <Accordion title="I clicked Allow, but the setup page still waits">
+    The approval may have gone to another everydeck account. Start the sign-in again in your tool and check that the approval page shows your email address. If not, use **Not you? Switch account** there.
+  </Accordion>
+
+  <Accordion title="The pairing code expired">
+    The pairing code of `npx everydeck init` works for 15 minutes. Run the command again to get a new one. Make sure your terminal shows the same pair of words as the page in your browser.
+  </Accordion>
+
+  <Accordion title="Supabase did not connect">
+    If Supabase showed "OAuth authorization request does not exist", the window was open too long, and nothing was connected. Click **Try again**. A fresh Supabase window opens: click **Authorize** there right away.
+
+    If Supabase shows no project, disconnect, connect again and choose the organization that has your app.
+  </Accordion>
+
+  <Accordion title="The local database did not start again">
+    The setup pauses and the page says the local database did not start again after your agent restarted it. Check that Docker Desktop is running and has room, then click **Try again**.
+  </Accordion>
+
+  <Accordion title="Adding to my Supabase project stopped">
+    The page says "Adding to your project stopped." Click **Try again**.
+  </Accordion>
+
+  <Accordion title="Nothing arrives after the setup">
+    - **Not merged yet:** merged code is what sends. Merge the pull request.
+    - **Not deployed yet:** for your own server, add the three settings at your host if the setup page asks for them, then wait for your host to deploy.
+    - **Set up locally:** production needs production keys. See [Development and production](/connect/github-and-hosting#development-and-production).
+    - **No visits:** visits need your app to tell everydeck who is signed in. Without that, every visit stays anonymous. The Setup row **Visits and sign-ins** shows whether it works.
+  </Accordion>
+
+  <Accordion title="Browser errors show no line of my code">
+    The upload key for source maps is missing where your app is built. Add it at your host. See [Keys at your host](/connect/github-and-hosting#upload-key-for-source-maps). Errors from older builds are not resolved later.
+  </Accordion>
+
+  <Accordion title="My agent key expires">
+    An agent key works for 30 days. You get an email 7 days before and when it expired. A new key replaces the old one right away. The email ends when your coding agent really uses the new key.
+  </Accordion>
+
+  <Accordion title="Events are rejected">
+    Above 120 % of your monthly events, or above 10 MiB of data in a month, everydeck rejects every batch until the 1st of next month (UTC). You get an email at 80 %, 100 % and above 120 %. See [Limits and plans](/reference/limits-and-plans).
+  </Accordion>
+</AccordionGroup>
+
+Still stuck? Write to [support@everydeck.ai](mailto:support@everydeck.ai).

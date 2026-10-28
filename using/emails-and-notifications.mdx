@@ -1,0 +1,96 @@
+---
+title: "Emails and notifications"
+description: "Which emails everydeck sends: bundled case emails, Fixed, Works again, the weekly report and emails when everydeck stops for your app. How to turn them off per app."
+---
+
+everydeck sends email only when it matters. You choose what you get under **Settings › Notifications**. Each setting is yours. It changes nothing for other people in your team.
+
+## The rows
+
+| Group | Row | Can you turn it off? |
+|---|---|---|
+| When something breaks | New issue | Yes |
+| | Came back after a fix | Yes |
+| | Expectation missed | Yes |
+| | App unreachable | Yes |
+| | Monitoring gap | Yes |
+| Good news | Fixed and confirmed | Yes |
+| | Back up | Yes |
+| | Works again | Yes |
+| When everydeck stops for your app | Monthly limit | Always on |
+| | Something stopped | Always on |
+| | Possible data loss | Always on |
+| Summaries and your agent | Weekly report | Yes |
+| | Your coding agent | Yes |
+| | Agent key expires | Always on |
+| | Setup isn't finished | Yes |
+
+For each app, choose **Everything**, **Only urgent** (only "When something breaks" and the emails that are always on) or **Off** (only the emails that are always on).
+
+Emails you asked for yourself, like an invitation, a finished export or a deletion confirmation, belong to no row.
+
+## Case emails
+
+There is no email per event. New cases are bundled and sent once the oldest change is 2 minutes old or 5 changes come together. An open problem is not repeated. The subject names the app, the environment and a short title, never personal data.
+
+A new error that is only watched sends no email. It sends one when it becomes a task on Needs you. See [Needs you](/using/needs-you).
+
+## Fixed
+
+When everydeck confirms a repair, you get an email right away, for example "Fixed: Checkout fails". It says since when the fixed version runs, how many people did it without the error, and what your coding agent reported. If people who hit the error have not come back, it offers a button to write to them, if your app can message people.
+
+## Urgent alerts
+
+If a large part of your data disappears at once, everydeck sends an urgent alert right away: "Urgent: Listings in Acme dropped from 1,200 to 300". It always comes, even if you turned other emails off.
+
+## When everydeck stops for your app
+
+If everydeck stops accepting, reading, checking or delivering for your app, everyone who can set up the app gets an email: what happened, since when, what it means, what you can do, and when it works again by itself. These emails always arrive: "without them your app could go unwatched without you knowing."
+
+You get one email per cause, and a new one only after it ended and started again. While it lasts, the overview shows a banner. Causes are:
+
+- 80 % and 100 % of the monthly event limit, and when everydeck stops accepting events,
+- the read bridge fails for 1 hour,
+- processing of your events is stuck for 10 minutes (your events are kept, nothing is lost),
+- page load times or source maps reach their limit,
+- a repair waits for your coding agent for 1 day,
+- one part of your app goes silent while the rest still sends,
+- GitHub suspends everydeck's access,
+- your own agent key: 7 days before it expires and when it expired, only to you.
+
+### Works again
+
+Whoever got a warning also gets one email when it is over: what works again, and from when to when it stood. For example "everydeck processes new events again". This is the row **Works again**. You can turn it off, everywhere or per app, from the link in the email. The warning itself stays on.
+
+There is no "works again" email when the state is not really over, when another cause takes over, or when you fixed it yourself.
+
+## The weekly report
+
+Every Monday at 8:00 in your time zone, one email per app: new people, the main action, the share of runs that worked, money (only if measured), what is open and what was fixed. It covers Monday to Sunday before. It goes to Owners and Admins. A missed week is not sent later.
+
+Your time zone is taken from your browser the first time you open everydeck. You can change it in your profile.
+
+## Your coding agent
+
+In the bundled email, when your agent picks up a repair or reports one.
+
+## Setup isn't finished
+
+One email per person and app, 48 hours after your first approval, only if a part is still open. It lists up to three parts per group, with a button **Finish setup**.
+
+## Unsubscribe
+
+Every email you can turn off has a link at the bottom: "Unsubscribe from … emails for Acme". It turns off exactly this row for exactly this app, and nothing else. The page confirms and offers **Undo**. Gmail, Yahoo and Apple Mail also show their own unsubscribe button. You do not need to sign in for this.
+
+## Who gets what
+
+| Email | Roles |
+|---|---|
+| Case emails, Fixed, urgent alerts | Owner, Admin, Agency |
+| Weekly report, when everydeck stops | Owner, Admin |
+
+Access per app filters this further: you only get emails about apps you can see.
+
+## What there is not
+
+No alert rules of your own, like "more than 100 errors an hour". everydeck decides what is important. No other channels than email.

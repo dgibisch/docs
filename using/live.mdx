@@ -1,0 +1,48 @@
+---
+title: "Live"
+description: "Live shows what happens in your app as it happens: visits, sign-ins, flows, errors, payments and AI calls, in plain words."
+---
+
+Live shows everything your app sends to everydeck, as it happens. New entries appear without reloading.
+
+## What appears
+
+- **Visits and sign-ins,** for example "opened /jobs/:jobId" or "signed in". A visitor who is not signed in shows as **A visitor**.
+- **Steps of your flows,** with the names from your app map.
+- **Steps in the browser.**
+- **Errors,** with their case and how often they happened today.
+- **AI calls,** with model, tokens, duration and cost.
+- **Payment events.**
+- **Logs and data gaps.**
+- **Repair steps:** sent to your agent, picked up, fix reported, confirmed, failed again.
+
+Each row says where it came from: **Browser**, **Server** (your app's server) or **Supabase** (everydeck's own parts in your Supabase project). If your app runs on more than one platform, each row names it, for example "iPhone 2.3".
+
+## What never appears
+
+- Plain `console.log` and server output without the everydeck SDK.
+- Heartbeats and the probe runs of the setup.
+- Contact details of a person, like e-mail or phone. People appear only with their name, as your app shows it.
+- Messages and their details.
+
+## Periods
+
+Choose the last **15 minutes**, **1 hour** (the default), **24 hours** or **7 days**. The list loads 100 entries at a time and more as you scroll down, back to the start of the period. A page holds at most 2,000 entries.
+
+Events are kept for 30 days on Free. If the period reaches further back, the end of the list says so.
+
+**Pause** stops the list and counts what is waiting. The header shows events per minute over the last 5 minutes.
+
+## Who sees what
+
+- Everyone who can see the app sees Live in plain words.
+- The technical view (route, event name, error class, fields, raw event) needs a role that may see code: Owner, Admin, Agency or Viewer.
+- Amounts and AI costs need a role that may see money. Support sees that a payment or AI call happened, but without amount or cost.
+
+If your access changes while Live is open, the window closes before its next entry, at the latest after about 35 seconds. Without access the page says "This app is no longer visible to you." With a new role it reloads with what you may see now.
+
+You can have at most 10 Live windows open. A further window updates every 5 seconds instead of live.
+
+## Fixing from Live
+
+Open an error and click **Let your agent fix it**. It is the same action as on the case page. See [Cases and repairs](/using/cases-and-repairs).

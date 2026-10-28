@@ -1,0 +1,67 @@
+---
+title: "Your app's data"
+description: "everydeck reads the records of your app through a read-only bridge: only the tables and columns you approved, never contact details or messages."
+---
+
+everydeck shows the records of your app, like listings, orders or bookings. It reads them through the **read bridge**, read only.
+
+## How the read bridge works
+
+The read bridge is a small connection your app opens to everydeck. everydeck knows no address of your app and never calls it. The bridge picks up each read request from everydeck and sends the answer back. It works like a self-hosted runner on GitHub: only outgoing connections from your app.
+
+- It reads exactly the scope you approved: per kind of data one table, with its key columns, the declared columns, and the title, status and owner columns, plus the people from your app's user table.
+- Every request from everydeck is signed. Without a valid signature the bridge does not answer.
+- everydeck checks that the bridge really only reads. It sends a test write, and the connection counts as "reads only" only if the bridge refused it and the database allows only reading.
+
+### What it never reads
+
+Contact details (e-mail, phone, messenger, IP addresses) and message texts are never in the read scope. The approval page shows them by name only. **All data** counts them as "values never shown".
+
+## How often it reads
+
+Every 10 minutes per connection. If the bridge can deliver only what changed, it reads only changes in between and everything once a day.
+
+When your app sends an event about a record, everydeck fetches exactly that record right after. After a change from everydeck, it reads again at once.
+
+**Technical** says it in one sentence: how many kilobytes everydeck adds to your app, how fast it is ready after loading, and how often it reads your database.
+
+### Cost on your Supabase account
+
+For an app without its own server, the bridge is a Supabase Edge Function. A schedule starts it every minute: 1,440 calls a day, about 43,200 a month. Supabase's Free plan includes 500,000 calls a month, so the bridge uses about 9 % of that (Supabase pricing as of 18 October 2026).
+
+With your own server, a background task in your server picks up requests, without calls at Supabase.
+
+## Objects and their pages
+
+Each kind of data has a list, and each record has its own page with a short address, for example ending in `/o/job/JOB-12`. The page shows the record "As everydeck read it from your app", with flows, cases, links and the history of changes between two reads.
+
+Pictures come from your app's own addresses. everydeck keeps no copy.
+
+- **"Your app has not been read completely yet. This is not an empty list."** A list that was never fully read never shows as empty.
+- **Gone records:** if a full read no longer finds a record, the list hides it and counts it as "no longer in your app". everydeck keeps it for 90 days after it disappeared, then deletes it. The page shows the date.
+
+## All data
+
+**All data** lists every kind of data of an environment, grouped: what your app is about, by building block (sign-in, content, money), **More data**, **Connected tools** and **Behind the scenes** (data no page of your app shows). A count that was never read says "not read yet", not 0.
+
+Owners and Admins can move a kind with **Show in main navigation** or **Move to All data**.
+
+## Performance per record
+
+If your app reports usage through the SDK (views, saves, contacts, appearances in search, clicks), a record page shows **Performance** for the last 7 days, with a 30-day history and a comparison with the average of its group.
+
+If your app reports searches, the overview of a kind shows **Searches without results** for the last 30 days. **Viewed, no contacts** marks records with at least 30 views in 7 days and no contact.
+
+## Who sees what
+
+Everyone who can see the app sees the lists, record pages and All data. Kinds of data about money need a role that may see money, so Support does not see them. Setting up, checking and removing the read connection needs Owner or Admin.
+
+## When the bridge stops
+
+If the bridge fails for 1 hour, you get an email and a banner. Your app's data stays at the last read. See [Troubleshooting](/reference/troubleshooting).
+
+## Limits
+
+- Postgres only. Firestore is recognized but not read. Other databases are not supported.
+- A value read from your app is shown with at most 256 characters.
+- One answer of the bridge may be at most 256 KiB.

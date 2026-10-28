@@ -1,38 +1,14 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "everydeck",
+  "description": "everydeck is the backend and operations dashboard for apps built with AI coding agents. Learn how to connect your app and run it day to day.",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#6366f1",
+    "light": "#818cf8",
+    "dark": "#4f46e5"
   },
   "favicon": "/favicon.svg",
-  "navigation": {
-    "pages": [
-      {
-        "group": "Getting Started",
-        "pages": [
-          "index",
-          "quickstart"
-        ]
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -41,32 +17,116 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@mintlify.com"
+        "href": "mailto:support@everydeck.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://app.mintlify.com"
+      "label": "Open everydeck",
+      "href": "https://app.everydeck.ai"
     }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Get started",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "quickstart",
+              "get-started/how-setup-works",
+              "get-started/choose-your-tool"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Connect your tool",
+        "groups": [
+          {
+            "group": "AI tools",
+            "pages": [
+              "connect/claude-code",
+              "connect/claude-app",
+              "connect/codex",
+              "connect/cursor",
+              "connect/lovable",
+              "connect/other-tools"
+            ]
+          },
+          {
+            "group": "Where your app lives",
+            "pages": [
+              "connect/github-and-hosting",
+              "connect/local-apps"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Using everydeck",
+        "groups": [
+          {
+            "group": "Every day",
+            "pages": [
+              "using/overview",
+              "using/needs-you",
+              "using/live",
+              "using/cases-and-repairs",
+              "using/security"
+            ]
+          },
+          {
+            "group": "People and data",
+            "pages": [
+              "using/people",
+              "using/your-data",
+              "using/changing-data",
+              "using/moderation"
+            ]
+          },
+          {
+            "group": "Insights",
+            "pages": [
+              "using/flows-and-journeys",
+              "using/money-and-ai-costs"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "using/emails-and-notifications",
+              "using/team-and-roles",
+              "using/setup-page"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/limits-and-plans",
+              "reference/deadlines-and-retention",
+              "reference/remove-everydeck",
+              "reference/delete-account-or-app",
+              "reference/security-and-privacy",
+              "reference/troubleshooting",
+              "reference/faq"
+            ]
+          }
+        ]
+      }
+    ]
   },
   "contextual": {
     "options": [
       "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
+      "view"
     ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
   }
 }

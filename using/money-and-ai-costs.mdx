@@ -1,0 +1,66 @@
+---
+title: "Money and AI costs"
+description: "Money shows revenue only from what your app itself delivers. everydeck never connects to Stripe or other payment providers. AI costs are calculated from tokens, never from prompts."
+---
+
+## Money
+
+The **Money** page shows only what your app itself delivers:
+
+- tables of your app with plans, purchases, requests and its price list (through the read bridge),
+- payment events your app sends through the SDK,
+- payments your team records by hand.
+
+everydeck never connects to Stripe, Paddle or another provider and never asks for a provider key. What has no source is missing from the page, instead of being guessed.
+
+### Confirmed and by hand
+
+- **In the app:** only what went through a payment path of your app counts as confirmed.
+- **Recorded by hand:** payments your team enters, with who entered them. They are not checked against a bank. Owners and Admins can record a payment and undo it within 1 day. Recording a payment changes nothing in your app.
+
+A purchase counts once, even if it is both in a table of your app and sent as a payment event.
+
+### Currencies
+
+Each currency is added up on its own, never converted. The page uses the currency with the most money and lists the others below. Every amount shows its currency. If everydeck does not know it, the amount says "(currency unknown)".
+
+### Monthly revenue
+
+Yearly plans count with one twelfth per month. A subscription whose payment failed and that the provider keeps retrying counts as running until it is cancelled, like Stripe does. A trial does not count.
+
+### Payment data
+
+A payment event carries only the amount, currency, product, quantity, the provider's order or checkout id, a short failure reason and the person, customer or object. Never card data: a value that looks like a card number is not sent by the SDK and is dropped on arrival. Only a server key may report payments.
+
+## AI costs
+
+If your app calls an AI model, your agent wraps the AI client during the setup. everydeck then measures each call: provider, model, tokens in and out, cache, duration, the flow and the person.
+
+<Info>
+  everydeck never stores the prompt, the answer, the system text or your provider key. It never connects to OpenAI, Anthropic or another provider.
+</Info>
+
+### How costs are calculated
+
+Costs are tokens times everydeck's price list per model, based on the price pages of OpenAI and Anthropic. They are calculated, not your provider's bill.
+
+- A model everydeck does not know has the cost "unknown", never a guess.
+- A failed call costs nothing.
+- Owners and Admins can set their own price per model under **Prices used**. It applies to calls from then on.
+
+### Margin
+
+**Left after AI** is revenue minus AI costs of the last 30 days. There is no margin when:
+
+- any AI call of the last 30 days has no price: the tile says "incomplete" with the number of calls without a price,
+- your app does not sell in USD: revenue and AI costs stand apart in their own currency.
+
+AI costs never show as 0. With some known costs they show as a lower bound, like "at least USD 5.00".
+
+## Who sees money
+
+Owner, Admin, Agency and Viewer see money and AI costs. Support sees no amounts, revenue, margin or AI costs anywhere, not even a 0.
+
+## How long it is kept
+
+Payments and AI calls are kept for good, like accounting records. They are deleted with the environment, the app or the account. When a person's data is deleted for privacy, their payments keep amount and time, and their ids become `[deleted]`.

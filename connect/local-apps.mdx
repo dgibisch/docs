@@ -1,0 +1,36 @@
+---
+title: "Local apps without GitHub"
+description: "How everydeck works for an app whose repository has no remote: your agent commits on its own branch, merges it into the default branch and restarts the app."
+---
+
+Your app does not need GitHub. If the repository of your app has no remote, nobody would review a branch. So your agent finishes by itself.
+
+## What your agent does
+
+1. It commits the everydeck change on its own branch.
+2. It merges that branch into the default branch of your folder.
+3. It restarts your app's local servers.
+
+There is no pull request, no new remote and no push. The approval page says your server and frontend get their part "as a commit in your folder, because this repository has no remote: your coding agent commits it and restarts the app."
+
+The end page then says your app runs with the changes. There is nothing left for you to do.
+
+<Note>
+  If your agent could not merge (for example because of a conflict), the page shows a sentence to copy into your agent, to merge the everydeck branch into your default branch and restart the app.
+</Note>
+
+## The local database
+
+If your app uses a local Supabase stack, your agent may need to restart it during the setup. It does that only with everydeck's own restart command, for the stack of this folder. Your data stays.
+
+If the database does not start again, the setup pauses and the page says: "The local database of Acme did not start again after your agent restarted it." Check that Docker Desktop is running and has room, then click **Try again**. You never get a command to type.
+
+## Going live later
+
+An app set up locally starts in the **development** environment. It does not switch to production by itself. When you deploy it, see [Development and production](/connect/github-and-hosting#development-and-production).
+
+## Connecting with `npx everydeck init`
+
+The page **Your apps** also offers a command, `npx everydeck init`, to connect another app from its folder. The terminal shows a pair of words, for example `BLUE-OTTER`. The confirmation page in your browser shows the same words. Make sure your terminal shows the same words, then click **Connect**. This protects you against a link that is not yours.
+
+If the repository is already connected, the page asks whether this is a new version. Choose **Submit a new version** or **Create a separate project**.

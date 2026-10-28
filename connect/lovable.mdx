@@ -1,0 +1,65 @@
+---
+title: "Lovable"
+description: "Connect a Lovable app to everydeck. Your app needs its own Supabase project: Lovable Cloud cannot be connected yet. Setting up needs more than Lovable's free daily credits."
+---
+
+## First: where does your app keep its data?
+
+The setup page asks **Where does your app keep its data?** There are two answers.
+
+<Tabs>
+  <Tab title="In my own Supabase project">
+    everydeck can read and change the data you approve, like with any other app.
+
+    **How to check:** in Lovable, click the cloud icon at the top. You see the Supabase logo and the name of your project.
+
+    Go on with [Connect](#connect) below.
+  </Tab>
+  <Tab title="In Lovable Cloud">
+    **everydeck can't set up an app on Lovable Cloud yet.**
+
+    Lovable runs that database itself. It is in no Supabase dashboard, and you get no key or address for it. So everydeck could neither read nor change the data of your app.
+
+    **How to check:** in Lovable, click the cloud icon at the top. You see Lovable's own pages for Database and Users.
+
+    **What you can do:** Lovable can't move a Cloud project to your own Supabase project in one step. For a new app, first create a project at [supabase.com](https://supabase.com). Then in Lovable connect it under **Settings › General › External Supabase** before you build, and choose **In my own Supabase project** on the setup page.
+  </Tab>
+</Tabs>
+
+## Credits
+
+Connecting everydeck works on every Lovable plan. Lovable's free plan gives 5 credits a day (at most 30 a month), and setting up everydeck needs more than that. This is as of 28 October 2026. Check Lovable's own page for its current plans.
+
+## Connect
+
+<Steps>
+  <Step title="Connect Supabase">
+    On the setup page, click **Connect Supabase** and choose the Supabase project of your app. everydeck reads only the structure (names of tables and columns), never data.
+  </Step>
+  <Step title="Add everydeck under Connectors">
+    This works only under Connectors in Lovable, not in the chat. Click **Open Lovable connectors**, then **Add custom** at the top right and choose **MCP server**. Name it `everydeck`, paste the address `https://app.everydeck.ai/mcp` (also shown on the setup page) as **Server URL**, keep **OAuth** and click **Add & authorize**.
+  </Step>
+  <Step title="Sign in">
+    A window opens. Sign in to everydeck there and click **Allow**.
+  </Step>
+  <Step title="Allow all tools once">
+    Lovable asks **Allow** before each everydeck tool it uses for the first time, and the setup uses many. To answer once for all, open everydeck under Connectors and turn on **Always allow all tools from this connection**.
+  </Step>
+  <Step title="Paste the sentence">
+    Paste the sentence from the setup page into the Lovable chat of your app.
+  </Step>
+</Steps>
+
+## How it differs from other tools
+
+Lovable saves the code itself and has no git and no local servers. So the sentence is shorter:
+
+```text
+Set up everydeck for this app, including the read-only connection that lets everydeck read the data I approve.
+```
+
+- There is no branch, no commit and no pull request.
+- Your agent never writes or deploys everydeck's own functions or database changes. everydeck adds them to your connected Supabase project after you approve.
+- The change goes live when you publish the app in Lovable.
+
+Lovable picks the model itself, so there is no model note.

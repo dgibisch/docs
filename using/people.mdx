@@ -1,0 +1,96 @@
+---
+title: "People"
+description: "See every person who uses your app, what they did and what went wrong for them. Send a sign-in link, reset a password, suspend access or delete a person's data."
+---
+
+**People** shows every person everydeck knows from your app. If your app has customers, roles or plans, the page becomes a customer list called **Users**.
+
+## Where people come from
+
+- **From the app:** an entry from your app's own user data, read through the read bridge, or sent by the SDK.
+- **Observed only:** "a pseudonymous reference from a server event, no name, no help action".
+
+Only the fields you approved are stored. Someone who never sends a signal is missing: your app may know more users than everydeck sees.
+
+## Names
+
+A person's name is exactly the name your app shows, by your app's own rule, for example "first and last name, otherwise user name". everydeck never puts the e-mail address in place of a name.
+
+If your app has no name for a person, everydeck shows **Unnamed person** or **Person without a name**, with a short address like `P-7`.
+
+## The list
+
+Search by name, e-mail or id. Filter by **From the app** or **Observed only**. Each row shows the organization, runs and open cases of the last 30 days, and the platforms used.
+
+In the customer view: role, contacts in 30 days, how fast they answer, plan, revenue per month and **Last active**. **Needs attention** marks people who were reported, have an open case, or answer slowly (on average more than 12 hours).
+
+## The person page
+
+The page of a person has its own short address ending in `/people/P-7`. It shows **Activity**, **What this person uses**, **Problems**, **Recent runs**, **Organizations**, **Access**, **Action history** and **Identifiers and sources**.
+
+**Notes** are only for your team. They are kept in everydeck and never sent to the person.
+
+The card **Contact** opens WhatsApp or your mail app with a greeting. everydeck sends nothing itself. Address and number appear only if you approved those fields.
+
+## Help actions
+
+<Warning>
+  These actions need **Supabase Auth** and the change door. everydeck recognizes Clerk and Auth0 in your code, but it does not connect to them. Apps on Clerk or Auth0 get no sign-in links, no password reset and no suspend from everydeck.
+</Warning>
+
+At the top of the person page:
+
+- **Sign-in link** or **Password link**
+- **···** with **Resend confirmation email**, **Edit details** and **Suspend access** or **Restore access**
+
+Each one opens a confirmation in the card **Account and access**. If an action is not possible right now, the reason is right there, for example "Access is suspended. Restore it first".
+
+### Send a password reset email
+
+Your app sends its own password reset email, the same one the person gets with "Forgot password". The link opens your app's page for a new password. everydeck never sees a code or a password.
+
+This works when your app uses its own reset page. Otherwise everydeck offers **Send a sign-in link**, your app's own sign-in email. everydeck needs to know your app's address from visits first.
+
+### Suspend access
+
+The person can't sign in for as long as you choose: **1 day**, **7 days**, **30 days** or **Until I restore it**. Everything else stays as it is. The reason you give is only for your team. The card then shows "Suspended until" the date.
+
+<Note>
+  Suspending blocks new sign-ins right away. If the person is signed in right now, that session keeps working for up to 1 hour, until its access token runs out.
+</Note>
+
+### Delete an account
+
+This deletes the account in Supabase Auth. It needs a typed name, a reason and, if you set one up, your second factor. It fails while the person still has files in Supabase Storage. It never cancels a subscription at the payment provider.
+
+everydeck never changes a person's e-mail address.
+
+## Privacy deletion of a person
+
+On the page of a person, click **Delete this person's data**. You can also do it under **Settings › App › Data and privacy › Delete a person**, with the typed id. Only Owner and Admin can do this.
+
+The page first shows, as numbers, what everydeck deletes and what stays as `[deleted]`. Confirm with the typed name.
+
+everydeck deletes the person's events, profile, identity, memberships, activity days, origin, notes and their own record in your app's data. Entries in the protocol stay as proof of who did what and when, but the person's id, name, address and values are replaced by `[deleted]`.
+
+After that, everydeck accepts no new data with this person's id. It rejects their events and does not store their record again when it reads your app.
+
+- **Also delete this person in your app:** a checkbox, if your change door may delete people. everydeck deletes the account in your app first, then its own data. If that fails, everydeck still deletes its own data and tells you in one sentence.
+- **Lift the block:** under **Settings › App › Data and privacy**. everydeck then accepts data with this id again. The old data does not come back: it is a new person without history.
+
+<Info>
+  In your app, the person exists until your app deletes them. everydeck only deletes there with the checkbox. Files in storage and data in other services are not deleted by everydeck.
+</Info>
+
+## Organizations
+
+If your app has organizations, each one has a page with a short address like `ORG-3`. It shows **People**, the functions they used, **Problems** and **All runs**. A person belongs to an organization when a server event names both, or your app says so.
+
+## Who may do what
+
+| Action | Roles |
+|---|---|
+| See people | All roles |
+| Sign-in link, password reset, suspend, notes, message | Owner, Admin, Support |
+| Delete a person or their data | Owner, Admin |
+| See plan and revenue of a customer | Owner, Admin, Agency, Viewer |

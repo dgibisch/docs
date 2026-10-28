@@ -1,0 +1,59 @@
+---
+title: "Overview"
+description: "The first page of your app in everydeck: a plain sentence about how your app is doing, one big chart, cards with what matters and what needs you."
+---
+
+The overview is the first page of each app. It answers: how is my app doing, and does anything need me?
+
+Before the first visit arrives, it says **Waiting for the first visit to Acme**. If no visit arrives for 3 days (since the setup or since the last visit), the overview shows a clear warning with the way to [Setup](/using/setup-page).
+
+## Your apps
+
+After you sign in you land on **Your apps**. Each app has a card with its logo, its environment, **Live** with events per minute (or **Quiet** with the last event), a 28-day chart, up to three figures and what needs you. If nothing does, the card says **All good, nothing needs you**.
+
+Sort by **needs you first** or **last activity**.
+
+## The sentence at the top
+
+A short sentence sums up your app. everydeck builds it without AI, from a fixed list of statements. Each one appears only when it is true, for example:
+
+- your app "has been in everydeck for 3 days" (only in its first 7 days),
+- "best week yet", or "keeps growing",
+- new people compared with the period before,
+- **One thing needs you** whenever a case is open.
+
+## Periods and comparisons
+
+Choose **Today**, **7 days** or **30 days**.
+
+- **7 and 30 days** compare with the same length of time right before.
+- **Today** compares with yesterday from midnight to the same time of day, in your browser's time zone. At 08:00, that is yesterday 00:00 to 08:00. The page says "vs this time yesterday".
+
+A comparison appears only when the earlier period is fully in the data. For 7 days you need 14 days of data. Until then, the legend says when the comparison starts.
+
+## The big chart
+
+One tab for each figure your app has, at most four: active people, new people, monthly revenue (only with plans that have an amount), AI costs (only with recorded AI calls), or the most used flow. Markers show each new version of your app and each case that opened.
+
+Before the first event, the chart shows nothing. everydeck never draws zeros for "not measured".
+
+## Cards
+
+Each card appears only when it has data. Otherwise the next one moves up.
+
+- **Needs you:** the open case, or a green area with what was checked and the last case that was repaired. See [Needs you](/using/needs-you).
+- **Money and AI costs:** only with payments or plans. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. See [Money and AI costs](/using/money-and-ai-costs).
+- **Coming back:** how many people came back, once a full week is measured.
+- **The way through your main flow:** the first funnel from [Journeys](/using/flows-and-journeys).
+- **Newest people**, with their way through the app.
+- **In your database:** the kinds of data in your approved read scope.
+- **How fast your app is:** duration per run for the three flows with the most measured runs. Under 2 s is "quick", over 4 s is "slow".
+- **Where people use it:** only if your app runs on more than one platform, like web and iPhone.
+
+## Footer
+
+The footer shows how many parts of your app are alive, the last sign of life, and the last version with your coding agent and its pull request. The details of each part, for the last 12 hours, are under **Technical** in the card **Engine room**.
+
+## If you have no access to money
+
+People with the Support role see no revenue, MRR, margin or AI costs on the overview. In their place there is nothing, not a 0. See [Team and roles](/using/team-and-roles).

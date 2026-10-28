@@ -1,0 +1,62 @@
+---
+title: "FAQ"
+description: "Short answers to common questions about everydeck: price, supported tools and stacks, Lovable Cloud, what everydeck changes in your app and what it never does."
+---
+
+<AccordionGroup>
+  <Accordion title="What does everydeck cost?">
+    everydeck is free in this first version. Free includes one app, 10,000 events a month and 30 days of raw data. If you need more, write to [support@everydeck.ai](mailto:support@everydeck.ai).
+  </Accordion>
+
+  <Accordion title="Do I need to know how to code?">
+    No. Your coding agent does the setup. You click, paste one sentence, approve, and merge a pull request.
+  </Accordion>
+
+  <Accordion title="Which AI tools work?">
+    Any tool with MCP over HTTP and OAuth sign-in. The setup page offers Claude Code, the Claude app, Cursor, Codex, VS Code, Devin Desktop, Lovable, Replit, Bolt and v0. See [Choosing your AI tool](/get-started/choose-your-tool).
+  </Accordion>
+
+  <Accordion title="Can I use everydeck with Lovable Cloud?">
+    Not yet. Lovable runs that database itself, and you get no key or address for it, so everydeck could neither read nor change your data. Your app needs its own Supabase project. See [Lovable](/connect/lovable).
+  </Accordion>
+
+  <Accordion title="Does everydeck change my app?">
+    Your coding agent adds the everydeck SDK and a few files to your code, in a pull request you merge. If Supabase is connected, everydeck adds its own parts to your project after you approve: database changes that only add, functions and their settings. Nothing of your app is changed or removed.
+  </Accordion>
+
+  <Accordion title="Does everydeck create test accounts in my app?">
+    No. everydeck and your coding agent never create an account in your app, never sign in there and never write test data into your database.
+  </Accordion>
+
+  <Accordion title="Can everydeck read my users' e-mails and messages?">
+    The read bridge never reads contact columns or message texts. A conversation is read live only when someone on your team opens it for a reason, and it is not stored.
+  </Accordion>
+
+  <Accordion title="Does everydeck fix errors by itself?">
+    No. everydeck writes no code and opens no pull request. Your coding agent fixes, and everydeck checks whether the fix worked. See [Cases and repairs](/using/cases-and-repairs).
+  </Accordion>
+
+  <Accordion title="Can I send sign-in links if my app uses Clerk or Auth0?">
+    No. everydeck recognizes Clerk and Auth0, but it does not connect to them. Sign-in links, password reset emails and suspending accounts need Supabase Auth.
+  </Accordion>
+
+  <Accordion title="Does everydeck catch crashes of my iPhone or Android app?">
+    No. It sees errors in your app's own code and on your server, not a crash of the native app. Those appear in App Store Connect, the Google Play Console or a crash reporter.
+  </Accordion>
+
+  <Accordion title="Which databases work?">
+    For reading your app's data: Postgres, for example Supabase. Firestore is recognized but not read. MySQL, MongoDB and others are not supported.
+  </Accordion>
+
+  <Accordion title="Can I have more than one app?">
+    Free includes one app per account. Write to [support@everydeck.ai](mailto:support@everydeck.ai) if you need more.
+  </Accordion>
+
+  <Accordion title="Can I set my own alert rules?">
+    No. everydeck decides what is important. It knows errors, missed deadlines between two signals, silent signals after a new version, silent jobs, hung requests, outages, data loss and security findings.
+  </Accordion>
+
+  <Accordion title="How do I get rid of everydeck?">
+    Remove it from your app under the app's settings. Your app keeps running. See [Removing everydeck from your app](/reference/remove-everydeck).
+  </Accordion>
+</AccordionGroup>

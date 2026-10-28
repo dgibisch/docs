@@ -1,0 +1,65 @@
+---
+title: "Deleting your account or app"
+description: "Download all your everydeck data, delete one app right away, or delete your whole account with 24 hours to restore it. Your apps keep running."
+---
+
+Only Owners can download the data, delete an app or delete the account. Others see "Only owners can download the data or delete the account."
+
+## Download everything
+
+Go to **Settings › Workspace › General**, card **Your data**, and click **Request download**. everydeck builds a ZIP file in the background and emails you when it is ready.
+
+- **What is in it:** team members and invitations, apps, connections, approvals, the protocol, cases and notes, people, accounts and events. Each as JSON and CSV, events also as JSON Lines. Times are in UTC. Keys appear only with their first characters.
+- **What is not in it:** keys and tokens, invitation links, events older than your plan keeps, and everydeck's own working data.
+- **Who can download:** only the person who asked for it, signed in, for 24 hours.
+- **One at a time:** while one export is being built, a second request waits.
+- **Size:** at most 4 GiB. Above that, the export fails and you get an email. Get in touch and we send it in parts.
+
+Text that would run as a formula in a spreadsheet gets a quote mark in front.
+
+If a person's data or an app is deleted after an export was built, everydeck withdraws the export and deletes its file. Request a new one.
+
+## Deleting an app
+
+Go to **Settings › Acme › General**, card **Delete Acme**.
+
+"Deletes Acme in everydeck with its events, cases, people and protocol entries, right away. It cannot be undone."
+
+- First remove everydeck from the app, if everydeck still has parts in it through Supabase. The card says "Remove everydeck from Acme first." See [Removing everydeck](/reference/remove-everydeck).
+- Confirm by typing the name of the app.
+- The account protocol keeps one entry that the app was deleted.
+
+You cannot move apps between workspaces, archive an app instead of deleting it, or undo the delete.
+
+## Deleting your account
+
+Your "account" in everydeck is a workspace with its apps, members, events and protocol. Deleting happens per workspace.
+
+Go to **Settings › Workspace › General**, card **Delete account**. The page says it deletes the workspace in everydeck with its apps, members, all events and the protocol. "Your apps keep running: everydeck only stops receiving and reading."
+
+<Steps>
+  <Step title="Before you delete">
+    While everydeck still has parts in any app through Supabase, it refuses to delete. Click **Do it for me** to remove everydeck from all connected apps.
+  </Step>
+  <Step title="Confirm">
+    Type the name of the workspace exactly as shown.
+  </Step>
+  <Step title="Plan">
+    "Your Free plan ends with the account. There is nothing to pay."
+  </Step>
+</Steps>
+
+### The 24 hours to restore
+
+For 24 hours after you delete:
+
+- everydeck accepts nothing, reads your apps no more and checks nothing.
+- Members can only open the account page.
+- **Your apps** shows when the workspace will be deleted.
+- Every Owner gets an email and can click **Restore account**: "The account is restored. Everything works again."
+
+After 24 hours, everydeck deletes all data of the workspace for good. Only a deletion record without names or addresses remains, so that a restored backup deletes again. Deleted data stays in backups for up to 7 days.
+
+### What stays
+
+Your everydeck login stays, even when all your workspaces are gone. Members keep their own logins too.

@@ -1,0 +1,73 @@
+---
+title: "Security and privacy"
+description: "What everydeck receives from your app, what it never stores, what goes to Supabase, GitHub and other services, and how keys, signatures and deletion work."
+---
+
+This page lists what data goes where, and what never leaves your app.
+
+## What everydeck never stores
+
+everydeck never stores messages, passwords, card numbers or the values from the `.env` files of your apps. Chats are read live when someone opens them for a reason, and then forgotten.
+
+## What your app sends to everydeck
+
+Your app sends events through the everydeck SDK. Before anything is stored, everydeck keeps only approved fields and removes secrets.
+
+| From | What is sent | What is never sent |
+|---|---|---|
+| Browser | Errors, failed requests, steps of flows, visits as page patterns (`/jobs/:jobId`), page load times, the first origin (UTM values and referring domain) | Request bodies, headers, form values, query strings, cookies |
+| Server | Errors with method, route pattern, status, duration, error class, cleaned message and frames; signals of flows; heartbeats | Request bodies, query strings, cookies |
+| AI calls | Provider, model, tokens, duration, error type, flow, person | Prompts, answers, system text, provider keys |
+| Payments | Amount, currency, product, quantity, order or checkout id, short reason | Card data. A value that looks like a card number is dropped. |
+
+In error messages, answers and code lines, everydeck replaces secrets and keys with `[redacted]`, bearer tokens with `Bearer [redacted]` and e-mail addresses with `[email]`. The SDKs do the same before sending.
+
+A visit carries only the pseudonymous id of the person, the page as a pattern, the session, the platform and the time.
+
+## What everydeck reads from your app
+
+- **Read bridge:** only the tables and columns you approved. Never contact columns (e-mail, phone, messenger, IP address) and never message texts. See [Your app's data](/using/your-data).
+- **Supabase connection:** only the structure of the one project you chose, the names of tables and columns. Never rows. everydeck has no right to read your Supabase secrets.
+- **Conversations:** only when a team member opens one with a reason, with a permission for that one conversation. Nothing is stored.
+
+## What goes to other services
+
+- **Supabase:** everydeck adds its parts to your project after you approve, and asks the Security Advisor for its advice. See [How setup works](/get-started/how-setup-works#what-everydeck-adds-to-your-supabase-project).
+- **GitHub (optional):** everydeck's GitHub app only reads metadata, pull requests, checks and deployments. It has no access to your code contents and cannot push.
+- **Status pages:** everydeck reads the public status pages of Supabase, Vercel, Render, Stripe, OpenAI and Anthropic. No data of your app goes there.
+- **everydeck's own setup check:** if it is on, the setup page says: everydeck checks what your agent found once with its own AI model, sending short excerpts of your code and the names of your tables and columns, never rows from your database and never keys.
+
+everydeck never connects to Stripe, Paddle, OpenAI, Anthropic or other providers of your app, and never asks for their keys.
+
+## Keys
+
+- everydeck creates every key itself and shows it once. No everydeck tool takes a key, token or password from your coding agent.
+- Your agent writes keys only into your app's local env file, which git ignores.
+- A key you replace keeps working for 1 day. A revoke works with the next request.
+- Personal keys (agent, repair, setup) work only while the person who issued them is a member, has the right and can see the app.
+
+## Signed requests
+
+Every request from everydeck to your read bridge or change door carries a timestamp, a request id and a signature. Your app refuses old requests and repeated request ids. After a new bridge key, everydeck signs with both keys for 1 day, so nothing breaks.
+
+## Your team's access
+
+- Every route checks its own rule, and refusing is the default.
+- Someone without access to an app gets "not found" for its data, even with a correct address.
+- Roles decide what people see: Support sees no money and no code. See [Team and roles](/using/team-and-roles).
+- Every table with customer data uses row level security.
+- Secrets in addresses, like invitation links and pairing codes, appear in everydeck's own logs only as `[redacted]`.
+
+## Deleting a person's data
+
+You can delete everything everydeck stored about a person or customer. Protocol entries stay as proof of who did what and when, but the person's id, name and contact details become `[deleted]`. After that, everydeck accepts no new data with this id. See [People](/using/people#privacy-deletion-of-a-person).
+
+Short addresses like `P-7` keep the id of your app out of the address bar and the browser history.
+
+## Your privacy policy
+
+If your team reads reported or suspicious conversations in [Moderation](/using/moderation), your privacy policy must cover that moderators of your app can read them.
+
+## Reporting a problem
+
+Write to [support@everydeck.ai](mailto:support@everydeck.ai).

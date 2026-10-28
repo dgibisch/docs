@@ -1,0 +1,49 @@
+---
+title: "Claude Code"
+description: "Connect Claude Code to everydeck with one command, sign in with /mcp, and paste the setup sentence. Works in the terminal and in the desktop app."
+---
+
+Claude Code is the default tool on the setup page.
+
+## Connect
+
+<Steps>
+  <Step title="Add everydeck">
+    On the setup page, choose **Claude Code**. Give the command from the page to Claude Code in the folder of your app. It looks like this, with the address `https://app.everydeck.ai/mcp` (also shown on the setup page):
+
+    ```bash
+    claude mcp add --transport http everydeck <address from the setup page>
+    ```
+  </Step>
+  <Step title="Sign in">
+    Type `/mcp` in Claude Code, in the terminal or in the desktop app. Choose **everydeck** and sign in. Your browser opens: click **Allow**.
+
+    The setup page then shows **Signed in**.
+  </Step>
+  <Step title="Pick the model">
+    everydeck was tested with Opus 5.5 at effort medium or higher. Choose it with `/model` and `/effort` before you paste the sentence. A smaller model or a lower effort may leave parts out or stop halfway; everydeck shows you what is still open.
+  </Step>
+  <Step title="Paste the sentence">
+    Copy the sentence from the setup page and paste it into Claude Code. That is the last thing you type.
+  </Step>
+</Steps>
+
+## If Claude Code stops a step
+
+Claude Code has its own safety check. If it stops a step of the setup, the setup page says: "Claude Code's own safety check stopped one step of the setup. Nothing from that step reached everydeck."
+
+What to do:
+
+1. In Claude Code, type `/permissions` and open **Recently denied**.
+2. If the stopped step is what you asked for, select it and press Enter to approve it once. That approves only this one step and adds no rule.
+3. Click **Done** on the setup page.
+
+everydeck never asks you to add a permission rule or to turn a check off.
+
+## If the page waits after you clicked Allow
+
+The approval may have gone to another everydeck account. Start the sign-in again and check that the approval page shows your email address. If not, use **Not you? Switch account** there.
+
+## Fixing errors later
+
+When a case needs a fix, the case page offers **Copy fix for Claude Code**. Paste it into Claude Code. If Claude Code is connected over MCP, you can also tell it: "Fix the everydeck issue". See [Cases and repairs](/using/cases-and-repairs).

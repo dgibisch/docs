@@ -1,0 +1,62 @@
+---
+title: "Deadlines and data retention"
+description: "How long everydeck keeps events, evidence, protocol entries, visits and payments on the Free plan, and every deadline for links, keys, undo and deletion."
+---
+
+## How long data is kept
+
+On the Free plan:
+
+| Data | Kept for |
+|---|---|
+| Raw events, logs and data gaps | 30 days |
+| Visits and sign-ins (person, page, time) | 30 days |
+| Page load times (daily values) | 30 days |
+| Hourly heartbeat history | 30 days |
+| Evidence of open cases | 90 days |
+| Evidence of closed cases | 30 days |
+| Protocol (audit) entries | 90 days |
+| Records gone from your app | 90 days after they disappeared |
+| Builds with source maps | the latest 20 per environment |
+| Releases with source files | the latest 20 |
+| Activity days of a person | until the person is deleted |
+| Payments (from your app and by hand) | for good, until the environment, app or account is deleted |
+| AI calls | for good, until the environment, app or account is deleted |
+| Deleted data in backups | up to 7 days |
+
+A case that stays open longer than its evidence is kept (90 days, counted from opening) is closed by everydeck and its evidence removed. If the error comes back, a new case opens.
+
+On Free, a 90-day view can show at most 30 days of raw data.
+
+There is no email when data reaches its retention time. The values are here and under **Settings › Workspace › Plan and limits**.
+
+## Deadlines
+
+| What | Deadline |
+|---|---|
+| Restore a deleted account | 24 hours |
+| Download link of an account export | 24 hours |
+| Undo a field edit | 24 hours |
+| Undo a payment recorded by hand | 24 hours |
+| Old key after Replace | 24 hours |
+| Old bridge key after a new one | 24 hours |
+| Invitation to the team | 7 days |
+| Agent key | 30 days |
+| A reported agent change waits for a decision | 7 days |
+| Repair key of a copied fix | 7 days |
+| Second-factor confirmation stays fresh | 10 minutes |
+| Link to confirm your address or set a new password | 1 hour |
+| Pairing code | 15 minutes |
+| Setup session | 1 day |
+| A probe run counts for | 30 minutes |
+| Connecting GitHub or Supabase | 15 minutes |
+
+## Backups
+
+everydeck's own database has daily backups. Deleted data can stay in them for up to 7 days. If a backup is ever restored, everydeck deletes the data again.
+
+## Deleting a person
+
+When you delete a person's data for privacy, everydeck also stops accepting new data with their id. See [People](/using/people#privacy-deletion-of-a-person).
+
+If an account export was built before a deletion, everydeck withdraws it and deletes its file in the same step. The account page then says why and offers **Request download**.

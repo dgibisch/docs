@@ -1,47 +1,64 @@
 ---
 title: "Quickstart"
-description: "Begin with a guide on the fastest path to a successful outcome"
+description: "Connect your first app to everydeck in five steps: create an account, name your app, connect your AI tool and Supabase, paste one sentence and approve."
 ---
 
-Describe how someone begins using your product. What is the first thing they need to do? Are there any prerequisites?
+This takes you from nothing to an app that shows up in everydeck. Your coding agent does the technical work. You click, paste and approve.
 
-A quickstart should take someone from zero to using your product. They'll get a quick win and a sense of what they can accomplish.
+## Before you start
 
-## Prerequisites
+- An app you build with an AI coding agent, for example in Claude Code, Codex, Cursor or Lovable.
+- If your app uses Supabase: access to its Supabase project.
+- For Lovable: your app must use your own Supabase project. See [Lovable](/connect/lovable).
 
-Before you begin, you must have:
-
-- Requirement one (for example, Node.js 18+, a free account, an API key)
-- Requirement two (for example, a compatible device, a compatible browser, a compatible operating system)
-
-## Get started
+## Five steps
 
 <Steps>
-  <Step title="Install">
-    Describe how to install your product or sign up.
-
-    ```bash
-    npm install your-package
-    ```
+  <Step title="Create your account">
+    Go to [app.everydeck.ai](https://app.everydeck.ai) and create an account with your email and a password, or continue with Google or GitHub. With email, you get a confirmation link that works for 1 hour.
   </Step>
-  <Step title="Configure">
-    Describe any setup or configuration needed before first use.
-
-    ```bash
-    your-cli init
-    ```
+  <Step title="Name your app">
+    The first page says **Let's put your first app on deck**. Type the name of your app and click **Continue**. Nothing is installed yet.
   </Step>
-  <Step title="Run it">
-    Show the first thing a user does to see it working.
+  <Step title="Connect your AI tool">
+    everydeck asks **Which AI do you build your app with?** Pick your tool. The page shows the exact way for that tool, for example a command for Claude Code or a button for Cursor.
 
-    ```bash
-    your-cli start
-    ```
+    Your browser then opens a page that says your tool wants to connect to everydeck. Click **Allow**. Your tool acts as you and only sees apps you can open.
+
+    Each tool has its own page under [Connect your tool](/connect/claude-code).
+  </Step>
+  <Step title="Connect Supabase (only if your app uses it)">
+    If your app runs on Supabase, click **Connect Supabase**, allow it at Supabase and choose the project of your app. everydeck reads only the structure of that project, meaning the names of tables and columns. It never reads data through this connection.
+
+    If your app does not use Supabase, click **My app doesn't use Supabase**.
+  </Step>
+  <Step title="Paste the sentence and approve">
+    Copy the sentence from the setup page and paste it into your AI tool. That is the last thing you type.
+
+    Your agent reads your app. When it is done, the setup page says **Your turn: one click**. Look at what everydeck will see and do, then click **Approve**. When you approve, everydeck adds its own parts to your Supabase project, as listed on that page. Nothing of your app is changed or removed.
+
+    After that you can close the page. Your agent goes on by itself.
   </Step>
 </Steps>
 
-<Tip>
-  Give people a way to get help. This could be a link to a support page, a chat with a customer support agent, or a forum for your product.
+## When it is done
 
-  Example: Need help? Reach out to us at [support@yourcompany.com](mailto:support@yourcompany.com).
-</Tip>
+The setup page says **Acme is on deck** (with the name of your app). It tells you what is left for you, usually one of these:
+
+- **Merge a pull request.** Your agent opened a pull request on GitHub. Open it and click **Merge**. See [Apps on GitHub and a host](/connect/github-and-hosting).
+- **Nothing.** If your repository has no remote, your agent commits the change itself and restarts the app. See [Local apps without GitHub](/connect/local-apps).
+- **Add settings at your host.** If your own server needs everydeck settings, the page shows them with **Show the values**.
+
+Click **Open Acme** to see your app. The overview says **Waiting for the first visit to Acme** until the first visit arrives.
+
+<Note>
+  If some parts of your app are not connected yet, the end page says so, for example **Acme is on deck, 2 parts are still open**. You can finish them later on the [Setup page](/using/setup-page).
+</Note>
+
+## Next
+
+- [How setup works](/get-started/how-setup-works): what you approved and what everydeck added.
+- [Overview](/using/overview): the first page of your app in everydeck.
+- [Cases and repairs](/using/cases-and-repairs): what to do when something breaks.
+
+Need help? Write to [support@everydeck.ai](mailto:support@everydeck.ai).

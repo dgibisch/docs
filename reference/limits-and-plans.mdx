@@ -1,0 +1,174 @@
+---
+title: "Limits and plans"
+description: "everydeck is free in this first version. Free includes one app, 10,000 events a month and 30 days of raw data. Every limit you can reach, with its value and what happens."
+---
+
+**everydeck is free in this first version.** Free is the only plan. There are no prices, no upgrades and no bills.
+
+> Free: one app per account, 10,000 events a month and 30 days of raw data.
+
+If you need more, write to [support@everydeck.ai](mailto:support@everydeck.ai).
+
+You see every limit, with your current usage, under **Settings › Workspace › Plan and limits**. Only Owners can open it. A row turns light yellow from 80 % and light orange when the limit is reached.
+
+## What counts as an event
+
+Events are what your app sends to everydeck: errors, signals of your flows, logs and breadcrumbs.
+
+These **never count**: heartbeats, page loads, visits and sign-ins. They also keep arriving when your monthly limit is reached. Rejected events do not count either.
+
+## One app per account
+
+Free includes one app. A second app is refused on every way: in everydeck, through your coding agent and with `npx everydeck init`. The message says: "Free includes one app. Remove the other app, or write to support@everydeck.ai if you need more."
+
+All workspaces where you are Owner count together, so a second workspace is no way around it. Demo apps do not count. A new version of the same app is fine.
+
+## All limits
+
+The tables below list every limit you, the visitors of your app or your coding agent can reach, on the Free plan.
+
+### Plan and quota
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Events per month | 10,000 | From 80 % you get a warning, from 100 % logs and breadcrumbs are no longer accepted, above 120 % everything is rejected until the 1st of next month (UTC). | yes |
+| Warning before the monthly limit | 80 % | Nothing stops. You get an email and a banner. | yes |
+| Monthly limit reached | 100 % | Logs and breadcrumbs are dropped and appear as a data gap; errors and signals are still accepted. | yes |
+| Monthly limit exceeded | 120 % | Every batch is rejected until the 1st of next month; runs during this time are missing. | yes |
+| Data per month | 10 MiB | Above it every batch is rejected until the 1st of next month. | yes |
+| Apps per account | 1 | Another app cannot be created. | no |
+| Reachability checks per app | 1 | Another check cannot be created. | no |
+| Shortest check interval | 5 min | A reachability check runs at most this often. | no |
+| Heartbeat interval | 5 min | A part of your app counts as silent after two missed heartbeats; you see a data gap and a banner. | yes |
+| Recorded visits per app and day | 50,000 | Further page views and sign-ins that day are only counted: they are missing in Live and as activity. | yes |
+| Measured page loads per app and day | 20,000 | Further page loads that day are only counted, not measured. | yes |
+| Different pages in page speed per app and day | 200 | Further pages that day are grouped as "Other pages". | yes |
+| Wait after the monthly limit | 1 h | The SDKs send nothing for this long; a web page keeps the events until the next visit after it. | yes |
+
+### Sending events
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Batches per minute per browser key | 20,000 | Further batches are rejected until the minute ends; the SDK keeps them and sends them again. | yes |
+| Data per minute per browser key | 16 MiB | As for batches per browser key. | yes |
+| Page-load batches per minute per key | 4,000 | Further page loads that minute are rejected and missing from the daily values. At most one email a day per app. | yes |
+| Batches per minute per server key | 1,200 | Further batches are rejected; the SDK sends them again after the wait. | yes |
+| Data per minute per server key | 32 MiB | As for batches per server key. | yes |
+| Batches per minute per account | 25,000 | Further batches of all your apps are rejected until the minute ends. | yes |
+| Batches per minute for everydeck as a whole | 30,000 | Protects the service; further batches of every app are rejected until the minute ends. | yes |
+| Size of one event on arrival | 8 KiB | Only that event is dropped; the rest of the batch arrives. At most one email a day per app. | yes |
+| Size of one request | 68 KiB | Rejected; the answer names the limit. The SDKs split batches below it. | yes |
+| Length of an error message | 1,024 characters | Shortened on arrival, ending in "…", and marked as shortened. | no |
+| Length of the message in a failed answer | 300 characters | Shortened on arrival and marked. | no |
+| Length of a code line | 200 characters | Shortened on arrival and marked. | no |
+| Length of a function name in a stack trace | 128 characters | Shortened on arrival and marked. | no |
+| Length of a file name in a stack trace | 240 characters | Shortened on arrival and marked. | no |
+| Length of an id (run, person, session, object) | 128 characters | Shortened on arrival and marked. Two ids that only differ after this length count as one. | no |
+| Length of a field value | 256 characters | Shortened on arrival and marked. | no |
+| Length of a request route | 240 characters | Shortened on arrival and marked. | no |
+| Length of a step on the way to an error | 80 characters | Shortened on arrival and marked. | no |
+
+### In the SDKs
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Size of one event | 8 KiB | The SDK drops the event, writes a warning to your app's log and reports a data gap. | yes |
+| Events the SDK keeps in memory | 500 | Above it events are dropped and reported as a data gap. | yes |
+| Rejected events a web page keeps for the next visit | 300 | More are lost when the visitor leaves the page; they arrive as a data gap with the next visit. | yes |
+| Pause after a rejected key | 30 s | With a revoked or wrong key the SDK drops the batch and pauses. | yes |
+| Different console errors per page view | 50 | Further ones are not reported; they arrive as a data gap. | yes |
+| Unknown pages per page view | 20 | Further ones are not reported; they arrive as a data gap. | yes |
+| Measured navigations per page view | 50 | Further navigations are not measured; they arrive as a data gap. | yes |
+| Page-speed measurements per page view | 200 | Further measurements are not sent; they arrive as a data gap. | yes |
+| Length of an order or checkout id | 100 characters | The payment is not sent; the SDK writes a warning and reports a data gap. | yes |
+| A request of a flow without an answer counts as hung after | 30 s | The run shows "Hung"; the app's request keeps running unchanged. Repeated hangs at the same place become a case. | yes |
+| Reported hangs per page view | 50 | Further hangs are not reported; they arrive as a data gap. | yes |
+| Visits sent per page view | 500 | Further page changes without a reload are not sent; they arrive as a data gap. | yes |
+
+### Uploads and setup
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Source map uploads per key and hour | 300 | Further uploads are rejected until the full hour. | yes |
+| Source map data per key and hour | 96 MiB | As for uploads per hour. | yes |
+| Size of one source map | 8 MiB | Rejected; errors in it show no source code. | no |
+| Source maps per build | 32 MiB | Further maps of the build are rejected. | no |
+| Size of one source file | 256 KiB | The upload is rejected; your coding agent is told the file and its size. | no |
+| Source files per release, together | 4 MiB | The upload is rejected. | no |
+| Source files per release | 300 | The upload is rejected. | no |
+| Size of an app map | 2 MiB | Rejected; your coding agent is told this limit. | no |
+| Size of an app logo | 96 KiB | The logo is not used. | no |
+| Summary of a repair report | 280 characters | Shortened; the case page says so. | no |
+| How often everydeck gives one open part back to your coding agent | 3 | Then the part stays open for you on the Setup page. | no |
+| Open parts your coding agent gets back at once | 15 | The most important come first; the rest follows in the next packets. | no |
+| Submissions in a row in which your agent connected nothing | 2 | The setup goes to your approval with the open parts shown. | no |
+| A probe run counts for | 30 min | Events after that no longer count for the probe run. | no |
+| Probe runs at the same time | 3 | Another probe run is refused until one ends. | no |
+| Kinds of data everydeck derives from your schema | 200 | Further tables are left out, with a note. | no |
+| Fields per kind of data | 100 | Further columns are left out, with a note. | no |
+
+### Read bridge and connections
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Length of a value read from your app | 256 characters | Longer values are shown shortened. | no |
+| Size of one read bridge answer | 256 KiB | The read fails and shows in Setup; after an hour without a good read you get an email. | yes |
+| Capabilities of one read bridge | 1,000 | The bridge is rejected at setup. | no |
+| Old bridge key after a new one | 1 day | everydeck signs with both keys for this long, then only with the new one. | yes |
+
+### Keys, links and deadlines
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Old key after Replace | 1 day | The old key keeps working this long, then everydeck rejects it. | yes |
+| Agent key validity | 30 days | Your coding agent can no longer report or pick up work. You get an email before and at expiry. | yes |
+| A reported agent change waits for your decision | 7 days | Afterwards it expires. You get an email a day before. | yes |
+| Setup session | 1 day | It expires; the next start begins a new one. | no |
+| Pairing code | 15 min | The code expires. | no |
+| Sign-in from `npx everydeck init` | 30 min | The sign-in expires. | no |
+| Time without a word from your coding agent during the setup | 45 min | The setup page says it has not heard from your agent and shows what to paste if it stopped. | no |
+| Time after your approval until the setup page says your agent has not gone on | 5 min | The page shows one sentence to paste into your agent. | no |
+| Days without a visit before the overview warns | 3 days | The overview says your app sent no visit for that many days. | no |
+| A part sent to your coding agent counts as not picked up after | 1 day | The Setup row offers the instructions to copy. | yes |
+| Silence of your coding agent after it picked up a part | 30 min | The Setup row offers to send it again. | yes |
+| Connecting GitHub or Supabase | 15 min | The connection flow expires; start it again. | no |
+| Second-factor confirmation | 10 min | The next sensitive action asks again. | no |
+| Undo an edit | 1 day | Afterwards the edit cannot be undone. | no |
+| Objects per bulk change, people per message | 500 | A larger selection is rejected. | no |
+| Repair key of a copied fix | 7 days | The key stops working. Copying again gives a new key. | no |
+| Link to confirm your address or set a new password | 1 h | The link expires; request a new one. | no |
+| Wait before a new password email | 1 min | The button stays disabled until then. | no |
+| Invitation | 7 days | It expires; whoever sent it gets an email. | yes |
+| Account export download | 1 day | The export is deleted. | yes |
+| Account exports being prepared at a time | 1 | A second request waits. | no |
+| Time before an account is deleted | 1 day | The account and its data are deleted for good. | yes |
+| Size of an account export | 4 GiB | The export fails; you get an email. | yes |
+
+### Live and pages
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Live windows per person | 10 | A further window updates every 5 seconds instead of live. | no |
+| Live after a change of access | 30 s | An open Live window closes before its next entry, at the latest after about 35 seconds. | no |
+| Value in the history of a record | 300 characters | The history entry ends there; your app keeps the whole value. | no |
+| Conversations per kind that moderation counts and flags | 2,000 | Older ones are not counted or flagged; the page says so. | no |
+| Scripts the security check loads, together | 40 MiB | Further scripts are not checked for keys. | yes |
+| Scripts the security check reads | 40 | Further scripts are not checked for keys. | yes |
+| Pages per list export | 50 | The export stops and says so. | no |
+
+### Warnings
+
+| Limit | Free | What happens when it is reached | Email |
+|---|---|---|---|
+| Read bridge counts as stopped | 1 h | Your app's data stays at the last read. | yes |
+| Email before a replaced key stops | 6 h | If your app still uses the old key, you get an email and a banner. | yes |
+| Hung runs at the same place before a case opens | 3 | A case with an email and a repair task that names the place in the code. | yes |
+| Email before an agent key expires | 7 days | You get an email and a banner. | yes |
+| A repair waits for your coding agent | 1 day | The case stays open; you get an email and a banner. | yes |
+| Email before a reported change expires | 1 day | You get an email before a change from your agent expires without a decision. | yes |
+
+For how long data is kept, see [Deadlines and data retention](/reference/deadlines-and-retention).
+
+<Note>
+  Many more limits exist for what you or your coding agent can enter at once, for example a reason (300 or 500 characters) or a note on a person (2,000 characters). The full list is under **Settings › Workspace › Plan and limits**. Above them, the input is rejected and nothing is saved. There is no email, because you see it right away.
+</Note>

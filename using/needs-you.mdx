@@ -1,0 +1,40 @@
+---
+title: "Needs you"
+description: "Needs you lists the cases and decisions that need a person. Learn when an error becomes a task, how the list is sorted and how to clear it."
+---
+
+**Needs you** is your to-do list in everydeck. It is on the overview of each app, and the **Your apps** page counts it across all apps.
+
+## What appears here
+
+- **Cases that need action.** Errors, outages, missed expectations, data loss, security errors and more. See [Cases and repairs](/using/cases-and-repairs).
+- **Security:** only points of level Error from Supabase's Security Advisor, together as one case. See [Security](/using/security).
+- **New permissions for the change door:** when everydeck can do more than you allowed, it asks here with **Allow** and **Not now**. See [Changing data](/using/changing-data#new-permissions).
+
+## When an error becomes a task
+
+A new error is first **Open · watched**. It shows only on the Errors page, with no task and no email. The case page says: "everydeck is watching this: it touches no flow with business consequences and few people so far. It becomes a task on Needs you when it affects 5 people or grows."
+
+It becomes a task on Needs you, with an email, as soon as one of these is true:
+
+- it hits a flow with business consequences (for example a failed request in a flow that has a result step),
+- it affects 5 people,
+- it has 10 events in 24 hours.
+
+Once a task, it stays a task. All other kinds of cases become a task right away.
+
+## Order
+
+Needs you is sorted by severity, then by the latest event.
+
+| Severity | Kinds |
+|---|---|
+| Critical | Errors, outages, moderation, data loss, security |
+| Warning | Missed expectations, monitoring gaps, due dates, implausible values |
+| Note | Data gaps |
+
+## Clearing it
+
+On each case you can **Mark as fixed**, **Ignore**, or copy a fix for your coding agent. Each action shows a short message with **Undo**. See [Cases and repairs](/using/cases-and-repairs#what-you-can-do).
+
+When nothing needs you, the card turns into a green area with what everydeck checked and the last case it repaired.

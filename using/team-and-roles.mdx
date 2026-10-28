@@ -1,0 +1,75 @@
+---
+title: "Team and roles"
+description: "Invite your team to everydeck with one of five roles: Owner, Admin, Support, Agency or Viewer. Limit access per app and see connected coding agents."
+---
+
+Invite people under **Settings › Workspace › Members**. The menu item appears once your workspace has more than one person or an open invitation.
+
+## The five roles
+
+| Role | What it may do |
+|---|---|
+| **Owner** | Everything, including plan and limits, deleting apps and the account. |
+| **Admin** | Everything in the apps they can see: approve changes, edit, suspend, delete. Not plan and limits. |
+| **Support** | People, chats and listings: answer, suspend, send sign-in links, remove messages. Sees no money and no code. |
+| **Agency** | Errors, flows and the connected coding agent for the client's app. Can fix, can't delete people. |
+| **Viewer** | Sees everything in the apps they can see, changes nothing. |
+
+A Viewer also sees money and code. Owners always see all apps.
+
+Some actions are only for Owners: inviting people and changing roles, creating apps, connecting GitHub, plan and limits, exporting and deleting the account, deleting an app.
+
+## Inviting someone
+
+Only Owners can invite. Enter the address, pick a role and choose **All apps of this workspace** or **Only these apps**.
+
+"The invitation goes to exactly this address and can only be accepted by an everydeck account that confirmed it. It is valid for 7 days."
+
+- The link is shown once, so you can pass it on yourself. The link alone grants nothing: only an account with the confirmed address can accept.
+- There is at most one open invitation per address. **Resend** sends a new one, and the old link stops working. **Withdraw** takes it back.
+- If an invitation expires, the person who sent it gets an email.
+
+## Changing a role or apps
+
+Use the menu next to each person. Every change appears in **Changes to the team**, with the value before and after. Only Owners see this list.
+
+When a role goes down, or an app is taken away, everydeck revokes the coding agent keys this person may no longer have.
+
+**The last owner stays owner.** Make someone else owner first, then change your own role.
+
+## Removing someone, or leaving
+
+- **Remove** (Owners only): "Access ends with the next request, also for open sessions and coding agents connected by this person. Coding agent keys this person issued are revoked; the keys of your apps stay."
+- **Leave**: any member can leave. To come back you need a new invitation.
+
+## Connected coding agents
+
+The page lists **Coding agents connected to your apps**, with the person, the apps and when each was last seen.
+
+Only the person who connected an agent can **Disconnect** it. As an Owner, you end someone else's agent by removing the person, taking the app away from them, or removing everydeck from the app.
+
+## Second factor
+
+You can protect sensitive approvals with an authenticator app. You set it up on the [Setup page](/using/setup-page), when you approve the actions of an app: "Do this yourself, never let a coding agent or remote tool set it up for you."
+
+It is not used for signing in. It is asked for:
+
+- approving the actions of an app,
+- red actions on records,
+- approving red changes from your coding agent,
+- red deletions and "Also delete this person in your app".
+
+A confirmation stays fresh for 10 minutes. Without a second factor you can still approve, and the approval is marked "approved without a second factor".
+
+## Signing in to everydeck
+
+Sign in with email and password, or **Continue with Google** or **Continue with GitHub**. There is no magic link, no Apple, no single sign-on and no SMS for everydeck accounts.
+
+To change your password, go to **Settings › Security** and click **Send link**. After setting a new one, all other sessions are signed out.
+
+## What it does not do
+
+- No custom roles or single permissions.
+- Admins cannot invite.
+- No direct disconnect of someone else's agent.
+- No SSO or SCIM for teams.

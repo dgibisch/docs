@@ -1,0 +1,52 @@
+---
+title: "Moderation"
+description: "If your app has chats, reports or listings, Moderation shows conversations, reports and duplicate checks in one place. Messages are read live and never stored."
+---
+
+The **Moderation** page appears if your app has conversations, reports or similar data. It shows them in one place, with the filters **Reported**, **Suspicious**, **Unanswered** and **All**.
+
+## Reading a conversation
+
+To open a conversation, you give a reason ("Why do you open it?"):
+
+- Someone reported it
+- everydeck flagged a pattern
+- A person asked for help
+- Checking an unanswered contact
+- Other reason
+
+everydeck then reads it live from your app, only this one conversation. "Messages are not stored in everydeck. They are read live from your app now, checked for warning signs and forgotten. Your reason is logged in Protocol."
+
+### Warning signs
+
+everydeck marks warning signs in the text with fixed rules, in English, Indonesian and German: a phone number, a messenger outside the app, a request for payment, a link outside the app, and typical scam sentences. It is "A hint for you, not a verdict." There is no AI model behind it.
+
+## Patterns without reading texts
+
+If your app reports sent messages through the SDK, only metadata leaves your app: who, in which conversation, whether a number, link or payment request was in it, and a checksum of the text. From this, everydeck opens cases:
+
+- the same message to at least 5 conversations in 60 minutes,
+- an account everydeck has known for at most 7 days asks for a deposit in at least 3 conversations.
+
+If your app has its own reports and duplicate checks, everydeck connects them per record, for example "Reported as fraud".
+
+## Removing a message
+
+Click **Remove message**, with a reason. "Both lose it in your app. Your app has no way to bring it back, and neither does everydeck. The text is not kept anywhere." This goes through the [change door](/using/changing-data).
+
+## Your privacy policy
+
+<Warning>
+  Your privacy policy must cover that moderators of your app can read reported or suspicious conversations.
+</Warning>
+
+If your app does not offer reading conversations to everydeck, the page says that everydeck does not store messages and cannot read them.
+
+## Who may do what
+
+- See Moderation and open a conversation with a reason: all roles.
+- Remove a message: Owner, Admin, Support.
+
+## Limits
+
+Counts and flags cover the newest 2,000 conversations per kind. The list shows at most 500 conversations and the newest 200 per kind of report.

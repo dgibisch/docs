@@ -1,0 +1,103 @@
+---
+title: "How setup works"
+description: "What happens during the everydeck setup: what your agent does, what you see on the approval page, what everydeck adds to your Supabase project and what it never reads."
+---
+
+The setup has three parts. Your coding agent reads your app. You approve. Then your agent adds everydeck to your code.
+
+## What your agent does
+
+After you paste the sentence, your agent works through everydeck's steps one by one. everydeck tells it each step. You can watch on the setup page:
+
+- **Connected to** your tool
+- **Reading your app**
+- **You approved**, with the time
+- **Adding everydeck to your code**
+- **Testing everything**
+
+The page shows which step your agent is on and how many minutes are left. The minutes come only from setups that really finished, never from a guess. The page checks for news every 15 seconds.
+
+The sentence you paste is:
+
+```text
+Set up everydeck for this app, including the read-only connection that lets everydeck read the data I approve, restart the local servers of this app when needed, and open a pull request, or commit locally if the repository has no remote.
+```
+
+This sentence is your consent to three things: the read-only connection to your data, restarting your app's own local servers, and the pull request. Your agent pushes only its own branch. It never merges or deploys.
+
+<Note>
+  Lovable saves code by itself and has no local servers, so it gets a shorter sentence. See [Lovable](/connect/lovable).
+</Note>
+
+### The app map
+
+Your agent writes down the facts of your app in a file called the **app map**: tables, pages, sign-in, payments, background jobs, AI calls, and the flows people go through. Every fact has its place in your code. everydeck checks the app map before it shows it to you.
+
+If your agent left something out, everydeck gives it back to the agent first, the most important parts first (money, scheduled jobs, email and push, sign-in, ways through the app). It sends at most 15 open parts at once.
+
+### Rules your agent follows
+
+- It never signs up, signs in or creates an account in your app. Not live, not in development, not with a test address.
+- It never writes test records into your database. It proves the setup with test events that are marked as a probe run and count nowhere.
+- It never reads files with secrets, like `.env` files. It checks variables by their name only.
+- It never takes a key from your computer to everydeck. everydeck creates every key itself and shows it once. Your agent writes it into your app's local env file, which git ignores.
+- It never operates your browser or the everydeck dashboard. Approving is your click.
+
+Flows behind the sign-in wait for **the first real sign-in**. everydeck confirms them by itself when real people use them.
+
+## The approval page
+
+When your agent has read your app, the setup page says **Your turn: one click**. The box shows:
+
+- **everydeck sees**: the kinds of data everydeck will show, for example people, orders and listings, plus errors and how the app runs.
+- **Not read by everydeck**: e-mail addresses, phone numbers, WhatsApp numbers, IP addresses and messages stay in your app. everydeck does not read these columns.
+- **You can change from everydeck**: what your team may change, if your app is on Supabase. For example edit and archive listings, or send a sign-in link. See [Changing data](/using/changing-data).
+- **everydeck adds to** your Supabase project: if Supabase is connected, the exact parts everydeck adds after you approve.
+
+Click **Approve**. You do not need a second factor for this click.
+
+<Info>
+  E-mail addresses and phone numbers that everydeck finds inside anything else it reads are removed before it stores or shows them. What your app itself sends to everydeck, for example a person's e-mail when someone signs in or the text of an error, everydeck keeps as your app sends it.
+</Info>
+
+## What everydeck adds to your Supabase project
+
+If you connected Supabase, everydeck adds its own parts to your project after you approve: database changes that only add, functions and their settings. The approval box counts them and lets you open each file. Nothing of your app is changed or removed.
+
+Depending on your app, these parts are:
+
+| Part | What it is for |
+|---|---|
+| Function `everydeck-read-bridge` | Reads the data you approved, read only. |
+| Function `everydeck-outbox-relay` | Only if your browser writes straight into the database. Sends confirmed results to everydeck. |
+| Function `everydeck-write-door` | Only if you approved changes. Makes the changes you switched on, and nothing else. |
+| Schemas `everydeck_outbox`, `everydeck_door`, `everydeck_read` | Hold everydeck's own tables and views. |
+| Role `everydeck_reader` | A database role that can only read. |
+| Function `public.everydeck_server_config()` | Lets your own server read its everydeck settings. Only `service_role` may run it. |
+| Schedules, Vault entries and function settings | everydeck creates the values itself. They never go to your agent or into the chat. |
+
+The setup page shows **everydeck is adding its parts to** your project, then **everydeck added its parts to** your project. If it stops, click **Try again**.
+
+You can remove all of this later. See [Removing everydeck from your app](/reference/remove-everydeck).
+
+<Warning>
+  If you deploy everydeck's functions again yourself with the Supabase CLI, Supabase turns its JWT check back on for them, and everydeck can no longer reach them.
+</Warning>
+
+## What everydeck never reads
+
+- **No rows through the Supabase connection.** everydeck reads only the structure: names of tables and columns.
+- **No contact columns.** E-mail, phone, messenger and IP address columns are never in the read scope.
+- **No message texts.** A chat is read live only when someone on your team opens it for a reason, and it is not stored. See [Moderation](/using/moderation).
+- **No `.env` values, passwords or card numbers.** everydeck never stores them.
+- **No secret keys of Supabase.** everydeck needs no public Supabase key either.
+
+## Two environments
+
+Every app has two environments: **development** and **production**. If your app is on a connected Supabase project, the setup writes to production. Otherwise it writes to development, and going live is your step later. See [Apps on GitHub and a host](/connect/github-and-hosting).
+
+## When the setup ends
+
+The setup ends when your agent has reported its branch or pull request. The setup page shows **Done** and **Open Acme**, even if your app is not merged yet. everydeck does not wait for the first event.
+
+The end page lists **Notes from the setup**, **First real use** and, if something is missing, **What everydeck found** with the open parts. Read the notes before you merge.

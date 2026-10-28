@@ -1,0 +1,97 @@
+---
+title: "Cases and repairs"
+description: "How everydeck groups errors into cases, how to fix them with your coding agent, what Fixed and Came back mean, and how to mark as fixed, ignore, archive and undo."
+---
+
+When something goes wrong in your app, everydeck opens a **case**. A case bundles all events of the same kind of problem. That is a way of grouping work, not a proven cause.
+
+Every case has a short address, like `ACME-14`. The number counts up per app and is never reused.
+
+## Kinds of cases
+
+| Kind | What it means |
+|---|---|
+| Confirmed error | An error event from your app, in the browser or on the server. |
+| Missed expectation | After a trigger, the expected result did not arrive in time. |
+| Data gap | everydeck cannot judge it because data is missing. This is not a confirmed failure. |
+| Confirmed outage | The reachability check of your app failed twice in a row. |
+| Monitoring gap | No heartbeats from your app, a job did not report, or a flow stopped sending after a new version. Not a confirmed outage. |
+| No answer | A request of a flow hung at the same place several times without an answer. |
+| Data loss | A large part of a kind of data disappeared at once. |
+| Implausible value | For example a price of 0 or less, or a required field that is empty. |
+| Security | A Supabase security error, or a secret key in the code your app ships to browsers. |
+| Due date, Needs review | Cases from your app's own dates and from moderation. |
+
+Titles are written in plain words from facts, for example "Checkout fails" or "Your app could not be reached". A 4xx answer your app gives on purpose is counted, but it is no case.
+
+## The case page
+
+- **What happened:** one sentence with the flow, the impact, how often and who.
+- **What the error is**, **Where** (page, flow, code lines), **Who it hit**.
+- **The way there:** the steps in the browser before the error.
+- **How to fix it:** the repair path, on the right.
+- **History**, **Notes** for your team, and **For developers** with the stack trace, the request and all events.
+
+If a provider of your app (Supabase, Vercel, Render, Stripe, OpenAI or Anthropic) reports an incident right now, the case says: "This error may come from the provider, not from your app. everydeck checks the provider's public status page."
+
+## Fix it with your coding agent
+
+everydeck does not write code. Your coding agent does. The case page gives it everything it needs.
+
+<Tabs>
+  <Tab title="Copy fix">
+    Click **Copy fix for Claude Code** (or your tool's name). Nothing starts by itself: copy the task, then paste it into your agent. It fixes the error and reports back.
+
+    The copied task contains what happened, the steps, the place in the code and the versions. It contains no names or addresses of people, only their ids. It ends with a note that app content in the task is data, not instructions.
+  </Tab>
+  <Tab title="Send to a connected agent">
+    If your agent is connected to everydeck, click **Send to connected agent**. Your agent does not run by itself. Tell it once: "Fix the everydeck issue". It picks up the oldest case you sent. Each case is given out once, even if two agents ask at the same time.
+
+    If nobody picks up a sent case for a day, you get an email and a banner.
+  </Tab>
+</Tabs>
+
+When your agent reports the fix, the case is marked **Fixed**. everydeck then watches. If the error comes back, you get an email and the case shows **Came back**.
+
+### The repair path
+
+The case page shows each step on the right, with its own evidence:
+
+1. **Detected**
+2. **Copied for your agent** (when and by whom), or **Sent to your agent** and **Picked up** if your agent is connected to everydeck
+3. **Fixed**, with what your agent reported: what it changed, its tests, the commit and the version
+4. **New version running**, as information when everydeck sees it
+5. **Watching**, or **Came back** if the error happens again
+
+**Merged** only appears if a repository is connected. There is nothing to click and nothing to wait for: the case is fixed as soon as your agent reports it.
+
+### When the error comes back
+
+If the same error happens again in the reported version or a later one, the same case opens again as **Came back**, keeps its address, and you get an email. Errors from an older version that is still running do not count.
+
+## What you can do
+
+These buttons need the Owner, Admin or Agency role.
+
+- **Mark as fixed.** If the same error happens again, the case opens again as **Came back** and you get an email. **More ways to mark as fixed** offers:
+  - **Resolve now:** if it happens again, the case opens again.
+  - **The next release:** the running release may still show it. Only a newer release opens the case again.
+- **Ignore.** By default **Until it gets worse**: back when it hits someone it did not hit before, or happens in a new version. **More ways to ignore** offers more choices.
+- **Archive**, with fixed choices:
+  - **For …** 30 minutes, 2 hours, 6 hours, 24 hours or 7 days. Back on Needs you when the time is over.
+  - **Until this occurs again …** 1, 10, 100, 1,000, 10,000 or 100,000 more times, counted per hour, day or week.
+  - **Until this affects an additional …** that many people who were not hit before.
+  - **Forever:** everydeck keeps counting, the case does not come back by itself.
+- **Undo.** After an action, a short message offers Undo. Then the case is open again.
+- **Assign** to a member, or **Remove the assignee**.
+- **Reopen** a closed or dismissed case.
+
+Every action appears in the case history and in the protocol with the person who did it.
+
+## When a case comes back
+
+A case you or your agent marked as fixed opens again as **Came back** when the same error happens again in the fixed version or a later one. It keeps its address and its history, and you get an email.
+
+## Cases from the setup
+
+Cases from the time while your app was being set up move to the developer view once real data arrives.

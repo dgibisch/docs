@@ -1,0 +1,74 @@
+---
+title: "Apps on GitHub and a host"
+description: "How everydeck goes live for apps on GitHub: merge the pull request, set keys at your host like Vercel, Netlify or Render, and keep everydeck working after every update."
+---
+
+For an app on GitHub, your agent ends the setup with a pull request. everydeck never merges and never deploys. You do.
+
+## Merge the pull request
+
+The end page says, for example: "In your code: 3 new files, 2 changed, in pull request #12. To bring it live, open it on GitHub and click Merge."
+
+If your agent could not push, the page says which branch to push and merge as usual.
+
+If everydeck found the deploy files of your host (for example `render.yaml` or `vercel.json`), the page says your host then deploys it by itself.
+
+## Apps without their own server
+
+If your app has no server of its own (for example a frontend with Supabase), everydeck is done with the pull request. The change goes live with the merge.
+
+## Apps with their own server
+
+A server like FastAPI, Express or a Next.js server needs a few everydeck settings.
+
+- **If your server talks to Supabase with the service key,** it reads its everydeck settings from Supabase by itself. Nothing to do.
+- **If not,** the setup page says: "One extra step: add these three settings to your host, then merge." Click **Show the values** and add them to your host. They are `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY` and `EVERYDECK_MANIFEST_DIGEST`. The values are shown once. Showing them again creates a new key.
+
+After the merge, the page shows **Waiting for your host to deploy**, with the minutes since the merge, until the first event of the new version arrives. everydeck knows Render, Railway, Fly, Vercel, Netlify and Heroku by name.
+
+## Development and production
+
+Every app has two environments, development and production.
+
+- **App on a connected Supabase project:** the setup writes to production directly.
+- **App set up locally:** your agent gets development keys only. Going live is your step: when you deploy, create production keys under **Keys** and set them in your hosted environment. Until the first event from production arrives, Setup says "Waiting for your deployment". Merged code alone does not send anything.
+
+Flows checked only locally wait for their first real event in production. everydeck confirms them by itself.
+
+To replace a key, go to **Settings › App › Keys** and click **Replace**. The new key is shown once. The old one keeps working for 1 day, then everydeck rejects it. If your app still uses the old key shortly before, you get an email and a banner.
+
+## Keys at your host
+
+Your coding agent puts keys only into your local, git-ignored env file. It never changes the settings of your host. Some keys you add at your host yourself. The [Setup page](/using/setup-page) lists them under **To do**.
+
+### Upload key for source maps
+
+Source maps let everydeck show the line in your own code instead of a place in the bundle. If Vercel, Netlify, GitHub Actions or another place builds your app, add the upload key there. Until you do, browser errors show a place in the bundle instead of your code.
+
+The name is `EVERYDECK_SOURCEMAPS_KEY`. Click **Show the key** to see the value. Each click creates a new key, and the one shown before stops working.
+
+| Host | Where |
+|---|---|
+| Vercel | Your project, Settings, Environment Variables. Add it for Production and Preview. |
+| Netlify | Your site, Site configuration, Environment variables. |
+| GitHub Actions | Your repository, Settings, Secrets and variables, Actions, as a repository secret. Your workflow passes it to the build step. |
+| Other | The environment variables of the place that builds your app. |
+
+Source maps are never public. After the upload, every map is removed from the build output.
+
+### Heartbeat key for GitHub Actions
+
+If your app has scheduled jobs in GitHub Actions, they report with a last step. Add the secret `EVERYDECK_SERVER_KEY` and the variable `EVERYDECK_URL` at GitHub. Setup shows this as the part **Heartbeat key at GitHub Actions**. A check-in with a revoked key never fails your workflow.
+
+## Keep everydeck working after every update
+
+Your app changes all the time. During the setup your agent adds a check, the file `.github/workflows/everydeck.yml`. It runs on every push and pull request on GitHub.
+
+- **Green:** every everydeck call is still in your code. On a push to the default branch, new tables, pages and flows go to everydeck. Without new permissions they are adopted ("New facts adopted."), otherwise they wait for your approval ("New facts wait for your approval.").
+- **Red:** a push removed an everydeck call. The check says what to fix, with a prompt for your coding agent. Setup says "The last push removed an everydeck call".
+
+everydeck sees only the result of the check, never your code. If everydeck is not reachable, your build does not break. The check works on GitHub only, not on GitLab or Bitbucket.
+
+## Connect GitHub for code changes (optional)
+
+Under **Technical › Code changes**, an owner can connect everydeck's GitHub app. It only reads: metadata, pull requests, checks and deployments. It has no access to your code contents. With it, the repair path of a case can show when a fix was merged. See [Cases and repairs](/using/cases-and-repairs).
