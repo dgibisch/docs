@@ -1,49 +1,62 @@
 ---
-title: "Changes"
-description: "The Changes page shows every version of your app with its pull request, checks, deployment and what happened since, plus what your coding agent reported."
+title: "Code changes"
+description: "Settings › Code changes shows every merged pull request of your app with its checks, when it went live and the errors that came after it, plus the page of each version and what your coding agent reported."
 ---
 
-**Changes** lists every version of your app. A version is one commit. For each version you see what led to it and what your app did since.
+**Code changes** lists every merged pull request of your app. For each one you see whether its checks passed, when it went live in production and what your app did after that.
 
-It needs a role that may see code: Owner, Admin, Agency or Viewer.
-
-## How everydeck knows a version
-
-Your app sends its version with every event, as the release key. The SDK finds it by itself from your host or your git commit. See [Versions](/developers/sdk-javascript#versions-release-key-auto).
-
-If no pull request is known for a version, the row says "Version observed at runtime only".
-
-## A row
-
-Each row shows the pull request, the checks, the deployment and what your app shows since this version: runs, runs with errors and open cases.
-
-The page explains how to read it: "Change → checks → deployment → observed at runtime → runs and cases. Every step is a separate observation; a missing step means “not seen”, not “did not happen”."
-
-<Note>
-  A change shortly before an error is not a proven cause. everydeck shows the order, not the reason.
-</Note>
+Open it under **Settings** in the side bar of your app, tab **Code changes**. "Code changes are visible to people who may see the code of Acme": Owner, Admin, Agency or Viewer.
 
 ## Connecting GitHub
 
-Pull requests, checks and deployments come from everydeck's GitHub app. It only reads. An Owner connects it under **Technical › Code changes**. Then an Owner, Admin or Agency binds the repository of the app. See [Connect GitHub for code changes](/connect/github-and-hosting#connect-github-for-code-changes-optional).
+Pull requests, checks and deploys come from everydeck's GitHub app. It only reads: "everydeck never sees your code." An Owner connects it under **Settings › Connections** with **Connect GitHub**. On GitHub you choose the repository of Acme, then you come straight back. If you gave everydeck several repositories, everydeck asks "GitHub is connected. Which repository is Acme?" and you click **Use** with the name of the right one. See [Connect GitHub for code changes](/connect/github-and-hosting#connect-github).
 
-- Direct pushes do not arrive: "Direct pushes are not received (no Contents permission)".
-- Commits without a pull request appear through the check on every push.
-- everydeck catches up regularly on what it missed.
+Until GitHub is connected, the tab says "GitHub is not connected to Acme" and offers **Go to Connections**.
 
-## What changed
+## A row
 
-If your coding agent described a change in the check on every push, the page shows it under **What changed**: which flows the change touches.
+Each row is one pull request:
 
-## Load times before and after
+| Column | Shows |
+|---|---|
+| **Pull request** | Its title, number, author and when it was merged. |
+| **Checks** | **Passed**, **Failed** (how many of how many), **Running** or **No checks**. |
+| **Live** | Since when it runs in production, or **Not seen running** with the reason, or **Not live**. |
+| **After it went live** | Errors in how many runs, or how many runs with no errors, or "no runs yet". |
 
-The page of a version shows **Load times before and after**: the p75 per page in the 7 days before the version and in up to 7 days after. The day of the change does not count. It appears only with enough measurements on both sides. See [Page speed](/developers/source-maps-and-web-vitals#page-speed).
+At the top, the page says which pull request runs in production now and how many errors came since. Versions that ran in production without a pull request are folded below: "From before GitHub was connected, or pushed without a pull request."
+
+If no pull request was merged since you connected, the page says so. The next one shows up within seconds.
+
+<Note>
+  "An error after a change does not prove the change caused it. Each version counts its own runs."
+</Note>
+
+## How everydeck knows a version
+
+Your app sends its version with every event, as the release key. The SDK finds it by itself from your host or your git commit. See [Versions](/developers/sdk-javascript#versions-release-key-auto). If your app reports no version, the page says that everydeck cannot tell which change runs.
+
+## The page of a version
+
+Click a row to open its version. The page explains how to read it: "Change → checks → deployment → observed at runtime → runs and cases. Every step is a separate observation; a missing step means “not seen”, not “did not happen”." If no pull request is known for a version, it says "Version observed at runtime only".
+
+### What changed
+
+If your coding agent described a change in the check on every push, the version page shows it under **What changed**: which flows the change touches.
+
+### Load times before and after
+
+The page of a version shows **Load times before and after**: the p75 per page in the 7 days before the version and in the days after. The day of the change does not count. It appears only with enough measurements on both sides. See [Page speed](/developers/source-maps-and-web-vitals#page-speed).
 
 On the [overview](/using/overview#the-big-chart), each new version is a marker in the big chart.
 
+## Emails after a change went live
+
+everydeck emails once per change when new errors started after a pull request went live, when a pull request with failed checks went live, or when an error you fixed came back. A short email for every merged pull request is off unless you turn it on. See [Emails and notifications](/using/emails-and-notifications#after-a-change-went-live).
+
 ## Reports of your coding agent
 
-After the setup, an Owner can give your coding agent an agent key for one environment, under **Technical** in **Production changes by your coding agent**. With it, the agent reports what it is about to do or did, for example a change to the database schema.
+An Owner, Admin or Agency can give your coding agent an agent key for one environment, under **Settings › Keys**, **Keys for your coding agent**. It is "used when your agent works without being connected to everydeck, for example in CI." With it, the agent reports what it is about to do or did, for example a change to the database schema.
 
 Each report has a level, which the agent sets:
 
@@ -68,4 +81,4 @@ When your agent reports a fix for a case, the report appears in the protocol and
 - No comparison of sign-ups or revenue before and after a version.
 - No other source than GitHub.
 
-{/* screenshot: Changes list with a version row showing PR, checks, deployment and runs with errors */}
+{/* screenshot: Settings › Code changes with pull request rows, checks, live and errors after it went live */}

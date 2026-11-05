@@ -64,9 +64,9 @@ The name is `EVERYDECK_SOURCEMAPS_KEY`. Click **Show the key** to see the value.
 
 Source maps are never public. After the upload, every map is removed from the build output.
 
-### Heartbeat key for GitHub Actions
+### Scheduled jobs in GitHub Actions
 
-If your app has scheduled jobs in GitHub Actions, they report with a last step. Add the secret `EVERYDECK_SERVER_KEY` and the variable `EVERYDECK_URL` at GitHub. Setup shows this as the part **Heartbeat key at GitHub Actions**. A check-in with a revoked key never fails your workflow.
+If your app has scheduled jobs in GitHub Actions, your agent adds a last step that reports each run to everydeck. It signs in with the workflow's own OIDC token, so you add no secret and no variable at GitHub. See [Schedules](/using/schedules).
 
 ## Keep everydeck working after every update
 
@@ -79,7 +79,7 @@ everydeck sees only the result of the check, never your code. If everydeck is no
 
 ## Connect GitHub
 
-GitHub is its own step on the setup page, after **Connect Supabase**: click **Connect GitHub** and choose the repository of your app. If your app is not on GitHub, click **My app isn't on GitHub**. You can also connect it later under **Settings › App › Connections** or **Technical › Code changes**. An owner of your team connects GitHub.
+GitHub is its own step on the setup page, after **Connect Supabase**: click **Connect GitHub** and choose the repository of your app. If your app is not on GitHub, click **My app isn't on GitHub**. You can also connect it later under **Settings › App › Connections** or **Settings › Code changes**. An owner of your team connects GitHub.
 
 everydeck's GitHub app only reads: pull requests, checks, deployments and workflow runs. everydeck never sees your code. With it, everydeck sees when the change of your agent is merged, and links every error to the change that brought it. The repair path of a case can show when a fix was merged. See [Cases and repairs](/using/cases-and-repairs).
 

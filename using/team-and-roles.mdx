@@ -1,9 +1,9 @@
 ---
 title: "Team and roles"
-description: "Invite your team to everydeck with one of five roles: Owner, Admin, Support, Agency or Viewer. Limit access per app and see connected coding agents."
+description: "Invite your team to everydeck with one of five roles: Owner, Admin, Support, Agency or Viewer. Limit access per app, see connected coding agents and work in several workspaces."
 ---
 
-Invite people under **Settings › Workspace › Members**. The menu item appears once your workspace has more than one person or an open invitation.
+Invite people under **Settings**, in the group of your team, **Members**. **Members** is always there, also while you are alone: "Only you so far. Invite someone to open your apps with you; you choose their role and which apps they see."
 
 ## The five roles
 
@@ -17,17 +17,26 @@ Invite people under **Settings › Workspace › Members**. The menu item appear
 
 A Viewer also sees money and code. Owners always see all apps.
 
-Some actions are only for Owners: inviting people and changing roles, creating apps, connecting GitHub, plan and limits, exporting and deleting the account, deleting an app.
+Some actions are only for Owners: inviting people and changing roles, creating apps, connecting GitHub, **Billing**, exporting and deleting the account, deleting an app.
 
 ## Inviting someone
 
-Only Owners can invite. Enter the address, pick a role and choose **All apps of this workspace** or **Only these apps**.
+Only Owners can invite. Click **Invite**, enter the address, pick a role and choose **All apps of this workspace** or **Only these apps**. Then click **Send invitation**.
 
 "The invitation goes to exactly this address and can only be accepted by an everydeck account that confirmed it. It is valid for 7 days."
 
 - The link is shown once, so you can pass it on yourself. The link alone grants nothing: only an account with the confirmed address can accept.
-- There is at most one open invitation per address. **Resend** sends a new one, and the old link stops working. **Withdraw** takes it back.
+- There is at most one open invitation per address. **Resend** sends a new one, and the old link stops working. **Remove** withdraws it: "The link in the email stops working."
 - If an invitation expires, the person who sent it gets an email.
+
+### When someone accepts
+
+Both sides get an email right away:
+
+- the new member: their role, the apps they can see, and that emails start now, with nothing from before they joined,
+- the person who invited them: "… accepted your invitation to Acme", with a button **Open Members**.
+
+The new member's first daily summary comes at the next 8:00 in their time zone. See [Emails and notifications](/using/emails-and-notifications#new-members).
 
 ## Changing a role or apps
 
@@ -44,20 +53,23 @@ When a role goes down, or an app is taken away, everydeck revokes the coding age
 
 ## Connected coding agents
 
-The page lists **Coding agents connected to your apps**, with the person, the apps and when each was last seen.
+The page shows **Coding agents connected to your apps**. Click **Manage and disconnect** to see each agent with the person, the apps and when it was last seen.
 
 Only the person who connected an agent can **Disconnect** it. As an Owner, you end someone else's agent by removing the person, taking the app away from them, or removing everydeck from the app.
 
+## Several workspaces
+
+You can be a member of several workspaces, for example Owner in your own and Admin in a client's. Each workspace has its own address. Opening it shows exactly this workspace under **Your apps**. From two workspaces on, a switch at the top left changes between them.
+
+Every email names the workspace it was sent for: "Sent for the workspace Acme in everydeck."
+
 ## Second factor
 
-You can protect sensitive approvals with an authenticator app. You set it up on the [Setup page](/using/setup-page), when you approve the actions of an app: "Do this yourself, never let a coding agent or remote tool set it up for you."
+Set up two-factor authentication under **Settings › Sign-in and security**, with an authenticator app. When it is on: "everydeck asks for a code from your authenticator app when you sign in, when you connect a coding agent, and before approvals that give it new rights in your apps."
 
-It is not used for signing in. It is asked for:
-
-- approving the actions of an app,
-- red actions on records,
-- approving red changes from your coding agent,
-- red deletions and "Also delete this person in your app".
+- **Add another device**, so you are not locked out if you lose one.
+- **Recovery codes**: each code turns two-factor authentication off once, if you lose your phone.
+- You get an email each time your second factor is turned on, off, or a device is added or removed.
 
 A confirmation stays fresh for 10 minutes. Without a second factor you can still approve, and the approval is marked "approved without a second factor".
 
@@ -65,13 +77,15 @@ A confirmation stays fresh for 10 minutes. Without a second factor you can still
 
 Sign in with email and password, or **Continue with Google** or **Continue with GitHub**. There is no magic link, no Apple, no single sign-on and no SMS for everydeck accounts.
 
-To change your password, go to **Settings › Security** and click **Send link**. After setting a new one, all other sessions are signed out.
+To change your password, go to **Settings › Sign-in and security** and click **Send link**. After setting a new one, all other sessions are signed out.
+
+The same page shows **Where you are signed in**. **Sign out everywhere else** ends all other sessions. A sign-in from a new browser or system gets you an email.
 
 ### Signing out and switching accounts
 
-Click **Sign out** at the top of **Your apps** or in **Settings**. Signing out clears everything everydeck kept in this browser for your account. If you then sign in with another account, you land on **Your apps** of that account.
+Open the menu behind your profile picture and click **Sign out**, or **Switch account**. Signing out clears everything everydeck kept in this browser for your account. If you then sign in with another account, you land on **Your apps** of that account.
 
-If an approval in your coding agent went to the wrong account, use **Not you? Switch account** on the approval page.
+If an approval in your coding agent went to the wrong account, use **Not you?** and **Switch account** on the approval page.
 
 ## What it does not do
 
