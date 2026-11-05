@@ -33,9 +33,6 @@ Connecting everydeck works on every Lovable plan. Lovable's free plan gives 5 cr
 ## Connect
 
 <Steps>
-  <Step title="Connect Supabase">
-    On the setup page, click **Connect Supabase** and choose the Supabase project of your app. everydeck reads only the structure (names of tables and columns), never data.
-  </Step>
   <Step title="Add everydeck under Connectors">
     This works only under Connectors in Lovable, not in the chat. Click **Open Lovable connectors**, then **Add custom** at the top right and choose **MCP server**. Name it `everydeck`, paste the address `https://app.everydeck.ai/mcp` (also shown on the setup page) as **Server URL**, keep **OAuth** and click **Add & authorize**.
   </Step>
@@ -44,6 +41,12 @@ Connecting everydeck works on every Lovable plan. Lovable's free plan gives 5 cr
   </Step>
   <Step title="Allow all tools once">
     Lovable asks **Allow** before each everydeck tool it uses for the first time, and the setup uses many. To answer once for all, open everydeck under Connectors and turn on **Always allow all tools from this connection**.
+  </Step>
+  <Step title="Connect Supabase">
+    On the setup page, click **Connect Supabase** and choose the Supabase project of your app. everydeck reads only the structure (names of tables and columns), never data.
+  </Step>
+  <Step title="Connect GitHub">
+    If your Lovable project syncs to GitHub, click **Connect GitHub** and choose its repository. everydeck then sees when Lovable commits the change. Otherwise click **My app isn't on GitHub**.
   </Step>
   <Step title="Paste the sentence">
     Paste the sentence from the setup page into the Lovable chat of your app.
@@ -58,8 +61,9 @@ Lovable saves the code itself and has no git and no local servers. So the senten
 Set up everydeck for this app, including the read-only connection that lets everydeck read the data I approve.
 ```
 
-- There is no branch, no commit and no pull request.
+- Your agent makes no branch, no commit and no pull request. Lovable saves the change itself. If your project syncs to GitHub, Lovable commits it to the default branch, usually `main`.
 - Your agent never writes or deploys everydeck's own functions or database changes. everydeck adds them to your connected Supabase project after you approve.
-- The change goes live when you publish the app in Lovable.
+- After the setup the page says **Almost live**. With GitHub connected it shows **Lovable committed it to main** as soon as everydeck sees the push. Without GitHub, everydeck sees the change when your app first reports the new version.
+- A commit does not publish by itself. Click **Publish** in Lovable. The page then waits until every part of your app reports the new version.
 
 Lovable picks the model itself, so there is no model note.

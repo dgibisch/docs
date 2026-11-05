@@ -1,13 +1,13 @@
 ---
-title: "Flows and journeys"
-description: "Flows show what your app does again and again and how each run ended. Journeys show where people get lost, whether they come back and where they come from."
+title: "Flows and growth"
+description: "Flows show what your app does again and again and how each run ended. Growth shows where new people come from, whether they come back and where they get lost."
 ---
 
 ## Flows
 
 "A flow is something your app does again and again; a run is one time it happened." For example signing in, creating a listing or paying.
 
-Flows come from your approved app map. A flow without a signal shows as "Planned, not yet instrumented." Sign-in, sign-up and the core object of your app (what people create most) are always built in, never only planned.
+Flows come from your approved app map. A flow without a signal shows as "Planned, not yet instrumented". Sign-in, sign-up and the core object of your app (what people create most) are always built in, never only planned.
 
 ### How a run ends
 
@@ -26,7 +26,13 @@ A result reported only by the browser is marked "browser only".
 
 ### The Flows page
 
-Choose 7 or 30 days. The table **All flows** shows runs, failed, succeeded, median and p95 duration, runs per day and the state. Durations come from your app's own clock.
+Choose 7 or 30 days. The page starts with one sentence, like "3 of 5 flows ran in the last 30 days; 2 runs failed." Below stand **Runs**, **Failed**, **Succeeded** and **Open cases**.
+
+- **Ran in the last 30 days**: each flow with runs, failed, succeeded, median and p95 duration, runs per day and the state.
+- **No runs in the last 30 days**: each flow with its known steps and how many have a signal. A flow without a signal says "Planned, not yet instrumented".
+- **Runs without a flow**: runs everydeck could not assign to a flow of the app map, with **View in runs**.
+
+Durations come from your app's own clock. If your app runs on more than one platform, you can filter by platform.
 
 ### Requests without an answer
 
@@ -34,21 +40,25 @@ If a request in a flow waits 30 seconds without an answer, the run ends as **Hun
 
 ### Silent jobs
 
-Background jobs of your app (cron, scheduled functions, workers) send a heartbeat. If a job misses two of its periods, a case opens, for example "Job has not reported for 2 periods". It closes by itself when the job reports again. This runs in production only.
+Background jobs of your app (cron, scheduled functions, workers) send a heartbeat. If a job misses two of its runs, a case opens, for example "Expire trials has not reported since Sunday 1 Nov." It closes by itself when the job reports again. This runs in production only. Each schedule, its runs and its case are on [Schedules](/using/schedules).
 
-## Journeys
+## Growth
 
-**Journeys** shows how the same people go step by step through the main flows of your app, where they get lost, whether they come back and where they come from.
+**Growth** shows where new people come from, whether they come back, and where people get lost in the main flows of your app. It is in the side bar under App.
 
-Choose the last 7, 30 (the default) or 90 days.
+Choose the last 7, 30 (the default) or 90 days. If your app runs on more than one platform, you can filter by platform.
 
-- **The sentence at the top,** for example "In the last 30 days 120 people used Acme and 40 completed Checkout." and where most get lost.
-- **Funnels:** up to three chains of flows from your app map. The step that loses the most people is marked. **See the n** opens the list of these people.
-- **Do they come back?** For people who started in the same week, the share active again on day 1, 2, 3, 5, 7, 10, 14, 21 and 30. Over the last 8 weeks.
-- **Where people come from:** from the first visit, the UTM values and the domain of the referring page, never its path or query. The card appears once everydeck has recorded an origin.
-- **How fast your pages load:** the p75 of LCP, INP and CLS per page, rated by Google's limits. Under 20 visits of a page, everydeck shows no value yet, only how many visits were measured.
+- **The sentence at the top,** for example "In the last 30 days 120 people used Acme. 40 were new, most of them from Google." and where most get lost.
+- **Four numbers:** **New people**, **Active people**, **Came back within 7 days** and **Became paying** (only if your app measures money), each compared with the days before.
+- **New people by source:** new people per day by where they came from, with a mark when a campaign started.
+- **Where they come from:** the first visit of each new person, by channel (like Search, Social, AI assistants, Referral, Email or Direct) and source, from the domain of the referring page and the UTM values, never its path or query. This works by itself. To tell two of your own posts apart, add `?utm_campaign=launch` to the link.
+- **Campaigns** (from `utm_campaign`) and **First page they saw**, once there are any.
+- **Do they come back?** For the new people of each week, the share that was active again in each following week. It appears once enough new people have arrived.
+- **Most used pages,** with visits, people and **Loads in**: the time until the main content shows, for three of four visits. A dash means too few measured visits so far. Click a page to see its load times in detail.
+- **Funnels:** chains of flows from your app map, "the same people, step by step". The step that loses the most people is marked. **See the n** opens the list of these people.
+- **Identity check,** if your app has one: how many active people are verified, and why the others stopped.
 
-If your app runs on more than one platform, you can filter by platform.
+With little data, a card shows one sentence instead of an empty chart.
 
 ## Active and new
 

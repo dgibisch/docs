@@ -35,12 +35,13 @@ everydeck = Everydeck(
 )
 ```
 
-If your server talks to Supabase with the service key, `Everydeck.from_supabase(…)` reads these settings from your Supabase project. Then you set nothing at your host. Otherwise you add three settings at your host: see [Going live](/developers/going-live#what-to-set-where).
+If your server talks to Supabase with the service key, `Everydeck.from_supabase(…)` reads these settings from your Supabase project. Then you set nothing at your host. It reads them again every 5 minutes, so a new approval or server key reaches a running server without a restart. Otherwise you add three settings at your host: see [Going live](/developers/going-live#what-to-set-where).
 
 | Option | What it does |
 |---|---|
 | `release_key="auto"` | Finds the version by itself, with the same rule as the JavaScript SDK. See [Versions](/developers/sdk-javascript#versions-release-key-auto). |
 | `heartbeat_interval=300` | Sends a heartbeat every 300 seconds. |
+| `instance_id="api"` | A stable name for this part of your app. everydeck then reports exactly this part when it goes silent. |
 | `source_context=False` | Stops sending code lines around an error. |
 
 ## FastAPI and Starlette
@@ -100,7 +101,7 @@ everydeck.payment(
 )
 ```
 
-The events and rules are the same as in the JavaScript SDK: see [Payments](/developers/sdk-javascript#payments). Without a person and an organization, the payment counts for nobody, and the SDK writes a warning to your log.
+The events and rules are the same as in the JavaScript SDK: see [Payments](/developers/sdk-javascript#payments). The names are in snake_case: `order_id`, `checkout_id`, `refund_id`, `attempt_id`, `provider`, `subject_ref`, `account_ref`. Without a person and an organization, the payment counts for nobody, and the SDK writes a warning to your log.
 
 ## AI calls
 
@@ -113,7 +114,7 @@ with everydeck.ai_context(flow="cv_analysis", subject_ref=user.id, account_ref=o
     client.chat.completions.create(...)
 ```
 
-`everydeck.wrap_anthropic(Anthropic())` works the same, also for async clients. For an AI API without such a client, report the numbers after each call:
+`everydeck.wrap_anthropic(Anthropic())` works the same. Both also wrap the async clients `AsyncOpenAI` and `AsyncAnthropic`. You can name the flow, the person and the organization at the wrapper too: `everydeck.wrap_openai(OpenAI(), flow="cv_analysis", subject_ref=user.id, account_ref=org.id)`. For an AI API without such a client, report the numbers after each call:
 
 ```python
 everydeck.ai_call(provider="google", request_model="<model>", input_tokens=120, output_tokens=480)
@@ -128,6 +129,8 @@ A scheduled job sends its heartbeat at the end of each run that worked, with its
 ```python
 everydeck.heartbeat(3600, job="retention_cleanup")
 ```
+
+Without `job`, `heartbeat()` says that this process is running, like `heartbeat_interval`. Without a number, it uses 300 seconds.
 
 See [App parts and heartbeats](/using/app-parts-and-heartbeats).
 

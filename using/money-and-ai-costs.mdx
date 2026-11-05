@@ -1,6 +1,6 @@
 ---
 title: "Money and AI costs"
-description: "Money shows revenue only from what your app itself delivers. everydeck never connects to Stripe or other payment providers. AI costs are calculated from tokens, never from prompts."
+description: "Money shows revenue only from payments everydeck saw: from your app's payment path or recorded by hand. AI costs per flow and model are calculated from tokens, never from prompts."
 ---
 
 ## Money
@@ -8,17 +8,39 @@ description: "Money shows revenue only from what your app itself delivers. every
 The **Money** page shows only what your app itself delivers:
 
 - tables of your app with plans, purchases, requests and its price list (through the read bridge),
-- payment events your app sends through the SDK,
+- payment events your app sends through the SDK, usually from the webhook of your payment provider,
 - payments your team records by hand.
 
 everydeck never connects to Stripe, Paddle or another provider and never asks for a provider key. What has no source is missing from the page, instead of being guessed.
 
+<Note>
+  Revenue counts only payments everydeck saw: from your payment provider through your app, or recorded by hand. A plan or a purchase in your app's tables is not revenue by itself.
+</Note>
+
+### Only what everydeck saw
+
+- **A plan counts as paid** only with a payment that backs it: your app's payment path reported a payment, a failed payment or a refund for this customer, or a payment for this plan covers today (one month for a monthly plan, one year for a yearly plan). Otherwise the plan shows as **plan, no payment seen**, and the number **Plans, no payment seen** counts it as "not revenue".
+- **A purchase in your app's tables** without a matching payment counts under **Purchases, no payment seen**. It is neither money in nor a failed payment.
+- **A failed payment** shows only when everydeck saw the failure, from your app's payment path.
+
+During the setup, your coding agent adds payment events where your app gets the confirmation of a payment. everydeck checks them with a test event before the setup ends. No real payment happens. Payments count as connected once the first real one arrives.
+
 ### Confirmed and by hand
 
 - **In the app:** only what went through a payment path of your app counts as confirmed.
-- **Recorded by hand:** payments your team enters, with who entered them. They are not checked against a bank. Owners and Admins can record a payment and undo it within 1 day. Recording a payment changes nothing in your app.
+- **Recorded by hand:** payments your team enters with **Record payment**, for example a bank transfer, with who entered them. They are not checked against a bank. Owners and Admins can record a payment and undo it for 24 hours. Recording a payment changes nothing in your app. It settles a request that waits for payment.
 
 A purchase counts once, even if it is both in a table of your app and sent as a payment event.
+
+### What the page shows
+
+- A sentence and the numbers **Monthly revenue**, **Paid** in the period, **Paying customers** and **Failed payments**.
+- **Monthly revenue** for the last 12 months, with **New**, **Upgrades**, **Came back**, **Downgrades** and **Ended**.
+- The money split by plan, product, source or role.
+- **Needs a look:** failed payments in the last 30 days, requests waiting for payment, checkouts not finished within 24 hours, plans that end within 7 days without renewal, and paying customers who have not used the app for 14 days or more.
+- **Payments**, sortable, newest first, with the filters **All**, **Paid**, **Failed**, **Refunded** and **By hand**.
+
+Choose **7 days**, **30 days**, **This month**, **Quarter** or **Year**.
 
 ### Currencies
 
@@ -39,6 +61,10 @@ If your app calls an AI model, your agent wraps the AI client during the setup. 
 <Info>
   everydeck never stores the prompt, the answer, the system text or your provider key. It never connects to OpenAI, Anthropic or another provider.
 </Info>
+
+### Per flow and per model
+
+The Money page shows AI costs per day, week or month by flow, the table **AI cost by flow** with calls, tokens, cost and cost per call, and **By model**. **AI cost per run** names the most expensive flow. A run that costs more than ten times the median run of its flow, and at least USD 0.10 more, is pointed out, once the flow has at least three runs in the period. **Customers: pay vs. AI cost** compares what each customer pays per month with their AI costs.
 
 ### How costs are calculated
 

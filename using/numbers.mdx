@@ -3,20 +3,25 @@ title: "Numbers and growth"
 description: "The Numbers page counts your records, runs and people. Learn what active, new and returning mean in everydeck, and when a number is only a lower bound."
 ---
 
-**Numbers** shows the counts behind your app: how many records of each kind you have, how often your flows ran and how many people are active. Everyone who can see the app can open it.
+**Numbers** shows the counts behind your app: how many records of each kind you have, how often your flows ran and how many people are active. Everyone who can see the app can open it. It is in the side bar under Operations.
 
-For where people get lost, whether they come back and where they come from, see [Journeys](/using/flows-and-journeys#journeys).
+For where people come from and whether they come back, see [Growth](/using/flows-and-journeys#growth).
 
-## Set up for this app
+Choose **7 days** or **30 days** (the default). **Definitions** shows what each word means and how much data the numbers rest on.
 
-The first part comes from your approved app map:
+## The sentence at the top
 
+The page starts with one sentence, the numbers in bold, for example "120 people triggered 450 runs in 30 days, 40 of them active for the first time." With little data it says so honestly, like "No runs recorded in 30 days."
+
+## Numbers set up for this app
+
+Below the sentence stands a row of numbers from your app's own records and your approved app map:
+
+- **Acme in numbers:** "From Acme’s own records: how often its main records are added and what follows them. Counted the same way for every app." For example listings per week, bookings per listing, or the time to the first booking.
 - for each kind of data, how many records there are, and how many per status,
-- for each flow, the runs of the last 7 days.
+- **Added per day**, from your app's database: when your app created each record or person, also from before everydeck was set up.
 
-Click a card to open the records it counts.
-
-A flow that never ran shows no statement, not a 0.
+Click a number to open the records it counts. **How is this counted?** shows the definition.
 
 ### When a number is a lower bound
 
@@ -26,25 +31,29 @@ A card says "The count is a lower bound." when it cannot be complete:
 - there was a data gap inside the period,
 - nothing arrived for an hour.
 
-## Runs and people
+## Activity per day
 
-The second part counts from what your app sends. Choose **7 days** or **30 days**.
+The card **Activity per day** shows runs per day and active people per day, from what your app sends. Days without reception are shown as gaps, not as zero. Today is lighter, because the day is still running.
+
+Below it:
 
 - **Active people**
-- **First-time active**
+- **First time**: first visit in this period.
 - **Returning:** seen before the period.
 - **Organizations**
-- runs and people per day, organizations by use, and runs per function with their states.
 
-Click **Definitions** to show what each word means. If there was a data gap in the period, the page says the numbers are lower bounds.
+If no visit has arrived yet, **Active people** says "No visits yet" instead of 0. If nobody was active and no flow ran, the page says so in one sentence instead of showing zeros.
 
-If no visit has arrived yet, Numbers says "No visits yet" instead of 0.
+If your app runs on more than one platform, a split by platform stands below. See [Web, iPhone and Android](/developers/platforms#how-everydeck-shows-platforms).
 
-If your app runs on more than one platform, a split stands below each number, like "Web 80 · iPhone 20". See [Web, iPhone and Android](/developers/platforms#how-everydeck-shows-platforms).
+## Flows and organizations
+
+- **Flows**: each flow with its runs, how many were in time, errors and the last run. A row opens the flow. If flows are set up but none ran yet, the page names them: "everydeck can’t tell yet whether nobody used them or whether Acme doesn’t report them yet." with **Check setup**.
+- **Organizations by usage**: organizations with runs in this period.
 
 ## What active and new mean
 
-These definitions are the same on Live, Users, Journeys and Numbers.
+These definitions are the same on Live, Users, Growth and Numbers.
 
 - **Active:** at least one visit in the period, 30 days by default. Anything else the person did in your app also counts as a visit, on the server or in the browser.
 - **New:** signed up in the period, from your app's own sign-up date (read from your app's accounts). If your app delivers no sign-up date, everydeck counts the first sign-in through a flow, otherwise the first day it saw the person.
@@ -54,7 +63,7 @@ Visits need your app to tell everydeck who is signed in. Without that, every vis
 
 ## Days in your time zone
 
-A day is a day in your browser's time zone: day bars, active days of a person, the last 7, 30 or 90 days on Journeys and the 28 days on **Your apps**. Daylight saving time is handled. Without a time zone, everydeck counts in UTC and the page says "Days in UTC".
+A day is a day in your browser's time zone: day bars, active days of a person, the last 7, 30 or 90 days on Growth and the 28 days on **Your apps**. Daylight saving time is handled. Without a time zone, everydeck counts in UTC and the page says "Days in UTC".
 
 Some values still count per UTC day: views and searches per record, page speed, and Money. Plan limits (month and day) count in UTC for the whole workspace.
 
@@ -64,4 +73,4 @@ Some values still count per UTC day: views and searches per record, page speed, 
 - No split by language, country or device, only by platform.
 - No groups by where people came from or by version.
 
-{/* screenshot: Numbers page with "Set up for this app" cards and the 7/30 days switch */}
+{/* screenshot: Numbers page with the sentence, the row of numbers and Activity per day */}

@@ -15,6 +15,10 @@ The read bridge is a small connection your app opens to everydeck. everydeck kno
 - Every request from everydeck is signed. Without a valid signature the bridge does not answer.
 - everydeck checks that the bridge really only reads. It sends a test write, and the connection counts as "reads only" only if the bridge refused it and the database allows only reading.
 
+### When your coding agent wants to read more
+
+If a new app map from your coding agent would read more columns than you approved, everydeck asks you again, like an app asking for new permissions. The approval page says "Your coding agent changed what everydeck reads. It would also read" the new columns. Until you approve, everydeck keeps reading only what you approved before. If it reads less, no new approval is needed.
+
 ### What it never reads
 
 Contact details (e-mail, phone, messenger, IP addresses) and message texts are never in the read scope. The approval page shows them by name only. **All data** counts them as "values never shown".
@@ -25,7 +29,7 @@ Every 10 minutes per connection. If the bridge can deliver only what changed, it
 
 When your app sends an event about a record, everydeck fetches exactly that record right after. After a change from everydeck, it reads again at once.
 
-**Technical** says it in one sentence: how many kilobytes everydeck adds to your app, how fast it is ready after loading, and how often it reads your database.
+**Settings › App › Developer** says it in one sentence: how many kilobytes everydeck adds to your app, how fast it is ready after loading, and how often it reads your database.
 
 ### Cost on your Supabase account
 

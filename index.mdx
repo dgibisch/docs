@@ -16,8 +16,10 @@ everydeck is a real backend for everything in your app, like the admin of a Shop
 - **Fix what breaks.** Errors are grouped into cases, with who was hit and the way there. One click copies a fix for your coding agent. See [Cases and repairs](/using/cases-and-repairs).
 - **Know who uses your app.** A page for each person, with what they did and what went wrong for them. See [People](/using/people).
 - **See and edit everything in your app.** Orders, listings, bookings, users: open any record, change it or delete it, and undo a change. Send a sign-in link, suspend someone, restore them. You decide once what everydeck may change. See [Your app's data](/using/your-data) and [Changing data](/using/changing-data).
+- **Money and AI costs.** Revenue, paying customers and failed payments, only from payments everydeck really saw. And what your app spends on AI, per flow and per model. See [Money and AI costs](/using/money-and-ai-costs).
+- **Jobs and reachability.** everydeck finds the schedules in your code, and every run reports in. If a run does not report, a case opens. everydeck also calls a public address of your app every 5 minutes. See [App parts and heartbeats](/using/app-parts-and-heartbeats) and [Reachability checks](/using/reachability-checks).
 - **Security advice.** What Supabase's Security Advisor reports about your database, in plain words. See [Security](/using/security).
-- **Emails when it matters.** A bundled email for new cases, an email when a fixed error comes back, and an email when everydeck stops something for your app. See [Emails and notifications](/using/emails-and-notifications).
+- **Emails only when they help.** An outage in production or possible data loss comes right away. Everything else comes once a day in one summary at 8:00 in your time zone. You choose per kind of email in **Settings › Notifications**. See [Emails and notifications](/using/emails-and-notifications).
 - **Your limits, in the open.** Every limit you can reach, with its value and what happens. See [Limits and plans](/reference/limits-and-plans).
 
 ## How it gets into your app
@@ -35,7 +37,7 @@ You do not install everydeck yourself. Your coding agent does it.
     You look at what everydeck will see and do, and click **Approve**.
   </Step>
   <Step title="Your agent does the rest">
-    Your agent adds everydeck to your code and opens a pull request. You merge it.
+    Your agent adds everydeck to your code and opens a pull request. You merge it. everydeck waits until every part of your app runs the new version and tells you when your app is live.
   </Step>
 </Steps>
 
@@ -43,14 +45,14 @@ Start with the [Quickstart](/quickstart).
 
 ## What everydeck does not do
 
-- everydeck never writes code in your app by itself. Your coding agent writes the code, and you merge it.
+- everydeck never writes code in your app by itself. Your coding agent writes the code, and you merge it. When everydeck has an update for its parts in your app, your agent builds that as a pull request too.
 - everydeck never creates an account in your app and never signs in there.
 - everydeck never stores messages, passwords, card numbers or the values from the `.env` files of your app.
 - everydeck never deploys your app. You stay in charge of what goes live.
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Connect your first app in five steps.
+    Connect your first app in six steps.
   </Card>
   <Card title="How setup works" icon="list-check" href="/get-started/how-setup-works">
     What you approve, what everydeck adds, and what it never reads.

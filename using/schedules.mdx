@@ -1,0 +1,82 @@
+---
+title: "Schedules"
+description: "Schedules shows every scheduled job of your app, where it runs, each run of the last 30 days, and a case with the reason when a job does not report."
+---
+
+**Schedules** shows every scheduled job of your app: a nightly import, a cleanup, a reminder email. It is in the side bar under **Operations**, once your approved app map has at least one schedule. Everyone who can see the app can open it.
+
+## The list
+
+The sentence at the top says how your schedules are doing, for example "All 3 schedules report on time." or "Expire trials has not reported since Sunday 1 Nov."
+
+For each schedule:
+
+| Column | Shows |
+|---|---|
+| **Schedule** | Its name, how often it runs in your time zone, like "daily at 11:00", and where it runs. |
+| **Runs** | How many runs it reported. |
+| **Last run** | "Reported …", "Failed …", "Started …", "Waiting for its first run" or "Never". |
+| **Last 30 days** | One mark per day: **Reported**, **Failed** or **Missed**. The worst of the day counts. |
+
+Where a schedule runs comes from your app map: **GitHub Actions** (with the workflow file), **Supabase pg_cron**, **Render Cron Jobs**, **Vercel Cron Jobs**, or **in your app**.
+
+Before the first run there is no empty timeline, only a sentence: "Nothing yet: the first run is due …".
+
+## When a run counts as missed
+
+A run counts as missed when no check-in arrives by its due time plus up to 2 minutes. For schedules that run very often, the tolerance is half of the period. A run marked failed reported an error.
+
+Nothing is missed before everydeck starts watching: after the approval of the app map and once your app is live after the setup.
+
+## The page of a schedule
+
+Click a schedule to open it:
+
+- an open case at the top, if there is one,
+- **Runs**, **Last run**, **Last 30 days** (reported, failed and missed) and **Runs on**,
+- the timeline of the last 30 days,
+- **Check-ins**: every run, newest first, with the missed runs in between ("Missed: no check-in arrived"). The newest 50 are shown.
+
+With the [developer view](/using/developer-view) on, **For developers** adds the job id, the schedule in UTC, the file and the name in the file.
+
+## When a job does not report
+
+If a job misses two runs in production, a case opens. Its page explains it, for example: "Expire trials has not reported since Sunday 1 Nov. It runs on GitHub Actions (expire-trials.yml, daily 03:00 UTC). Usually the job does not run or fails before it reaches your server."
+
+The reason fits where it runs:
+
+- Outside your app: "Usually the job does not run or fails before it reaches your server."
+- pg_cron: "Usually the schedule is gone from the database or its command fails before the heartbeat."
+- In your app: "Usually the part of your app that runs it is not running or the job ends before it reports."
+
+Under **What you can do**: **See the runs on GitHub** (with a connected repository), **Copy prompt for Claude**, and **Open the schedule**. The **History** says how the case closed, for example "Closed: Expire trials reported at 15:59".
+
+The case closes by itself with the next check-in of the job. A new case opens if it misses two runs again.
+
+## Runs on GitHub
+
+If your app is connected to GitHub, the page of a GitHub Actions schedule shows **Runs on GitHub**: the last runs of the workflow, with **Succeeded**, **Failed** or **Running**. If runs failed, it shows the line with the error from the log of the latest failed run.
+
+If the last run on GitHub succeeded but no check-in reached everydeck, the page says so: the step that reports to everydeck did not run or failed.
+
+This needs the permission **Actions: read** of the everydeck GitHub App. The owner of the GitHub account accepts it once on GitHub. Without it, only this part is missing.
+
+## Emails
+
+A schedule that did not run is emailed after 60 minutes, in the row **Monitoring gap**. In production it comes right away by default. See [Emails and notifications](/using/emails-and-notifications#gaps-and-outages).
+
+## How a schedule reports
+
+Your coding agent adds a heartbeat to each job, without a key or a variable from you. See [How scheduled jobs report](/using/app-parts-and-heartbeats#how-scheduled-jobs-report).
+
+## Limits
+
+- A check-in is not an event. It never counts toward your monthly events.
+- Each check-in is kept as long as your plan keeps raw data.
+- The page shows the last 30 days.
+
+## What there is not
+
+- A failed run opens no case of its own. Only a job that does not report does.
+- Jobs in your app's code report only runs that worked.
+- Cases open only in production.

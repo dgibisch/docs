@@ -11,7 +11,9 @@ Go to **Settings › Acme › General** and find **Remove everydeck from Acme**.
 
 ## With a Supabase connection
 
-Click **Remove everydeck**. everydeck removes its parts through the Supabase connection of your project, one by one, and then disconnects. Each part shows **removed**, **was not there** or **not removed** with the reason.
+Click **Remove everydeck**. The card asks "Remove everything everydeck added to Acme?" Click **Yes, remove everydeck**.
+
+everydeck removes its parts through the Supabase connection of your project, one by one, and then disconnects. While it runs, the card ticks off **Schedules and triggers**, **Outbox and database parts**, **Functions**, **Settings** and **Keys and access**, and says how long it still takes. You can leave the page: the removal keeps going. Each part then shows **Removed**, **Already gone** or **Not removed** with the reason.
 
 What it removes:
 
@@ -28,11 +30,20 @@ Built-in care:
 - The extensions `pg_cron` and `pg_net` stay.
 - Your scheduled jobs get their own command back first. If a schedule cannot be restored safely, everydeck removes nothing and names the schedule.
 
-When it is done: "everydeck is removed from Acme. Nothing of everydeck is left in the Supabase project."
+When it is done: "everydeck is removed from Acme. One step left: remove it from your code." The card gives you one task for your coding agent to copy. It removes the SDK and everydeck's files from your code, in a pull request if your repository is connected. Then delete everydeck's environment variables at your host and redeploy your app. The card lists their names.
+
+If some parts stay, the card says "everydeck removed what it could from Acme" and the list says which parts and why.
 
 <Note>
-  If everydeck stops in the middle (for example a restart), the card shows "The removal stopped" after at most 2 minutes, with the reason. Start it again: what is already gone shows as **was not there**.
+  If everydeck stops in the middle (for example a restart), the card says so after at most 2 minutes. Click **Try again**: what is already gone shows as **Already gone**. If it stops again, remove everydeck yourself with the steps below.
 </Note>
+
+The removal also stops with one sentence when:
+
+- everydeck can no longer reach the Supabase project. Connect Supabase again, then remove.
+- the Supabase project is paused. Restore it in Supabase, then remove everydeck again.
+- something of your app still needs everydeck's outbox. everydeck removes nothing, and the list says what to change.
+- Supabase no longer knows the project. You can delete the app anyway.
 
 ## Without a connection
 
@@ -50,7 +61,7 @@ Or copy the task for your coding agent. Then click **I removed it myself**.
 
 ## What happens on everydeck's side
 
-In both cases, everydeck revokes all keys of the app, disconnects the read bridge and app bridges, turns off the change door and disconnects coding agents.
+In both cases, everydeck revokes all keys of the app, disconnects the read bridge and app bridges, turns off the change door and removes the link between your coding agents and the app. Their sign-in to everydeck stays, because it counts for all your apps.
 
 ## Disconnecting Supabase only
 

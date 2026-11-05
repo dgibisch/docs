@@ -19,12 +19,12 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
     - **Otherwise** it is about whether your app runs and answers. For a bridge on your own server, check that the server is up. For a bridge on Supabase, check that the project is not paused.
 
     <Warning>
-      If you deployed everydeck's functions again yourself with the Supabase CLI, Supabase turned its JWT check back on, and everydeck can no longer reach them. Write to [support@everydeck.ai](mailto:support@everydeck.ai) if this happened.
+      If the read bridge on Supabase was deployed with Supabase's JWT check on, Supabase turns away the call of its schedule, and the bridge stops picking up everydeck's requests. **Settings › Acme › Connections** then says **Not reading**, and **Needs you** names the JWT check. If your Supabase project is connected, click **Deploy it again** there. Otherwise give your coding agent the sentence shown there. To deploy it yourself, see [Going live](/developers/going-live#on-a-connected-supabase-project).
     </Warning>
   </Accordion>
 
   <Accordion title="The change door does not answer">
-    The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. After a failure, the change door checks itself again, like the read bridge. It is also checked every hour and after every switch. Click **Check again** under **Technical › Changes from everydeck** once you fixed the cause.
+    The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. After a failure, the change door checks itself again, like the read bridge. It is also checked every hour and after every switch. Click **Check again** under **Settings › Acme › Permissions** once you fixed the cause.
   </Accordion>
 
   <Accordion title="My agent's safety check stopped a step">
@@ -77,7 +77,7 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
   </Accordion>
 
   <Accordion title="Browser errors show no line of my code">
-    The upload key for source maps is missing where your app is built. Add it at your host. See [Keys at your host](/connect/github-and-hosting#upload-key-for-source-maps). Errors from older builds are not resolved later.
+    The source maps of that build were not uploaded. At Vercel, check that **Secure backend access with OIDC federation** is on for the project. In GitHub Actions, the build job needs `permissions: id-token: write`. Anywhere else, the upload key is missing where your app is built: add it at your host. See [Source maps](/developers/source-maps-and-web-vitals#signing-in-without-a-key-at-vercel-and-in-github-actions). Errors from older builds are not resolved later.
   </Accordion>
 
   <Accordion title="My agent key expires">

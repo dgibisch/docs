@@ -16,7 +16,7 @@ A person belongs to an organization in two ways, and the page says which:
 
 ## Names
 
-The name of an organization comes only from your server: the SDK sends it when your app identifies a person with the name of their organization. Without it, the page says "no name approved", or the organization shows with its short address.
+The name of an organization comes from your server: the SDK sends it when your app identifies a person with the name of their organization. On **Users**, **Money** and **Live**, if the SDK sent no name, everydeck uses the title of your app's own record with the same id, if it read one. An id is never shown as a name. Without a name, the page says "no name approved" or **No organization name**, or the organization shows with its short address. Your app's own id appears only in the developer view.
 
 Each organization has a short address like `ORG-3`. It keeps your app's own id out of the address bar and the browser history.
 
@@ -31,7 +31,7 @@ On the overview, a card shows organizations if your app has them. Otherwise that
 
 ## Money per organization
 
-If your app has plans or payments per organization, Owners, Admins, Agency and Viewers see the plan and the revenue. Support sees no amounts. See [Money and AI costs](/using/money-and-ai-costs).
+If your app has plans or payments per organization, Owners, Admins, Agency and Viewers see the plan and the revenue. A plan counts as paid only with a payment everydeck saw. Support sees no amounts. See [Money and AI costs](/using/money-and-ai-costs).
 
 ## Deleting an organization's data
 

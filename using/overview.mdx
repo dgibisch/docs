@@ -1,17 +1,21 @@
 ---
 title: "Overview"
-description: "The first page of your app in everydeck: a plain sentence about how your app is doing, one big chart, cards with what matters and what needs you."
+description: "The first page of your app in everydeck: a plain sentence about how your app is doing, key numbers, one big chart, cards with what matters and what needs you."
 ---
 
 The overview is the first page of each app. It answers: how is my app doing, and does anything need me?
 
-Before the first visit arrives, it says **Waiting for the first visit to Acme**. If no visit arrives for 3 days (since the setup or since the last visit), the overview shows a clear warning with the way to [Setup](/using/setup-page).
+Before the first visit arrives, it says **Waiting for the first visit to Acme**. If no visit arrives for 3 days (since the setup or since the last visit), the overview shows a clear warning with **Check in Setup**.
 
 ## Your apps
 
 After you sign in you land on **Your apps**. Each app has a card with its logo, its environment, **Live** with events per minute (or **Quiet** with the last event), a 28-day chart, up to three figures and what needs you. If nothing does, the card says **All good, nothing needs you**.
 
 Sort by **needs you first** or **last activity**.
+
+## At most one band on top
+
+When something is broken, one band sits at the top of the page, never several. It is the first thing everydeck stopped doing for your app (for example "everydeck has not been able to read data from Acme since 4 Nov"), or else the warning that no visits arrive. Each band has one link to where you can act. The band of an unfinished setup shows only when nothing is broken.
 
 ## The sentence at the top
 
@@ -21,6 +25,12 @@ A short sentence sums up your app. everydeck builds it without AI, from a fixed 
 - "best week yet", or "keeps growing",
 - new people compared with the period before,
 - **One thing needs you** whenever a case is open.
+
+## Key numbers
+
+Under the sentence, a row of numbers: new sign-ups (or new people), active people, monthly revenue or revenue, and how many things need you.
+
+A number that is not there yet shows as a short grey word, never as a 0. For example **No visits yet**, or for revenue **Not connected**, **No amounts** or **No payment yet**, with a link like **Connect Stripe** (or **Connect payments**) to the setup.
 
 ## Periods and comparisons
 
@@ -35,24 +45,26 @@ A comparison appears only when the earlier period is fully in the data. For 7 da
 
 One tab for each figure your app has, at most four: active people, new people, monthly revenue (only with plans that have an amount), AI costs (only with recorded AI calls), or the most used flow. Markers show each new version of your app and each case that opened.
 
-Before the first event, the chart shows nothing. everydeck never draws zeros for "not measured".
+With little data, the chart shows a sentence instead of a large area. Before anything is counted it says "Nothing counted in this period yet. The line starts with the first count." With fewer than 3 measured days (or hours, for **Today**) it says what was measured so far, for example "1 person was active since Saturday. The chart starts after a few days." everydeck never draws zeros for "not measured".
 
 ## Cards
 
 Each card appears only when it has data. Otherwise the next one moves up.
 
 - **Needs you:** the open case, or a green area with what was checked and the last case that was repaired. See [Needs you](/using/needs-you).
-- **Money and AI costs:** only with payments or plans. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. See [Money and AI costs](/using/money-and-ai-costs).
+- **Money and AI costs:** only with payments everydeck saw or plans with an amount. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. See [Money and AI costs](/using/money-and-ai-costs).
 - **Coming back:** how many people came back, once a full week is measured.
-- **The way through your main flow:** the first funnel from [Journeys](/using/flows-and-journeys).
-- **Newest people**, with their way through the app.
+- **The way through your main flow:** the first funnel from [Growth](/using/flows-and-journeys).
+- **Your newest people**, with their way through the app.
 - **In your database:** the kinds of data in your approved read scope.
 - **How fast your app is:** duration per run for the three flows with the most measured runs. Under 2 s is "quick", over 4 s is "slow".
-- **Where people use it:** only if your app runs on more than one platform, like web and iPhone.
+- **Where people use Acme:** only if your app runs on more than one platform, like web and iPhone.
+- **Happening now:** the latest entries from [Live](/using/live), with **Open live view**.
+- **Most active** organizations, if your app has organizations. Otherwise **What people use most**.
 
 ## Footer
 
-The footer shows how many parts of your app are alive, the last sign of life, and the last version with your coding agent and its pull request. The details of each part, for the last 12 hours, are under **Technical** in the card **Engine room**.
+The footer shows how many programs of your app are alive, the last sign of life, and the current version with your coding agent and its pull request. **Details in Developer settings** opens the details of each part.
 
 ## If you have no access to money
 
