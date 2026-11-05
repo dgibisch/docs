@@ -4,17 +4,22 @@
   "name": "everydeck",
   "description": "everydeck is the backend and operations dashboard for apps built with AI coding agents. Learn how to connect your app and run it day to day.",
   "colors": {
-    "primary": "#6366f1",
+    "primary": "#4f46e5",
     "light": "#818cf8",
     "dark": "#4f46e5"
   },
   "favicon": "/favicon.svg",
   "logo": {
     "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "dark": "/logo/dark.svg",
+    "href": "https://everydeck.ai"
   },
   "navbar": {
     "links": [
+      {
+        "label": "Website",
+        "href": "https://everydeck.ai"
+      },
       {
         "label": "Support",
         "href": "mailto:support@everydeck.ai"
@@ -163,6 +168,60 @@
     "options": [
       "copy",
       "view"
+    ]
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "background": {
+    "color": {
+      "light": "#eef0f4"
+    }
+  },
+  "fonts": {
+    "family": "Geist"
+  },
+  "footer": {
+    "links": [
+      {
+        "header": "everydeck",
+        "items": [
+          {
+            "label": "Website",
+            "href": "https://everydeck.ai"
+          },
+          {
+            "label": "Open everydeck",
+            "href": "https://app.everydeck.ai"
+          },
+          {
+            "label": "Support",
+            "href": "mailto:support@everydeck.ai"
+          }
+        ]
+      },
+      {
+        "header": "Legal",
+        "items": [
+          {
+            "label": "Privacy",
+            "href": "https://everydeck.ai/privacy"
+          },
+          {
+            "label": "Terms",
+            "href": "https://everydeck.ai/terms"
+          },
+          {
+            "label": "DPA",
+            "href": "https://everydeck.ai/dpa"
+          },
+          {
+            "label": "Subprocessors",
+            "href": "https://everydeck.ai/subprocessors"
+          }
+        ]
+      }
     ]
   }
 }
