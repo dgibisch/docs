@@ -9,7 +9,7 @@ description: "everydeck is free in this first version. Free includes one app, 10
 
 If you need more, write to [support@everydeck.ai](mailto:support@everydeck.ai).
 
-You see every limit, with your current usage, under **Settings › Workspace › Plan and limits**. Only Owners can open it. A row turns light yellow from 80 % and light orange when the limit is reached.
+You see your plan and this month's events under **Settings › Team › Billing**. Every limit, with your current usage, is under **All limits** on the same page. Only Owners can open it. A row is marked **from 80 %** and **reached** when the limit is reached.
 
 ## What counts as an event
 
@@ -64,6 +64,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Length of a function name in a stack trace | 128 characters | Shortened on arrival and marked. | no |
 | Length of a file name in a stack trace | 240 characters | Shortened on arrival and marked. | no |
 | Length of an id (run, person, session, object) | 128 characters | Shortened on arrival and marked. Two ids that only differ after this length count as one. | no |
+| Shortened fields marked per event | 64 | Further fields are still shortened but no longer listed one by one. | no |
 | Length of a field value | 256 characters | Shortened on arrival and marked. | no |
 | Length of a request route | 240 characters | Shortened on arrival and marked. | no |
 | Length of a step on the way to an error | 80 characters | Shortened on arrival and marked. | no |
@@ -106,6 +107,17 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Probe runs at the same time | 3 | Another probe run is refused until one ends. | no |
 | Kinds of data everydeck derives from your schema | 200 | Further tables are left out, with a note. | no |
 | Fields per kind of data | 100 | Further columns are left out, with a note. | no |
+| File size `everydeck-check` scans for keys | 5 MiB | Larger files are skipped; the result names each of them. | no |
+| Source file size `everydeck-check` reads for building blocks | 400,000 bytes | Larger files are not read; the setup lists them as not read. | no |
+| File size `everydeck-check` reads for tables | 2,000,000 bytes | Tables in larger files are not read; the setup lists the files as not read. | no |
+| Folder depth `everydeck-check` reads dependencies in | 3 | Deeper package files are not read; the setup lists them as not read. | no |
+| Files not read that the setup lists one by one | 50 | More files not read are counted as 50+. | no |
+| Schedules without a package (pg_cron, `vercel.json`, `render.yaml`, GitHub Actions) the setup lists one by one | 50 | Each listed schedule is its own open part; the rest stays open as one part until your coding agent lists them. | no |
+| Time for each command when your coding agent restarts the local Supabase database | 5 min | The restart stops and the setup pauses; the setup page says what to check and has a **Try again** button. | no |
+| Your note when you say your app doesn't have a part | 200 characters | The field takes no more characters. | no |
+| Parts sent to your coding agent with one click | 50 | The first 50 open parts go to your agent; the rest go with the next click. | no |
+| App map upload after approval | 15 min | Your coding agent is told the upload expired and asks for a new address. | no |
+| Structure address of a hosted database (live app) | 12 h | Your coding agent is told the address expired and gets a new one with its next step. | no |
 
 ### Read bridge and connections
 
@@ -114,7 +126,15 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Length of a value read from your app | 256 characters | Longer values are shown shortened. | no |
 | Size of one read bridge answer | 256 KiB | The read fails and shows in Setup; after an hour without a good read you get an email. | yes |
 | Capabilities of one read bridge | 1,000 | The bridge is rejected at setup. | no |
-| Old bridge key after a new one | 1 day | everydeck signs with both keys for this long, then only with the new one. | yes |
+| Data the read bridge may deliver at once when everydeck first reads your app | 50 MB | The first read ends there. The rest is read within the hourly budget, people, organizations and the main parts of your app first. Setup says what is still being read. | no |
+| Requests to the read bridge when everydeck first reads your app | 14,400 | As for the data of the first read. | no |
+| Read budget per read bridge and hour, after the first read | 600 requests and 1 MB | Further reads wait for the next hour. Nothing is lost; a large app is read over several hours. | no |
+| Reads of new people from your app per environment and minute | 20 | Further new people of that minute appear with the next regular read (every 10 minutes) instead of within seconds. | no |
+| Wait for one read bridge answer | 30 s | That page counts as not arrived. Everything else is read; this kind goes on where it stopped, in smaller pages. | no |
+| Time of one read bridge query in your database | 20 s | The bridge stops the query and says why; everydeck asks for smaller pages next time. | no |
+| Wait of one read bridge query for a lock in your database | 5 s | The bridge stops waiting and says another connection holds a lock on the table; everything else is read. | no |
+| Runs in a row before a kind that stops shows in Setup | 3 | Setup shows "Reading … stops" with the reason. Everything else is read; the kind keeps what everydeck had. | no |
+| Old bridge key after a new one | 1 day | everydeck signs with both keys for this long, then only with the new one. If your app still has the old key, the bridge stops answering; you get an email and a banner. | yes |
 
 ### Keys, links and deadlines
 
@@ -133,9 +153,15 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Silence of your coding agent after it picked up a part | 30 min | The Setup row offers to send it again. | yes |
 | Connecting GitHub or Supabase | 15 min | The connection flow expires; start it again. | no |
 | Second-factor confirmation | 10 min | The next sensitive action asks again. | no |
+| Recovery link | 10 min | The link expires. | no |
+| Wait between two recovery links | 10 min | A second link is not possible before. | no |
+| Repair window | 10 min | The window closes. | no |
+| An unclear action can be closed after | 10 min | Before that it cannot be closed. | no |
 | Undo an edit | 1 day | Afterwards the edit cannot be undone. | no |
 | Objects per bulk change, people per message | 500 | A larger selection is rejected. | no |
+| Objects per bulk change when everydeck derived the app map | 200 | A larger selection is rejected. | no |
 | Repair key of a copied fix | 7 days | The key stops working. Copying again gives a new key. | no |
+| Reports per repair key | 1 | The first report marks the case as fixed and ends the key. The same report again gets the same answer; a new one is refused. Copy the fix again on the case page for a new attempt. | no |
 | Link to confirm your address or set a new password | 1 h | The link expires; request a new one. | no |
 | Wait before a new password email | 1 min | The button stays disabled until then. | no |
 | Invitation | 7 days | It expires; whoever sent it gets an email. | yes |
@@ -149,6 +175,8 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Limit | Free | What happens when it is reached | Email |
 |---|---|---|---|
 | Live windows per person | 10 | A further window updates every 5 seconds instead of live. | no |
+| Open notification bells per person | 10 | A further bell tries again every 3 seconds; new notifications show up there once it is connected. | no |
+| Person pages waiting for a new person, per person | 10 | A further waiting page tries again every 3 seconds; the person appears there when you open it again. | no |
 | Live after a change of access | 30 s | An open Live window closes before its next entry, at the latest after about 35 seconds. | no |
 | Value in the history of a record | 300 characters | The history entry ends there; your app keeps the whole value. | no |
 | Conversations per kind that moderation counts and flags | 2,000 | Older ones are not counted or flagged; the page says so. | no |
@@ -161,6 +189,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Limit | Free | What happens when it is reached | Email |
 |---|---|---|---|
 | Read bridge counts as stopped | 1 h | Your app's data stays at the last read. | yes |
+| Reads without a pickup until the read bridge counts as not reading | 2 | **Settings › Acme › Connections** says **Not reading**; **Needs you** names the reason and what helps. | yes |
 | Email before a replaced key stops | 6 h | If your app still uses the old key, you get an email and a banner. | yes |
 | Hung runs at the same place before a case opens | 3 | A case with an email and a repair task that names the place in the code. | yes |
 | Email before an agent key expires | 7 days | You get an email and a banner. | yes |
@@ -170,5 +199,5 @@ The tables below list every limit you, the visitors of your app or your coding a
 For how long data is kept, see [Deadlines and data retention](/reference/deadlines-and-retention).
 
 <Note>
-  Many more limits exist for what you or your coding agent can enter at once, for example a reason (300 or 500 characters) or a note on a person (2,000 characters). The full list is under **Settings › Workspace › Plan and limits**. Above them, the input is rejected and nothing is saved. There is no email, because you see it right away.
+  Many more limits exist for what you or your coding agent can enter at once, for example a reason (300 or 500 characters) or a note on a person (2,000 characters). The full list is under **All limits** on **Settings › Team › Billing**. Above them, the input is rejected and nothing is saved. There is no email, because you see it right away.
 </Note>

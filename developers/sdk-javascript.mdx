@@ -15,7 +15,10 @@ Your coding agent adds and wires the SDK during the setup. This page is for you 
 |---|---|
 | `@everydeck/sdk` | Your server: Node 22 or newer, Deno and Supabase Edge Functions. |
 | `@everydeck/sdk/browser` | Browser code with any framework or plain JavaScript, and React Native or Expo. |
+| `@everydeck/sdk/server` | The one-line error helpers for Express, Next.js and Edge Functions. They are also exported from `@everydeck/sdk`. See [Errors](#errors). |
+| `@everydeck/sdk/read-bridge` | The ready-made read bridge route, for Node, Deno and Supabase Edge Functions. Your agent adds it during the setup. |
 | `@everydeck/sdk/vite` | The source map upload in a Vite build. See [Source maps and page speed](/developers/source-maps-and-web-vitals). |
+| `@everydeck/sdk/sourcemaps` | The source map upload for any other bundler, also as the command `everydeck-sourcemaps`. |
 | `@everydeck/sdk/outbox` | The outbox relay, for apps whose browser writes straight into the database. See [Going live](/developers/going-live#the-outbox). |
 
 The SDK has no runtime dependencies.
@@ -71,10 +74,12 @@ Only these options are documented. Leave out the ones you do not need.
 | `screens` | The page patterns of your app, like `/jobs/:jobId`. Visits and the way to an error are sent only as these patterns. Without the list, the SDK keeps only the first part of each address. |
 | `apiRoutes` | The route patterns of your API. Requests in a flow are named by these patterns. |
 | `captureBackground: false` | Stops reporting failed requests outside a flow. |
-| `captureUnhandled: false` | Stops reporting unhandled errors and rejected promises. |
+| `captureUnhandled: false` | Stops reporting unhandled errors and rejected promises, and errors written with `console.error`. |
+| `captureConsole: false` | Stops reporting only errors written with `console.error`. |
 | `capturePageViews: false` | Stops sending visits and sign-ins. |
 | `captureVitals: false` | Stops measuring page speed. |
 | `captureOrigin: false` | Stops remembering where people came from (UTM values and the referring domain). |
+| `captureBots: true` | Also sends visits and sign-ins from bots and automated browsers. Off by default. |
 | `correlate` | A function that returns `false` for addresses that should get no everydeck headers. See [CORS](#cors). |
 | `persist` | Keeps unsent events on the device. On by default for iPhone and Android, off on the web. |
 | `storage` | Where unsent events are kept. Needed on React Native: pass `AsyncStorage`. |
@@ -87,9 +92,9 @@ The web page also keeps up to 300 rejected events in the browser until the next 
 ### What the browser SDK captures without code
 
 - Unhandled errors and rejected promises.
-- Errors written with `console.error`.
+- Errors written with `console.error`: the same error at most every 30 seconds, at most 50 different ones per page. The text is cleaned like an error message, objects of your app are never sent.
 - Every failed request made with `fetch` or `XMLHttpRequest`, also outside a flow. To your own hosts: network errors, 4xx and 5xx. A 401 counts only while a person is signed in. To other hosts: only 5xx.
-- Visits and sign-ins, once you tell the SDK who is signed in.
+- Visits and sign-ins, once you tell the SDK who is signed in. Browsers of bots, crawlers and test tools (like Playwright) send no visits and no sign-ins, only their errors and requests.
 - Page speed. See [Source maps and page speed](/developers/source-maps-and-web-vitals#page-speed).
 
 It never sends request bodies, headers, form values, query strings, cookies or the page content.
@@ -109,6 +114,7 @@ async function signOut() {
 }
 ```
 
+- Pass the organization as a second value, `setSubject(user.id, org.id)`, with the same id your server sends as `accountRef`. A later `setSubject(user.id)` for the same person keeps it.
 - `setSubject(null)` while the session is still loading is fine. It is no sign-out.
 - A reload with the same person is no new sign-in.
 - Without `setSubject`, every visit stays anonymous and Live shows **A visitor**.
@@ -192,7 +198,7 @@ export const everydeck = createEverydeck({
 });
 ```
 
-If your server already talks to Supabase with the service key, `everydeckFromSupabase(…)` reads these settings from your Supabase project instead. Then you set nothing at your host.
+If your server already talks to Supabase with the service key, `everydeckFromSupabase(…)` reads these settings from your Supabase project instead. Then you set nothing at your host. It reads them again every 5 minutes, so a new approval or a new server key reaches a running server without a restart. If `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY` and `EVERYDECK_MANIFEST_DIGEST` are all set, they win.
 
 ### Server options
 
@@ -287,6 +293,9 @@ everydeck.payment("order_completed", {
 - `currency` is an ISO 4217 code.
 - `orderId` (or `checkoutId`) is required and counts once per event, so a webhook that arrives twice is safe.
 - Without a person and an organization, the payment counts for nobody, and the SDK warns. In a webhook nobody is signed in: take them from what your app stored with the checkout.
+- For several refunds or failed attempts of one order, pass the provider's id of each: `refundId` with `order_refunded`, `attemptId` with `payment_failed`. Then each counts once.
+- `provider` names the payment provider, as in your app map, like `stripe`.
+- A value that looks like a card number is never sent: the SDK drops the whole event.
 
 See [Money and AI costs](/using/money-and-ai-costs).
 
@@ -302,6 +311,10 @@ await everydeck.aiContext({ flow: "cv_analysis", subjectRef: user.id, accountRef
   anthropic.messages.create({ /* … */ }),
 );
 ```
+
+You can also name the flow, the person and the organization at the wrapper: `everydeck.wrapOpenAI(new OpenAI(), { flow: "cv_analysis", subjectRef, accountRef })`. All calls inside one `aiContext` belong to one run.
+
+The wrappers measure `chat.completions.create`, `responses.create`, `embeddings.create` and `messages.create`, also with `stream`. `wrapOpenAI` also measures image and audio calls. everydeck's price list prices text tokens only, so these calls show their cost as unknown unless you set a price of your own.
 
 For an AI API without such a client, report the numbers after each call:
 
@@ -324,6 +337,8 @@ A scheduled job sends its heartbeat at the end of each run that worked, with its
 ```ts
 everydeck.heartbeat(3600, { job: "retention_cleanup" });
 ```
+
+On Render, Railway and Heroku, the heartbeat of a server carries the public address your host sets, and everydeck sets up its reachability check there by itself. On other hosts, in the browser and in job heartbeats, no address is sent.
 
 Heartbeats never count toward your monthly events. See [App parts and heartbeats](/using/app-parts-and-heartbeats) for schedules in SQL and GitHub Actions.
 

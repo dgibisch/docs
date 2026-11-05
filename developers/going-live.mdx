@@ -26,7 +26,7 @@ everydeck creates every key itself and shows it once. Your agent never sends a k
 |---|---|---|
 | Browser key | No, it is public like a Sentry DSN. It can only send events. | In the code that starts the browser SDK. It reaches production with your pull request. |
 | Server key | Yes | Your local, git-ignored env file, and the environment of your server at your host. |
-| Upload key for source maps | Yes | The environment where your app is built. |
+| Upload key for source maps | Yes | The environment where your app is built, only outside Vercel and GitHub Actions. Builds there sign in with their own OIDC token and the public browser key. |
 | Read bridge key | Yes | Set by everydeck or your agent for the read bridge. You do not handle it. |
 | Agent key | Yes | Outside your repository, for your coding agent. Valid for 30 days. |
 
@@ -37,7 +37,7 @@ To replace a key, go to **Settings › App › Keys** and click **Replace**. The
 | Setting | Where | When |
 |---|---|---|
 | `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY`, `EVERYDECK_MANIFEST_DIGEST` | The environment variables of your server at your host | Only if your own server does not read its settings from Supabase with the service key. The setup page shows them with **Show the values**. |
-| `EVERYDECK_SOURCEMAPS_KEY` | The build environment (Vercel, Netlify, GitHub Actions or another place that builds) | For every app with browser code. See [Source maps](/developers/source-maps-and-web-vitals#the-upload-key). |
+| `EVERYDECK_SOURCEMAPS_KEY` | The build environment, for example Netlify or another CI | For apps with browser code that are built outside Vercel and GitHub Actions. See [Source maps](/developers/source-maps-and-web-vitals#the-upload-key). |
 | `EVERYDECK_SERVER_KEY` (secret) and `EVERYDECK_URL` (variable) | GitHub, for your repository | Only if scheduled jobs run in GitHub Actions. See [App parts and heartbeats](/using/app-parts-and-heartbeats#schedules-outside-your-app). |
 
 The setup page and **Setup › To do** list exactly the ones your app needs. You cannot send these to your agent: they are steps at your host.
@@ -50,7 +50,7 @@ The setup page and **Setup › To do** list exactly the ones your app needs. You
 
 everydeck sets the settings of its own functions and its Vault entries in your project itself. The values never go to your agent or into the chat. Your own Edge Functions read their everydeck settings from the project when you deploy them as usual.
 
-If you deploy everydeck's own functions again yourself with the Supabase CLI, Supabase turns its JWT check back on for them, and everydeck can no longer reach them.
+everydeck's own functions, `everydeck-read-bridge` and `everydeck-outbox-relay`, run without Supabase's JWT check. Each checks its own key instead. If you deploy them again yourself, keep the check off: `verify_jwt = false` for each function in `supabase/config.toml`, or `supabase functions deploy` with `--no-verify-jwt`. With the check on, Supabase turns away the calls of their schedules.
 
 ## The outbox
 
@@ -74,10 +74,12 @@ The outbox solves this:
 
 Only references: the name of the signal, the run id, the person, the organization, the kind and id of the record and the platform. Never column values or texts. The outbox table is closed to `anon`, `authenticated` and Supabase's Data API.
 
+Schedules in plain SQL (pg_cron) send their heartbeat through the outbox too: the command runs inside `everydeck_outbox.run_job('<job>', $job$ … $job$)`, which writes the heartbeat with its result in the same transaction. No key is in the SQL. See [App parts and heartbeats](/using/app-parts-and-heartbeats).
+
 ### When it runs
 
-- **On Supabase:** a schedule calls the function `everydeck-outbox-relay` every 5 seconds while notes wait, and every 5 minutes with a heartbeat. A quiet app costs no extra calls. A result arrives within seconds.
-- **On plain PostgreSQL:** `npx everydeck-outbox-relay` runs as a worker of your app. It delivers every 5 seconds.
+- **On Supabase:** a schedule calls the function `everydeck-outbox-relay` every 5 seconds while notes wait, and every 5 minutes with a heartbeat. A quiet app costs no extra calls. A result arrives within seconds. The function accepts only calls that carry its own token from the project's Vault. A call without it is turned away, and nothing is sent.
+- **On plain PostgreSQL:** `npx everydeck-outbox-relay` runs as a worker of your app. It delivers every 5 seconds and sends its heartbeat every 300 seconds.
 
 If your own server reports every result, there is no outbox, no schedule and no relay.
 

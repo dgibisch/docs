@@ -33,7 +33,7 @@ A visit carries only the pseudonymous id of the person, the page as a pattern, t
 ## What goes to other services
 
 - **Supabase:** everydeck adds its parts to your project after you approve, and asks the Security Advisor for its advice. See [How setup works](/get-started/how-setup-works#what-everydeck-adds-to-your-supabase-project).
-- **GitHub (optional):** everydeck's GitHub app only reads metadata, pull requests, checks and deployments. It has no access to your code contents and cannot push.
+- **GitHub (optional):** everydeck's GitHub app only reads metadata, pull requests, checks, deployments and the runs of your workflows. From the log of a failed workflow run it reads the line with the error, to say why a scheduled job did not report. It has no access to your code contents and cannot push.
 - **Status pages:** everydeck reads the public status pages of Supabase, Vercel, Render, Stripe, OpenAI and Anthropic. No data of your app goes there.
 - **everydeck's own setup check:** if it is on, the setup page says: everydeck checks what your agent found once with its own AI model, sending short excerpts of your code and the names of your tables and columns, never rows from your database and never keys.
 

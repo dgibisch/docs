@@ -7,7 +7,7 @@ description: "How everydeck shows browser errors with your own file, line and fu
 
 Your app's browser code is bundled before it ships. Without help, an error points to a place in the bundle. With source maps, everydeck shows the source file, line, column and function, with the code lines around it, like `src/pages/Checkout.tsx:8 formatTotal`.
 
-Your coding agent adds the upload to your build during the setup. You only add one key where your app is built.
+Your coding agent adds the upload to your build during the setup. At Vercel and in GitHub Actions, you add no key. Anywhere else, you add one key where your app is built.
 
 ### How it is built in
 
@@ -17,7 +17,7 @@ Your coding agent adds the upload to your build during the setup. You only add o
     import { everydeckSourceMaps } from "@everydeck/sdk/vite";
 
     export default defineConfig({
-      plugins: [react(), everydeckSourceMaps({ url: "<everydeck address>" })],
+      plugins: [react(), everydeckSourceMaps({ url: "<everydeck address>", browserKey: "<browser key>" })],
     });
     ```
 
@@ -27,7 +27,7 @@ Your coding agent adds the upload to your build during the setup. You only add o
     Turn on source maps for the browser build, then add two commands after the build:
 
     ```bash
-    everydeck-sourcemaps inject <output folder> && everydeck-sourcemaps upload <output folder> --url <everydeck address>
+    everydeck-sourcemaps inject <output folder> && everydeck-sourcemaps upload <output folder> --url <everydeck address> --browser-key <browser key>
     ```
 
     For Next.js, set `productionBrowserSourceMaps: true` and use `.next/static` as the folder. The command comes with `@everydeck/sdk`.
@@ -36,13 +36,22 @@ Your coding agent adds the upload to your build during the setup. You only add o
 
 `inject` gives every built file a debug id: a short snippet at the start of the first line, so no line moves. The browser SDK sends this id with each error, and everydeck finds the matching map.
 
+### Signing in without a key at Vercel and in GitHub Actions
+
+With the public browser key in the plugin or the command, a build signs in the way these services sign in to a cloud:
+
+- **Vercel:** each build gets its own OIDC token when **Secure backend access with OIDC federation** is on under the project's **Settings › Security**. A Vercel build without the token uploads nothing, says why in the build log and tells everydeck once, so you see the one switch to turn on.
+- **GitHub Actions:** the job that builds your app needs `permissions: id-token: write`.
+
+Elsewhere, like Netlify or another CI, the upload key below works as before. If both are there, the key goes first.
+
 ### The upload key
 
 The upload uses its own key, `EVERYDECK_SOURCEMAPS_KEY`. It can only upload source maps for one environment. Every other use is refused. It does not expire and works until you revoke it.
 
 The build reads it from the build environment or from your app's env files (`.env`, `.env.local`, `.env.<mode>`, `.env.<mode>.local`). The build environment wins.
 
-Where to add it at Vercel, Netlify or GitHub Actions is on [Keys at your host](/connect/github-and-hosting#upload-key-for-source-maps).
+Where to add it is on [Keys at your host](/connect/github-and-hosting#upload-key-for-source-maps).
 
 <Warning>
   Never put the key under a public name like `VITE_`, `NEXT_PUBLIC_`, `PUBLIC_`, `EXPO_PUBLIC_` or `REACT_APP_`. Then the build uploads nothing and names the variable, never its value.
