@@ -1,6 +1,6 @@
 ---
 title: "Quickstart"
-description: "Connect your first app to everydeck in five steps: create an account, name your app, connect your AI tool and Supabase, paste one sentence and approve."
+description: "Connect your first app to everydeck in six steps: create an account, name your app, connect your AI tool, Supabase and GitHub, paste one sentence and approve."
 ---
 
 This takes you from nothing to an app that shows up in everydeck. Your coding agent does the technical work. You click, paste and approve.
@@ -11,7 +11,7 @@ This takes you from nothing to an app that shows up in everydeck. Your coding ag
 - If your app uses Supabase: access to its Supabase project.
 - For Lovable: your app must use your own Supabase project. See [Lovable](/connect/lovable).
 
-## Five steps
+## Six steps
 
 <Steps>
   <Step title="Create your account">
@@ -21,9 +21,11 @@ This takes you from nothing to an app that shows up in everydeck. Your coding ag
     The first page says **Let's put your first app on deck**. Type the name of your app and click **Continue**. Nothing is installed yet.
   </Step>
   <Step title="Connect your AI tool">
-    everydeck asks **Which AI do you build your app with?** Pick your tool. The page shows the exact way for that tool, for example a command for Claude Code or a button for Cursor.
+    The page **Connect Acme** asks **Where does your coding agent work?** Pick your tool. **Claude app** comes first. It also covers the desktop app and Claude Code on the web. For Claude Code in your terminal, pick **Claude Code in a terminal**. The page shows the exact way for that tool, for example a command for Claude Code or a button for Cursor.
 
-    Your browser then opens a page that says your tool wants to connect to everydeck. Click **Allow**. Your tool acts as you and only sees apps you can open.
+    Your browser then opens a page that says **An AI tool wants to connect to everydeck**. It shows the name the tool gives itself and where the connection goes. Click **Allow**. Your tool acts as you and only sees apps you can open.
+
+    everydeck turns away any program that calls itself everydeck. everydeck never asks for a connection under its own name.
 
     Each tool has its own page under [Connect your tool](/connect/claude-code).
   </Step>
@@ -32,27 +34,33 @@ This takes you from nothing to an app that shows up in everydeck. Your coding ag
 
     If your app does not use Supabase, click **My app doesn't use Supabase**.
   </Step>
+  <Step title="Connect GitHub (only if your app is on GitHub)">
+    Click **Connect GitHub** and choose the repository of your app. everydeck then sees when the change of your agent reaches your app. It reads only pull requests, checks and deploys, and never sees your code.
+
+    If your app is not on GitHub, click **My app isn't on GitHub**. everydeck then sees a new version of your app when it first reports, not when it is merged.
+  </Step>
   <Step title="Paste the sentence and approve">
     Copy the sentence from the setup page and paste it into your AI tool. That is the last thing you type.
 
-    Your agent reads your app. When it is done, the setup page says **Your turn: one click**. Look at what everydeck will see and do, then click **Approve**. When you approve, everydeck adds its own parts to your Supabase project, as listed on that page. Nothing of your app is changed or removed.
+    Your agent reads your app. When it is done, the setup page says **Acme is ready for your OK**. It shows on one page everything everydeck asks for: what it reads, what it may change and what your agent changes in your app. Click **Approve**. If your app is on Supabase, everydeck then adds its own parts to your Supabase project. Nothing of your app is changed or removed.
 
-    After that you can close the page. Your agent goes on by itself.
+    After that you can close the page. Your agent goes on by itself, and you don't need to come back to it.
   </Step>
 </Steps>
 
 ## When it is done
 
-The setup page says **Acme is on deck** (with the name of your app). It tells you what is left for you, usually one of these:
+What is left depends on where your code lives:
 
-- **Merge a pull request.** Your agent opened a pull request on GitHub. Open it and click **Merge**. See [Apps on GitHub and a host](/connect/github-and-hosting).
-- **Nothing.** If your repository has no remote, your agent commits the change itself and restarts the app. See [Local apps without GitHub](/connect/local-apps).
+- **Merge a pull request.** Your agent opened a pull request. The setup page says **Almost live**. Click **Open on GitHub** and merge it. Your host deploys it, and everydeck waits until every part of your app runs the new version. Then everydeck emails you that Acme is live. See [Apps on GitHub and a host](/connect/github-and-hosting).
+- **Publish in Lovable.** Lovable saves the change itself. Click **Publish** in Lovable. See [Lovable](/connect/lovable).
+- **Nothing.** If your repository has no remote, your agent commits the change itself and restarts the app. The page says **Acme is on deck**. See [Local apps without GitHub](/connect/local-apps).
 - **Add settings at your host.** If your own server needs everydeck settings, the page shows them with **Show the values**.
 
 Click **Open Acme** to see your app. The overview says **Waiting for the first visit to Acme** until the first visit arrives.
 
 <Note>
-  If some parts of your app are not connected yet, the end page says so, for example **Acme is on deck, 2 parts are still open**. You can finish them later on the [Setup page](/using/setup-page).
+  If some parts of your app are not connected yet, the page says so, for example **Acme is on deck, 2 parts are still open**. You can finish them later on the [Setup page](/using/setup-page). There, one click on **Copy prompt for Claude Code** (with the name of your agent) copies the order for your agent.
 </Note>
 
 ## Next

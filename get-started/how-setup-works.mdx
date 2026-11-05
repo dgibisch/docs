@@ -3,19 +3,22 @@ title: "How setup works"
 description: "What happens during the everydeck setup: what your agent does, what you see on the approval page, what everydeck adds to your Supabase project and what it never reads."
 ---
 
-The setup has three parts. Your coding agent reads your app. You approve. Then your agent adds everydeck to your code.
+The setup has three parts, shown at the top of the setup page as **Start**, **Your OK** and **Live**. Your coding agent reads your app. You approve. Then your agent adds everydeck to your code, and everydeck waits until your app runs it.
 
 ## What your agent does
 
-After you paste the sentence, your agent works through everydeck's steps one by one. everydeck tells it each step. You can watch on the setup page:
+After you paste the sentence, your agent works through everydeck's steps one by one. everydeck tells it each step. You can watch on the setup page. While your agent reads, the page says **Claude Code is reading Acme** (with the name of your tool) and lists:
 
-- **Connected to** your tool
-- **Reading your app**
-- **You approved**, with the time
-- **Adding everydeck to your code**
-- **Testing everything**
+- **Started**, with the time
+- **Reading the code and the database structure**: no rows and no keys, only names of tables, columns and places in the code. The page counts what was found so far: programs, tables, ways through the app and scheduled jobs.
+- **Your OK**: one page with everything everydeck asks for.
+- **Claude Code builds it in and opens a pull request**
 
-The page shows which step your agent is on and how many minutes are left. The minutes come only from setups that really finished, never from a guess. The page checks for news every 15 seconds.
+Your agent already writes the measuring points into its own copy of the code while it reads. Nothing goes to your repository before your OK.
+
+If the page knows how long setups take, it says about how many minutes. That number comes only from setups that really finished, never from a guess. You can close the page; the setup keeps going without you. The page checks for news every 15 seconds. If your agent has not checked in for 5 minutes, the page says when it last did. That is normal: agents often read for a while without checking in.
+
+The card of your app on **Your apps** shows the same progress, for example **Reading your app** and **Step 2 of 4**.
 
 The sentence you paste is:
 
@@ -47,14 +50,19 @@ Flows behind the sign-in wait for **the first real sign-in**. everydeck confirms
 
 ## The approval page
 
-When your agent has read your app, the setup page says **Your turn: one click**. The box shows:
+When your agent has read your app, the setup page says **Acme is ready for your OK**. This is everything everydeck asks for, on one page:
 
-- **everydeck sees**: the kinds of data everydeck will show, for example people, orders and listings, plus errors and how the app runs.
-- **Not read by everydeck**: e-mail addresses, phone numbers, WhatsApp numbers, IP addresses and messages stay in your app. everydeck does not read these columns.
-- **You can change from everydeck**: what your team may change, if your app is on Supabase. For example edit and archive listings, or send a sign-in link. See [Changing data](/using/changing-data).
-- **everydeck adds to** your Supabase project: if Supabase is connected, the exact parts everydeck adds after you approve.
+- **What everydeck reads**: each kind of data, for example **Users** and listings, with its fields. Read only. You can change this later under **Settings › Data and privacy**. A switch **Text people write** decides whether everydeck shows free text on the page of each record. Phone numbers, IP addresses and e-mail addresses stay in your app.
+- **People**: if some people in your app have no name, you can turn on **Show the e-mail when someone has no name**. Without it they show as "Someone". everydeck then reads only the e-mail column of the users, nothing else.
+- **Messages**: if your app keeps messages, **Count messages and show failed ones**. everydeck sees that a message went out, to which person (never the address) and whether it arrived.
+- **Money**: if your app bills with a payment provider, choose **Connect it** or **Skip**. See [Payments in the setup](#payments-in-the-setup).
+- **Code**: GitHub, read only: pull requests, checks, deploys. If GitHub is not connected, the page says **Still open: GitHub is not connected.** You can still approve. Without GitHub, everydeck sees the new version of your app only when it first reports.
+- **What Claude Code changes in Acme**: the server, the web app, scheduled jobs and, with Supabase, a read-only function and its schedule that everydeck adds itself.
+- **What everydeck can change**: what your team may change, if your app is on Supabase. For example edit and archive listings, or send a sign-in link. See [Changing data](/using/changing-data).
 
-Click **Approve**. You do not need a second factor for this click.
+If your agent and everydeck see something differently, the page asks you first. **Approve** works once you have answered.
+
+Click **Approve**. Approving changes nothing in your app yet. Your agent opens a pull request, and you merge it. If you approved changes from everydeck and you set up a second factor, everydeck asks for its code first.
 
 <Info>
   E-mail addresses and phone numbers that everydeck finds inside anything else it reads are removed before it stores or shows them. What your app itself sends to everydeck, for example a person's e-mail when someone signs in or the text of an error, everydeck keeps as your app sends it.
@@ -62,7 +70,7 @@ Click **Approve**. You do not need a second factor for this click.
 
 ## What everydeck adds to your Supabase project
 
-If you connected Supabase, everydeck adds its own parts to your project after you approve: database changes that only add, functions and their settings. The approval box counts them and lets you open each file. Nothing of your app is changed or removed.
+If you connected Supabase, everydeck adds its own parts to your project after you approve: database changes that only add, functions and their settings. Nothing of your app is changed or removed.
 
 Depending on your app, these parts are:
 
@@ -87,8 +95,8 @@ You can remove all of this later. See [Removing everydeck from your app](/refere
 ## What everydeck never reads
 
 - **No rows through the Supabase connection.** everydeck reads only the structure: names of tables and columns.
-- **No contact columns.** E-mail, phone, messenger and IP address columns are never in the read scope.
-- **No message texts.** A chat is read live only when someone on your team opens it for a reason, and it is not stored. See [Moderation](/using/moderation).
+- **No contact columns.** Phone and IP address columns are never in the read scope. E-mail columns are not either, unless you turn on **Show the e-mail when someone has no name**. Then everydeck reads only the e-mail column of the users.
+- **No message texts.** everydeck reads the text of a message only when someone on your team opens it with a reason, and it keeps nothing. See [Moderation](/using/moderation).
 - **No `.env` values, passwords or card numbers.** everydeck never stores them.
 - **No secret keys of Supabase.** everydeck needs no public Supabase key either.
 
@@ -96,14 +104,34 @@ You can remove all of this later. See [Removing everydeck from your app](/refere
 
 Every app has two environments: **development** and **production**. If your app is on a connected Supabase project, the setup writes to production. Otherwise it writes to development, and going live is your step later. See [Apps on GitHub and a host](/connect/github-and-hosting).
 
+## Payments in the setup
+
+If your app bills with a payment provider and you choose **Connect it** on the approval page, your agent adds payment events where your app gets the confirmation of a payment. everydeck checks them with a test event before the setup ends. No real payment happens. Payments count as connected once everydeck receives the first real one. Until then, Revenue stays "not connected". If you choose **Skip**, everydeck shows plans and trials, and Revenue stays "not connected".
+
 ## When the setup ends
 
-The setup ends in one of three ways:
+The setup ends without follow-up work for you. With a pull request, the setup page stays at **Almost live**:
+
+- **Merge pull request #12**: click **Open on GitHub** and merge it. Notes from your agent stand above it: read them before you merge.
+- **Deploy**: your host starts by itself after the merge. If a part has no new version 10 minutes after the merge, the page says how to deploy it again at that host.
+- **Every part reports in**: the server, the web app and scheduled jobs. A job that has not run yet does not hold this up.
+
+Tools that commit to the default branch themselves, like Lovable, get the same page with that commit instead of the pull request. See [Lovable](/connect/lovable).
+
+When every part of your app runs the new version, your app is live. everydeck emails you once that Acme is live. Like other setup emails, it comes in the daily summary unless you chose **Right away**. See [Emails and notifications](/using/emails-and-notifications).
+
+If everydeck finds a part after the merge that it had not seen before, the page asks you to decide whether your app has it. This does not hold up going live.
+
+Without a pull request the setup ends in one of three ways:
 
 - your agent reports that it is done,
 - your app sent real data after your approval,
 - you click **End this setup** on the setup page. See [Setup page](/using/setup-page#end-this-setup).
 
-The setup page then shows **Done** and **Open Acme**, even if your app is not merged yet.
+The setup page then shows **Acme is on deck** and **Open Acme**. If something is left for you, it stands in one box, **Your turn**, for example **What everydeck found** with the open parts. Under **More about the setup** the page lists **Notes from the setup** and **First real use**.
 
-The end page lists **Notes from the setup**, **First real use** and, if something is missing, **What everydeck found** with the open parts. Read the notes before you merge.
+## Updates later
+
+When everydeck has a newer version of its parts for your app, or a part of your app does not report, the [Setup page](/using/setup-page) shows **Update available**. Click **Update** and paste the sentence into your coding agent. Your agent builds the update as a pull request, the same way as the setup. Nothing changes in your app until you merge it. Then everydeck checks every part again. A fix for a security gap shows as **Security update available**.
+
+If your agent later refines what it found, everydeck takes it over without asking you again. Anything that would let everydeck see or do more, for example an update that reads more data, comes back to you for a new approval.

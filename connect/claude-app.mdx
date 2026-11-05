@@ -1,9 +1,11 @@
 ---
 title: "Claude app"
-description: "Connect the Claude app to everydeck as a custom connector and run the setup in the Code tab on the folder of your app."
+description: "Connect the Claude app to everydeck as a custom connector and run the setup in a Code session on the repository of your app."
 ---
 
 In the Claude app, everydeck is a custom connector. It works in chat, in Cowork and in the Code tab. The setup itself runs in the Code tab.
+
+On the setup page, **Claude app** means claude.ai, the desktop app or Claude Code on the web, also when it works on GitHub in the cloud. It is the first choice on the page.
 
 ## Connect
 
@@ -14,9 +16,10 @@ In the Claude app, everydeck is a custom connector. It works in chat, in Cowork 
   <Step title="Sign in">
     Click **Connect**, then **Allow**.
   </Step>
+  <Step title="Pick the model">
+    Choose Opus 5.5 with effort Medium or higher in the model menu before you paste. everydeck was tested with it. A smaller model or a lower effort may leave parts out or stop halfway; everydeck shows you what is still open.
+  </Step>
   <Step title="Paste the sentence in the Code tab">
-    Open the Code tab on the folder of your app. Paste the sentence from the setup page. That is the last thing you type.
+    The setup page says **Paste this into the Code tab of the Claude app**. Open a Code session on the repository of your app, in the cloud or on your computer. Paste the sentence from the setup page. That is the last thing you type.
   </Step>
 </Steps>
-
-No model was measured with the Claude app, so the setup page gives no model note for it. everydeck shows you what is still open after the setup.

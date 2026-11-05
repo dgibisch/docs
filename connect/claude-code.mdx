@@ -3,13 +3,13 @@ title: "Claude Code"
 description: "Connect Claude Code to everydeck with one command, sign in with /mcp, and paste the setup sentence. Works in the terminal and in the desktop app."
 ---
 
-Claude Code is the default tool on the setup page.
+On the setup page, Claude Code has the tab **Claude Code in a terminal**. If you use Claude Code on the web, choose **Claude app** instead. See [Claude app](/connect/claude-app).
 
 ## Connect
 
 <Steps>
   <Step title="Add everydeck">
-    On the setup page, choose **Claude Code**. Give the command from the page to Claude Code in the folder of your app. It looks like this, with the address `https://app.everydeck.ai/mcp` (also shown on the setup page):
+    On the setup page, choose **Claude Code in a terminal**. Give the command from the page to Claude Code in the folder of your app. It looks like this, with the address `https://app.everydeck.ai/mcp` (also shown on the setup page):
 
     ```bash
     claude mcp add --transport http everydeck <address from the setup page>
@@ -24,7 +24,7 @@ Claude Code is the default tool on the setup page.
     everydeck was tested with Opus 5.5 at effort medium or higher. Choose it with `/model` and `/effort` before you paste the sentence. A smaller model or a lower effort may leave parts out or stop halfway; everydeck shows you what is still open.
   </Step>
   <Step title="Paste the sentence">
-    Copy the sentence from the setup page and paste it into Claude Code. That is the last thing you type.
+    Start a new chat in this folder, so Claude Code has the everydeck tools. Copy the sentence from the setup page and paste it into Claude Code. That is the last thing you type.
   </Step>
 </Steps>
 

@@ -7,8 +7,8 @@ everydeck works with any AI coding tool that supports MCP over HTTP with OAuth s
 
 | Tool | How it connects | Page |
 |---|---|---|
-| Claude Code | One command, then sign in with `/mcp` | [Claude Code](/connect/claude-code) |
-| Claude app | Custom connector in Settings | [Claude app](/connect/claude-app) |
+| Claude app (also the desktop app and Claude Code on the web) | Custom connector in Settings | [Claude app](/connect/claude-app) |
+| Claude Code in a terminal | One command, then sign in with `/mcp` | [Claude Code](/connect/claude-code) |
 | Codex | Ask Codex to set up the server, or add it in Settings | [Codex](/connect/codex) |
 | Cursor | **Add to Cursor** button | [Cursor](/connect/cursor) |
 | Lovable | Custom MCP server under Connectors | [Lovable](/connect/lovable) |
@@ -18,16 +18,17 @@ everydeck works with any AI coding tool that supports MCP over HTTP with OAuth s
 | Bolt | Custom MCP server under Connectors | [Other tools](/connect/other-tools) |
 | v0 | Your own server under MCPs | [Other tools](/connect/other-tools) |
 
-Claude Code is the default choice on the setup page.
+The setup page shows **Claude app** first. Your browser remembers the tool you picked last.
 
 ## Which model to use
 
 everydeck cannot see which model your agent runs on. It only measured a few combinations, one run each, on one app. This is what was tested:
 
 - **Claude Code:** tested with Opus 5.5 at effort medium or higher. Choose it with `/model` and `/effort` before you paste the sentence. A smaller model or a lower effort may leave parts out or stop halfway.
+- **Claude app:** the setup page asks you to choose Opus 5.5 with effort Medium or higher in the model menu before you paste. It is the same model as for Claude Code.
 - **Codex:** tested with GPT-6 Astra at medium reasoning. With another model the setup may leave parts out.
 - **Lovable, Bolt and v0** choose the model themselves.
-- **Cursor, VS Code, Devin, the Claude app and Replit** were not measured.
+- **Cursor, VS Code, Devin and Replit** were not measured.
 
 Whatever model you use, everydeck shows you what is still open. A weaker model leaves more open parts, but it cannot report a false "done". See [Setup page](/using/setup-page).
 

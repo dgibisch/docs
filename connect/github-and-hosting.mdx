@@ -7,11 +7,19 @@ For an app on GitHub, your agent ends the setup with a pull request. everydeck n
 
 ## Merge the pull request
 
-The end page says, for example: "In your code: 3 new files, 2 changed, in pull request #12. To bring it live, open it on GitHub and click Merge."
+When your agent is done, the setup page says **Almost live**: "Claude Code is done. Merge the pull request, then everydeck waits here until every part of Acme runs the new version."
+
+- **Merge pull request #12**, with the title of the pull request and the state of its checks. Click **Open on GitHub** and merge it there.
+- **Deploy**: the page says who deploys each part, for example "Server on Render, starts by itself after the merge". For a part without a known host it says to deploy it where it runs, as usual.
+- **Every part reports in**: the server, the web app and scheduled jobs. For each part the page says whether it still runs the old version or has not reported yet. If a part has no new version 10 minutes after the merge, the page shows how to deploy the latest commit at that host, for example in Render **Manual Deploy › Deploy latest commit**.
+
+When every part runs the new version, your app is live and everydeck emails you once. You can close the page in between.
 
 If your agent could not push, the page says which branch to push and merge as usual.
 
-If everydeck found the deploy files of your host (for example `render.yaml` or `vercel.json`), the page says your host then deploys it by itself.
+### Changes saved straight to the default branch
+
+Some tools, like Lovable, commit to the default branch themselves, without a pull request. With GitHub connected, everydeck sees that push and shows, for example, **Lovable committed it to main**. Without GitHub, everydeck sees the change when your app first reports the new version.
 
 ## Apps without their own server
 
@@ -24,7 +32,7 @@ A server like FastAPI, Express or a Next.js server needs a few everydeck setting
 - **If your server talks to Supabase with the service key,** it reads its everydeck settings from Supabase by itself. Nothing to do.
 - **If not,** the setup page says: "One extra step: add these three settings to your host, then merge." Click **Show the values** and add them to your host. They are `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY` and `EVERYDECK_MANIFEST_DIGEST`. The values are shown once. Showing them again creates a new key.
 
-After the merge, the page shows **Waiting for your host to deploy**, with the minutes since the merge, until the first event of the new version arrives. everydeck knows Render, Railway, Fly, Vercel, Netlify and Heroku by name.
+The setup is live only when the first event of the new version arrives after the merge. everydeck knows Render, Railway, Fly, Vercel, Netlify and Heroku by name.
 
 ## Development and production
 
@@ -69,6 +77,10 @@ Your app changes all the time. During the setup your agent adds a check, the fil
 
 everydeck sees only the result of the check, never your code. If everydeck is not reachable, your build does not break. The check works on GitHub only, not on GitLab or Bitbucket.
 
-## Connect GitHub for code changes (optional)
+## Connect GitHub
 
-Under **Technical › Code changes**, an owner can connect everydeck's GitHub app. It only reads: metadata, pull requests, checks and deployments. It has no access to your code contents. With it, the repair path of a case can show when a fix was merged. See [Cases and repairs](/using/cases-and-repairs).
+GitHub is its own step on the setup page, after **Connect Supabase**: click **Connect GitHub** and choose the repository of your app. If your app is not on GitHub, click **My app isn't on GitHub**. You can also connect it later under **Settings › App › Connections** or **Technical › Code changes**. An owner of your team connects GitHub.
+
+everydeck's GitHub app only reads: pull requests, checks, deployments and workflow runs. everydeck never sees your code. With it, everydeck sees when the change of your agent is merged, and links every error to the change that brought it. The repair path of a case can show when a fix was merged. See [Cases and repairs](/using/cases-and-repairs).
+
+The same GitHub installation can be connected in more than one everydeck team. A renamed repository stays connected. If the installation is removed or suspended on GitHub, or the repository is no longer shared, the page says so and offers **Connect again** or **Change on GitHub**.
