@@ -10,7 +10,9 @@ everydeck checks two things after each new version of your app in production:
 
 ## The Security page
 
-The page lists what the Security Advisor of Supabase reports about the database of your app, with the level Supabase gives each point: **Error**, **Warning** or **Info**.
+At the top, **What this means for Acme** says in plain words what anyone could do right now, with the same sentences as the security case, and **Fix it with your coding agent**.
+
+Below, the page lists what the Security Advisor of Supabase reports about the database of your app, with the level Supabase gives each point: **Error**, **Warning** or **Info**.
 
 Each point has:
 
@@ -31,6 +33,19 @@ Some points are on purpose. For example "Access protection is on, but no rule le
 Click **This is intended** on such a point. The page then says "Marked as intended by" the person, with the date. It comes back when something new is affected. To undo, click **Show it again**.
 
 The security case closes by itself when no error is left at Supabase, or each one is marked as intended.
+
+## The security case
+
+All points of level **Error** form one case, named in plain words, for example "Anyone can read and change profiles, documents and jobs without signing in". Its page works like the page of an error: **What Supabase found** with one line per table or view, **Mark as fixed** and **Ignore** with **Undo**, and **Copy fix for Claude Code**.
+
+The copied task asks your coding agent to check which access your app needs, write a migration with access rules, prove it locally or on a Supabase branch, and ask you before it applies it to your project. everydeck never changes your database schema itself.
+
+After the case is marked as fixed, everydeck asks Supabase again right away:
+
+- If Supabase reports none of the points any more, the case stays fixed: "Supabase confirms".
+- If Supabase still reports points, the same case opens again as **Came back**, and you get an email.
+
+**Ignore** keeps it quiet until Supabase reports a new point.
 
 ## When the page is empty or not checked
 

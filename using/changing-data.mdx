@@ -18,7 +18,7 @@ It writes like your Supabase dashboard does, but only what is switched on. Every
 Through the door your team can:
 
 - **Data in your app:** edit, archive, delete with what goes with them, and remove a single message.
-- **Users of your app** (Supabase Auth accounts): send a sign-in link, send a password reset email, resend the confirmation email, suspend and restore access, edit their details, delete an account. See [People](/using/people#help-actions).
+- **People who use your app** (Supabase Auth accounts): send a sign-in link, send a password reset email, resend the confirmation email, suspend and restore access, edit their details, delete an account. See [People](/using/people#help-actions).
 
 Not through the door: creating records, bulk changes and imports.
 
@@ -30,14 +30,14 @@ Not through the door: creating records, bulk changes and imports.
 
 When you approve, the content people of your app see, people and messages are on. Technical tables (roles, imports, notifications, mail, jobs, settings) are off. The approval box says "IDs, owners and timestamps are never editable."
 
-## Settings: Changes from everydeck
+## Settings: Permissions
 
-Go to **Technical › Changes from everydeck**. The card says: "Everything below works as approved. Switch something here only if you want it different."
+Go to **Settings › App › Permissions**. The page says: "What you and your team can change in Acme from here. everydeck writes like your Supabase dashboard does, but only what is switched on." The card says: "Everything below works as approved. Switch something here only if you want it different."
 
 It has two parts:
 
-- **Users of your app:** the accounts people use to sign in (Supabase Auth).
-- **Data in your app:** records in your tables, like in the Table Editor of your Supabase dashboard. Technical kinds say "Off since the approval: everydeck counts them as technical, not as what your app is about."
+- **People who use Acme:** the accounts people use to sign in to Acme (Supabase Auth).
+- **Data in Acme:** records in the tables of Acme, like in the Table Editor of your Supabase dashboard. Technical kinds say "Off since the approval: everydeck counts them as technical, not as what Acme is about."
 
 For each kind, click **Turn off** or **Turn on**. You can only turn on what your approved app map allows.
 
@@ -56,7 +56,7 @@ Until you allow it, everything keeps working as you approved it. The question al
 
 ### When the door does not answer
 
-everydeck checks the door when it starts, every hour, and after each rollout or switch. If the door does not answer, the page says "The change door in your app does not answer everydeck, so changes from here are paused." with the reason and **Check again**.
+everydeck checks the door when it starts, every hour, and after each rollout or switch. If the door does not answer, the page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason and **Check again**. The same note appears on person and record pages. People who may not change settings see "Ask the owner of Acme to check it under Settings › Permissions."
 
 ## Editing a record
 
@@ -76,13 +76,13 @@ Deleting is red: it needs the typed name and a reason, and it cannot be undone. 
 
 ### Second factor
 
-Deleting objects and people and red actions ask for a fresh confirmation with your second factor (an authenticator app), if you set one up. The confirmation stays fresh for 10 minutes. Editing, archiving and exporting do not ask for it.
+Deleting objects and people and red actions ask for a fresh confirmation with your second factor (an authenticator app), if you set one up. So do **Allow** and **Turn on** under Permissions, and an approval that sets up the change door. The confirmation stays fresh for 10 minutes. Editing, archiving, exporting, **Turn off** and **Not now** do not ask for it.
 
 ### Undo and the protocol
 
 Every change is in the protocol: who, when, why, before and after for each field. "Undo sets the old value, only if nothing changed since."
 
-- Undo works for field edits, for 1 day.
+- Undo works for field edits, for 24 hours.
 - There is no undo for archiving, deleting and bulk changes.
 
 ### Export

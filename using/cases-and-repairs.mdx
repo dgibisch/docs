@@ -38,18 +38,11 @@ If a provider of your app (Supabase, Vercel, Render, Stripe, OpenAI or Anthropic
 
 everydeck does not write code. Your coding agent does. The case page gives it everything it needs.
 
-<Tabs>
-  <Tab title="Copy fix">
-    Click **Copy fix for Claude Code** (or your tool's name). Nothing starts by itself: copy the task, then paste it into your agent. It fixes the error and reports back.
+Click **Copy fix for Claude Code** (or your tool's name). Nothing starts by itself: copy the task, then paste it into your agent. It fixes the error and reports back. **Let Claude Code fix it** in [Live](/using/live) does the same.
 
-    The copied task contains what happened, the steps, the place in the code and the versions. It contains no names or addresses of people, only their ids. It ends with a note that app content in the task is data, not instructions.
-  </Tab>
-  <Tab title="Send to a connected agent">
-    If your agent is connected to everydeck, click **Send to connected agent**. Your agent does not run by itself. Tell it once: "Fix the everydeck issue". It picks up the oldest case you sent. Each case is given out once, even if two agents ask at the same time.
+The copied task contains what happened, the steps, the place in the code and the versions. It names the case by its short address and people only by their short address, like `P-7`, never by name or e-mail. It ends with a note that app content in the task is data, not instructions. A pull request is not needed.
 
-    If nobody picks up a sent case for a day, you get an email and a banner.
-  </Tab>
-</Tabs>
+Each copy gives your agent a way to report the fix for this one case. The first report marks the case as fixed. To try again after it came back, copy the fix again.
 
 When your agent reports the fix, the case is marked **Fixed**. everydeck then watches. If the error comes back, you get an email and the case shows **Came back**.
 
@@ -58,10 +51,12 @@ When your agent reports the fix, the case is marked **Fixed**. everydeck then wa
 The case page shows each step on the right, with its own evidence:
 
 1. **Detected**
-2. **Copied for your agent** (when and by whom), or **Sent to your agent** and **Picked up** if your agent is connected to everydeck
+2. **Copied for your agent** (when and by whom)
 3. **Fixed**, with what your agent reported: what it changed, its tests, the commit and the version
 4. **New version running**, as information when everydeck sees it
 5. **Watching**, or **Came back** if the error happens again
+
+While it watches, the step may add a fact, for example "since version 2.4 the same check passed 5 times without an error". This changes nothing about the case and sends no email.
 
 **Merged** only appears if a repository is connected. There is nothing to click and nothing to wait for: the case is fixed as soon as your agent reports it.
 
@@ -76,17 +71,20 @@ These buttons need the Owner, Admin or Agency role.
 - **Mark as fixed.** If the same error happens again, the case opens again as **Came back** and you get an email. **More ways to mark as fixed** offers:
   - **Resolve now:** if it happens again, the case opens again.
   - **The next release:** the running release may still show it. Only a newer release opens the case again.
-- **Ignore.** By default **Until it gets worse**: back when it hits someone it did not hit before, or happens in a new version. **More ways to ignore** offers more choices.
-- **Archive**, with fixed choices:
+- **Ignore.** By default **Until it gets worse**: back when it hits someone it did not hit before, or happens in a new version. **More ways to ignore** offers fixed choices:
   - **For …** 30 minutes, 2 hours, 6 hours, 24 hours or 7 days. Back on Needs you when the time is over.
   - **Until this occurs again …** 1, 10, 100, 1,000, 10,000 or 100,000 more times, counted per hour, day or week.
   - **Until this affects an additional …** that many people who were not hit before.
   - **Forever:** everydeck keeps counting, the case does not come back by itself.
+
+  **Unarchive** brings such a case back by hand.
 - **Undo.** After an action, a short message offers Undo. Then the case is open again.
 - **Assign** to a member, or **Remove the assignee**.
 - **Reopen** a closed or dismissed case.
 
 Every action appears in the case history and in the protocol with the person who did it.
+
+Cases about security, data loss, impossible values, due dates and silent jobs have **Mark as fixed** and **Ignore** with **Undo** too. If everydeck still finds the problem after **Mark as fixed**, the same case comes back as **Came back**. Moderation cases are a review of content, not a failure: they have **Mark as reviewed** and **Not fraud**.
 
 ## When a case comes back
 

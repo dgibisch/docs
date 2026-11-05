@@ -7,16 +7,27 @@ Live shows everything your app sends to everydeck, as it happens. New entries ap
 
 ## What appears
 
-- **Visits and sign-ins,** for example "opened /jobs/:jobId" or "signed in". A visitor who is not signed in shows as **A visitor**.
-- **Steps of your flows,** with the names from your app map.
+- **Visits and sign-ins,** for example "opened /jobs/:jobId" or "signed in". A visitor who is not signed in shows as **A visitor**. The first sign-in of a new account shows as "signed up". The first visit of a person says where they came from, for example "came from instagram, campaign spring".
+- **What people did in your flows,** as one line per action, in the words of your app map, for example "set a booking to Confirmed". The single steps of a run appear only in the technical view.
 - **Steps in the browser.**
 - **Errors,** with their case and how often they happened today.
 - **AI calls,** with model, tokens, duration and cost.
-- **Payment events.**
+- **Payment events,** for example **Payment received**, **Payment failed** or **Refund**.
 - **Logs and data gaps.**
-- **Repair steps:** sent to your agent, picked up, fix reported, confirmed, failed again.
+- **Repair steps,** in the same words as the case page, for example "is fixed: your coding agent reported the repair", "was marked as fixed" or "came back after it was fixed".
 
 Each row says where it came from: **Browser**, **Server** (your app's server) or **Supabase** (everydeck's own parts in your Supabase project). If your app runs on more than one platform, each row names it, for example "iPhone 2.3".
+
+A person who is new and whom everydeck is reading from your app right now shows as **A new person** until the name arrives. In the details of an entry, an organization shows with its name, or **No organization name**.
+
+Under **Before everydeck**, Live also shows the newest entries from your app's own data, at the time your app recorded them. They are not live events and are not counted.
+
+## Finding something
+
+- **Readable** or **Tech:** plain words, or the technical view.
+- Filter by **All**, **People**, **Flows**, **AI calls** or **Errors and warnings**, and by source.
+- **Search events** for people, flows, models and, in the technical view, routes and errors.
+- Click a row to see everything about it in **Event details**.
 
 ## What never appears
 
@@ -31,7 +42,7 @@ Choose the last **15 minutes**, **1 hour** (the default), **24 hours** or **7 da
 
 Events are kept for 30 days on Free. If the period reaches further back, the end of the list says so.
 
-**Pause** stops the list and counts what is waiting. The header shows events per minute over the last 5 minutes.
+**Pause** stops the list and counts what is waiting: "Paused. 3 new events are waiting." **Resume** continues. The header shows events per minute over the last 5 minutes, and whether your app sends signs of life, in the same words as the footer of the overview.
 
 ## Who sees what
 
@@ -45,4 +56,4 @@ You can have at most 10 Live windows open. A further window updates every 5 seco
 
 ## Fixing from Live
 
-Open an error and click **Let your agent fix it**. It is the same action as on the case page. See [Cases and repairs](/using/cases-and-repairs).
+Open an error and click **Let Claude Code fix it** (or your agent's name). It is the same action as **Copy fix for Claude Code** on the case page. See [Cases and repairs](/using/cases-and-repairs).

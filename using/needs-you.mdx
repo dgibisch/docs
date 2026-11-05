@@ -3,13 +3,16 @@ title: "Needs you"
 description: "Needs you lists the cases and decisions that need a person. Learn when an error becomes a task, how the list is sorted and how to clear it."
 ---
 
-**Needs you** is your to-do list in everydeck. It is on the overview of each app, and the **Your apps** page counts it across all apps.
+**Needs you** is your to-do list in everydeck. It is on the overview of each app and has its own page. The **Your apps** page counts it across all apps.
 
 ## What appears here
 
 - **Cases that need action.** Errors, outages, missed expectations, data loss, security errors and more. See [Cases and repairs](/using/cases-and-repairs).
 - **Security:** only points of level Error from Supabase's Security Advisor, together as one case. See [Security](/using/security).
 - **New permissions for the change door:** when everydeck can do more than you allowed, it asks here with **Allow** and **Not now**. See [Changing data](/using/changing-data#new-permissions).
+- **Reading your data stopped:** "everydeck isn't reading Acme's data", with the reason and the way to fix it.
+- **A kind of data can't be read:** your database lacks a table or a column that the app map names. everydeck keeps what it read before, reads everything else, and says what to ask your coding agent.
+- **Supabase no longer accepts everydeck:** "everydeck can no longer reach the Supabase project of Acme", with **Reconnect**.
 
 ## When an error becomes a task
 
@@ -37,4 +40,4 @@ Needs you is sorted by severity, then by the latest event.
 
 On each case you can **Mark as fixed**, **Ignore**, or copy a fix for your coding agent. Each action shows a short message with **Undo**. See [Cases and repairs](/using/cases-and-repairs#what-you-can-do).
 
-When nothing needs you, the card turns into a green area with what everydeck checked and the last case it repaired.
+When nothing needs you, the card turns into a green area with what everydeck checked and the last case it repaired. The page then says **Nothing needs you** and lists **What everydeck watches**: errors, security, your app's programs, the ways through the app, payments and background jobs, each with its latest state.
