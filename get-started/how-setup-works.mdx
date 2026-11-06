@@ -36,6 +36,8 @@ This sentence is your consent to three things: the read-only connection to your 
 
 Your agent writes down the facts of your app in a file called the **app map**: tables, pages, sign-in, payments, background jobs, AI calls, and the flows people go through. Every fact has its place in your code. everydeck checks the app map before it shows it to you.
 
+Every flow people use should be countable. For each flow, your agent adds a signal, or names the flow at the AI call that does the work, unless everydeck already sees the records the flow creates. A flow nobody really does can stay without, with the place in the code that shows why. Open ones show on the Setup page as **N flows don’t report yet**.
+
 The app map also holds your app's own words, so everydeck can speak them: for each flow what a person did in it, in the past tense ("Analyzed CV", "Sent a message"), the name your app shows for each page ("Jobs" before `/jobs`), the first value, and, only if your app has them, its sides (like owners and guests) with their own first value.
 
 If your agent left something out, everydeck gives it back to the agent first, the most important parts first (money, scheduled jobs, email and push, sign-in, ways through the app). It sends at most 15 open parts at once.
@@ -135,6 +137,6 @@ The setup page then shows **Acme is on deck** and **Open Acme**. If something is
 
 ## Updates later
 
-When everydeck has a newer version of its parts for your app, or a part of your app does not report, the [Setup page](/using/setup-page) shows **Update available**. Click **Update** and paste the sentence into your coding agent. Your agent builds the update as a pull request, the same way as the setup. Nothing changes in your app until you merge it. Then everydeck checks every part again. A fix for a security gap shows as **Security update available**.
+When everydeck has a newer version of its parts for your app, or a part of your app does not report, the [Setup page](/using/setup-page) shows **Update available**. Click **Update** and paste the sentence into your coding agent. Your agent builds the update as a pull request, the same way as the setup. Nothing changes in your app until you merge it. Then everydeck checks every part again. A fix for a security gap shows as **Security update available**. You also get a line in the bell and a band on the overview, once per version.
 
-If your agent later refines what it found, everydeck takes it over without asking you again. Anything that would let everydeck see or do more, for example an update that reads more data, comes back to you for a new approval.
+If your agent later refines what it found, everydeck takes it over without asking you again. Anything that would let everydeck see or do more, for example an update that reads more data, comes back to you for a new approval. If an update reads the same as before, your earlier OK still applies and the page says "Same access as before". See [Setup page](/using/setup-page#how-an-update-runs).

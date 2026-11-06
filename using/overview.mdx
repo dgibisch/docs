@@ -15,7 +15,7 @@ Sort by **needs you first** or **last activity**.
 
 ## At most one band on top
 
-When something is broken, one band sits at the top of the page, never several. It is the first thing everydeck stopped doing for your app (for example "everydeck has not been able to read data from Acme since 4 Nov"), or else the warning that no visits arrive. Each band has one link to where you can act. The band of an unfinished setup shows only when nothing is broken.
+When something is broken, one band sits at the top of the page, never several. It is the first thing everydeck stopped doing for your app (for example "everydeck has not been able to read data from Acme since 4 Nov"), or else the warning that no visits arrive. Each band has one link to where you can act. The band of an unfinished setup shows only when nothing is broken. With up to three open parts it names them, for example "1 part of Acme isn’t connected yet: First value. Until it’s set, Growth can’t show how many new people reach it." It says that pages stay empty only when an open part would bring data. When an update of everydeck is available and nothing else is shown, the band says "everydeck 0.5.16 is available for Acme." with **See update** and an **x** that hides it until the next version.
 
 ## The sentence at the top
 
@@ -24,7 +24,8 @@ A short sentence sums up your app. everydeck builds it without AI, from a fixed 
 - your app "has been in everydeck for 3 days" (only in its first 7 days),
 - "best week yet", or "keeps growing",
 - new people compared with the period before,
-- **One thing needs you** whenever a case is open.
+- **One thing needs you** whenever a case is open,
+- new records in your app's data as their own sentence, for example "New in Acme’s data: 1 job." A record read again later, for example after reading works again, is not counted as new.
 
 When your app reports what people did, the sentence tells the week from these facts instead, and each number is a link. For example: "This week 2 organizations worked in Acme: analyzed CV 7× for $0.32. Most active: L1VE GmbH. Nothing needs you." Amounts appear only if you may see money. If your app has sides, like owners and guests, the sentence names each side, for example "This week 1 new owner published a property 1×. 4 new guests sent a message 4×." With no one active it says "No owners or guests were active this week." It never shows a 0.
 
@@ -57,7 +58,7 @@ With little data, the chart shows a sentence instead of a large area. Before any
 
 Each card appears only when it has data. Otherwise the next one moves up.
 
-- **What happened:** day by day, what people did, in your app's words, for example "Annette Hansen · L1VE GmbH opened job “System Integration Engineer” and analyzed CV 4× · $0.18". A person without an approved name shows as "Someone". The card shows the last 7 days with events, at most 4 people a day ("1 more person") and 6 lines per person ("and 1 more thing"). With many events it says "Only the latest events of this period are shown." **Open Live** shows everything. Before anything happened it says "Nothing happened in Acme in this period yet. Each thing a person does shows up here in Acme’s words."
+- **What happened:** day by day, what people did, in your app's words, for example "Annette Hansen · L1VE GmbH opened job “System Integration Engineer” and analyzed CV 4× · $0.18". It shows runs of your flows, AI calls, and records people created in the kinds of data you see in the side bar of your app. Data your app writes in the background, like notifications or technical tables, never shows here. An AI call says what was done ("analyzed CV"), or "used AI for CV scoring" if your app map has no words for it yet, or "used AI" without a flow. A record without a title shows as "created job without a name"; its short address shows only in the developer view. A person without an approved name shows as "Someone". The card shows the last 7 days with events, at most 4 people a day ("1 more person") and 6 lines per person ("and 1 more thing"). With many events it says "Only the latest events of this period are shown." **Open Live** shows everything. Before anything happened it says "Nothing happened in Acme in this period yet. Each thing a person does shows up here in Acme’s words."
 - **Needs you:** the open case, or a green area with what was checked and the last case that was repaired. See [Needs you](/using/needs-you).
 - **Money and AI costs:** only with payments everydeck saw or plans with an amount. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. Under the AI costs, **Who caused them** names the organizations (or, without organizations, the people) with the highest AI costs, with their calls and cost. At most 5 rows, the rest as one line "N more". Calls without an organization or person show as one line. **All calls** opens the list of every AI call. See [Money and AI costs](/using/money-and-ai-costs).
 - **Coming back:** how many people came back, once a full week is measured.

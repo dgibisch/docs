@@ -124,7 +124,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Limit | Free | What happens when it is reached | Email |
 |---|---|---|---|
 | Length of a value read from your app | 256 characters | Longer values are shown shortened. | no |
-| Size of one read bridge answer | 256 KiB | everydeck asks for a smaller page right away, in the same run, down to one entry. Only a single entry larger than this stops reading that kind; it shows in Setup. | yes |
+| Size of one read bridge answer | 256 KiB | everydeck asks again right away for a smaller page, down to one record. Only a single record larger than this fails: it shows in Setup, and after two runs in a row you get an e-mail right away. | yes |
 | Capabilities of one read bridge | 1,000 | The bridge is rejected at setup. | no |
 | Data the read bridge may deliver at once when everydeck first reads your app | 50 MB | The first read ends there. The rest is read within the hourly budget, people, organizations and the main parts of your app first. Setup says what is still being read. | no |
 | Requests to the read bridge when everydeck first reads your app | 14,400 | As for the data of the first read. | no |
@@ -179,6 +179,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Person pages waiting for a new person, per person | 10 | A further waiting page tries again every 3 seconds; the person appears there when you open it again. | no |
 | Live after a change of access | 30 s | An open Live window closes before its next entry, at the latest after about 35 seconds. | no |
 | Value in the history of a record | 300 characters | The history entry ends there; your app keeps the whole value. | no |
+| Moments in the history of a record before “Show more” | 20 | “Show more” shows 20 more each time. Changes made at the same moment are one line (“7 fields changed”) you can open. Nothing is left out. | no |
 | Conversations per kind that moderation counts and flags | 2,000 | Older ones are not counted or flagged; the page says so. | no |
 | Scripts the security check loads, together | 40 MiB | Further scripts are not checked for keys. | yes |
 | Scripts the security check reads | 40 | Further scripts are not checked for keys. | yes |

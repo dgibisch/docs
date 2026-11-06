@@ -29,7 +29,7 @@ A result reported only by the browser is marked "browser only".
 Choose 7 or 30 days. The page starts with one sentence, like "3 of 5 flows ran in the last 30 days; 2 runs failed." Below stand **Runs**, **Failed**, **Succeeded** and **Open cases**.
 
 - **Ran in the last 30 days**: each flow with runs, failed, succeeded, median and p95 duration, runs per day and the state.
-- **No runs in the last 30 days**: each flow with its known steps and how many have a signal. A flow without a signal says "Planned, not yet instrumented".
+- **No runs in the last 30 days**: each flow with its known steps and how many have a signal. A flow without a signal says "Planned, not yet instrumented". The Flows page shows only runs your app reports. Growth also counts flows from their AI calls or the records they create, see below.
 - **Runs without a flow**: runs everydeck could not assign to a flow of the app map, with **View in runs**.
 
 Durations come from your app's own clock. If your app runs on more than one platform, you can filter by platform.
@@ -53,7 +53,12 @@ Choose the last 7, 30 (the default) or 90 days. If your app runs on more than on
 - **New people by source:** new people per day by where they came from, with a mark when a campaign started.
 - **People / Organizations:** if your app has organizations, a switch counts **Active** and **What is used** by organization instead of by person.
 - **From sign-up to first value:** **Signed up**, then the step before (for example creating a job), then the first value with the median time to it, then **Again within 7 days** ("of those who reached it"). Below it, links to the people who stopped on the way, for example "Stopped after created a job: 2". Each opens the list of these people. With sides, one card per side. Without a first value it says "No first value is set for Acme. Choose the flow whose first result is what a new person came for, and Growth shows how many reach it." with **Set it**. It counts the latest 20,000 people who signed up ("Counted over the latest 20,000 people.").
-- **What is used:** each flow of your app with **Uses** (results in the period), people or organizations, **First time** and **Came back** (used again on a later day). A flow your app does not report yet says "Acme doesn’t report it yet" with a link to the setup.
+- **What is used:** each flow of your app with **Uses** (results in the period), people or organizations, **First time** and **Came back** (used again on a later day). Each flow is counted from one source:
+  - the signal your app sends for the flow,
+  - otherwise its AI calls, if your app names the flow at each AI call ("counted from its AI calls"),
+  - otherwise the records this flow creates, as everydeck reads them from your app ("counted from new jobs").
+
+  A flow that sends nothing and that everydeck cannot see either says "Acme doesn’t send this to everydeck yet, so everydeck can’t count it" with **Set it up**. A flow that reports only since recently says "counted since 4 Nov". Runs before that are not counted again.
 - **Where they come from:** the first visit of each new person, by channel (like Search, Social, AI assistants, Referral, Email or Direct) and source, from the domain of the referring page and the UTM values, never its path or query. With a first value, a column says how many reached it. This works by itself. To tell two of your own posts apart, add `?utm_campaign=launch` to the link.
 - **Campaigns** (from `utm_campaign`) and **First page they saw**, once there are any.
 - **Do they come back?** For the new people of each week, the share that was active again in each following week. It appears once enough new people have arrived.

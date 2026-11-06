@@ -13,7 +13,7 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
   </Accordion>
 
   <Accordion title="The read bridge does not answer">
-    If the read bridge fails for 1 hour, you get an email and a banner. The email says what everydeck knows:
+    If the read bridge fails for 1 hour, you get an email and a banner. The data everydeck already read stays as it is: a check that fails never empties fields or adds lines to the history of a record. The email says what everydeck knows:
 
     - **If the bridge refused everydeck's key**, the email is about the key. The bridge may still use an old key. After a new bridge key, everydeck signs with both keys for 1 day, then only with the new one.
     - **Otherwise** it is about whether your app runs and answers. For a bridge on your own server, check that the server is up. For a bridge on Supabase, check that the project is not paused.

@@ -62,6 +62,12 @@ Scheduled jobs need no step from you. Your agent adds their heartbeat without a 
 
 The part **First value** is the flow whose first result is what a new person came for, for example a first CV analyzed. It "Shows on Growth how many new people reach what they came for, and how long it takes. You can also set it under Settings › General." It is done once your agent named it or you chose it there. See [First value](/using/flows-and-journeys#first-value).
 
+## Flows that don't report yet
+
+Every flow people use should be countable on Growth. The part **N flows don’t report yet** lists the flows that send nothing to everydeck and that everydeck cannot see by itself: "Acme doesn’t send these flows to everydeck yet, so Growth can’t count how often people use them. Your coding agent adds a signal to each, or names the AI call that does the work."
+
+A flow is done as soon as it reports, its AI calls name it, or everydeck sees the records it creates. If nobody really does a flow, your agent says so with the place in the code. See [Growth](/using/flows-and-journeys#growth).
+
 ## Money not connected
 
 If a money part is open, Money is dimmed in the side bar and the page says "Payments aren't connected yet". If you say your app takes no money, Money disappears from the side bar.
@@ -70,9 +76,24 @@ If a money part is open, Money is dimmed in the side bar and the page says "Paym
 
 When a newer version of everydeck's parts is available for your app, the Setup page shows **Update available**, with what it brings. If it closes a security gap, it says **Security update available**.
 
+You also see it in two other places, once per version:
+
+- **Notifications:** a line "Acme: everydeck 0.5.16 is available" in the bell. It is the only line that never comes as an email. See [Emails and notifications](/using/emails-and-notifications).
+- **Overview:** a band "everydeck 0.5.16 is available for Acme." with **See update**. The **x** ("Hide until the next version") hides it for you until the next version. An app without an update shows nothing.
+
 An update can also bring a newer app map. Apps set up before these words existed are offered: "Timelines say what people did (“Analyzed CV”) instead of the name of the flow." and "Growth shows how many new people reach the first value of your app, and how long it takes." You confirm the first value again, like the first time.
 
-Click **Update**, then paste the sentence into your coding agent. "Your coding agent builds it as a pull request, the same way as the setup. Nothing changes in Acme until you merge it; then everydeck checks every part again." If the update lets everydeck read more of your app, you approve it again first.
+An update also offers: "Growth counts every flow people use, also those that send nothing to everydeck today." See [Flows that don't report yet](#flows-that-dont-report-yet).
+
+Click **Update**, then paste the sentence into your coding agent. "Your coding agent builds it as a pull request, the same way as the setup. Nothing changes in Acme until you merge it; then everydeck checks every part again."
+
+### How an update runs
+
+1. **Waiting:** the page says "Update 0.5.15 → 0.5.16" and "Waiting for Claude Code to start the update", with the sentence: "Paste this into Claude Code. This page moves on by itself when it starts." There is nothing to approve yet.
+2. **Your agent builds the update:** "Your coding agent reads Acme again and builds the update. everydeck tells it what is new since the last setup."
+3. **Your OK, only if everydeck would read more:** if everydeck reads the same as before, the page says "Same access as before" and "everydeck reads nothing new, so your OK from 16:44 still applies." If it would read more, the approval page says "Update 0.5.15 → 0.5.16 for Acme". On top, **What changes since your last OK** lists only what is new, for example "everydeck would also read …", "New flows: …" or "First value: …". Everything else is folded under "Everything else, as you approved it before". The address of the approval ends in `/approve`.
+4. **You merge one pull request:** "Nothing changes in Acme until you merge." In an update, everydeck adds its parts to your Supabase project only after your merge. The page says so: "everydeck adds its parts to the Supabase project … after your merge". The single steps (database changes, functions, settings, read bridge and app bridge) stand indented under that line.
+5. **Almost live:** once the pull request is merged, the page stays on **Almost live** until every part of your app reports the new version.
 
 Only Owners and Admins see the **Update** button. Updates never come by email. This card is the one place for them.
 

@@ -41,6 +41,14 @@ With your own server, a background task in your server picks up requests, withou
 
 Each kind of data has a list, and each record has its own page with a short address, for example ending in `/o/job/JOB-12`. The page shows the record "As everydeck read it from your app", with flows, cases, links and the history of changes between two reads.
 
+### History of a record
+
+**History** shows what changed in a record between two reads, newest first. Changes made at the same moment are one line, for example "7 fields changed", that you can open. The page shows 20 moments at first; **Show 20 more** shows the next ones. Very old changes may say "Older changes aren’t shown here."
+
+A value that is a person of your app shows as their name with a link, for example "User id set to Annette Hansen". Their id shows only in the [developer view](/using/developer-view).
+
+"removed" means your app emptied the value, or everydeck no longer reads that field because your app map no longer contains it. A read that does not bring a field, or a check of the read bridge that fails, never removes a value.
+
 Pictures come from your app's own addresses. everydeck keeps no copy.
 
 - **"Your app has not been read completely yet. This is not an empty list."** A list that was never fully read never shows as empty.
