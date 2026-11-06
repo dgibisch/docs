@@ -30,7 +30,17 @@ In the customer view: role, contacts in 30 days, how fast they answer, plan, **R
 
 The page of a person has its own short address ending in `/people/P-7`. It shows **Activity**, **What this person uses**, **Problems**, **Recent runs**, **Organizations**, **Access**, **Action history** and **Identifiers and sources**.
 
-In the customer view, the left side shows the life of the person: their way through the app, **Visits** (the last 5 visits with their pages), records, cases and payments. The first visit says where the person came from, for example "Came from instagram, campaign spring". The right side shows facts: the card **Account** (access, sign-in method, masked address), **Details** and notes.
+In the customer view, the left side shows the life of the person: their way through the app, **Visits**, records, cases and payments. The first visit says where the person came from, for example "Came from instagram, campaign spring". The right side shows facts: the card **Account** (access, sign-in method, masked address), **Details** and notes.
+
+When your app reports what the person did, the page adds:
+
+- **A sentence under the name** with their organization as a link and their week, for example "…, at L1VE GmbH. This week 2 × Analyze CV for $0.09."
+- **Two tiles:** the main flow of your app over 30 days with the day it first happened ("first on …"), and **AI cost · 30 days**, only if your app reports AI calls.
+- **Visits** as a story, newest visit first: each visit with its time, length and what the person did in your app's words, for example "Opened job “Head of Finance”" or "Analyze CV: CV “Julia Hartmann” · $0.046". A visit is everything one person did with no pause longer than 30 minutes, like Google Analytics and PostHog count it. The card shows the last 10 visits of the last 30 days ("1 older visit not shown") and 20 lines per visit ("1 more thing in this visit, in Live."). Without visits it says "Nothing seen in the last 30 days."
+- **What Annette costs in AI:** their AI costs by flow, with **All n calls** to the list of every call. Without calls: "Your app reports no AI call of this person in the last 30 days."
+- **First value** in their way through the app, at the time of their first result. See [First value](/using/flows-and-journeys#first-value).
+
+If there is more than the page holds, it says "More happened than this page shows." Everything is in Live. Costs show only if you may see money.
 
 **Plan and payments** shows a plan as paid only with a payment everydeck saw. Otherwise it says "plan, no payment seen". See [Money and AI costs](/using/money-and-ai-costs#only-what-everydeck-saw).
 
@@ -90,7 +100,7 @@ After that, everydeck accepts no new data with this person's id. It rejects thei
 
 ## Organizations
 
-If your app has organizations, each one has its own page with a short address like `ORG-3`. See [Organizations](/using/organizations).
+If your app has organizations, each one has its own page. See [Organizations](/using/organizations).
 
 ## Who may do what
 

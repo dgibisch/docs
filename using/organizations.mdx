@@ -1,6 +1,6 @@
 ---
 title: "Organizations"
-description: "If your app has teams, companies or workspaces, everydeck shows each organization with its people, the functions they use, their problems and their runs."
+description: "If your app has teams, companies or workspaces, everydeck shows each organization on one page: what its people did, their AI costs, its records, members, problems and runs."
 ---
 
 If your app groups people into organizations, like teams, companies or workspaces, everydeck shows them under **Organizations**. Everyone who can see the app can open them.
@@ -20,7 +20,31 @@ The name of an organization comes from your server: the SDK sends it when your a
 
 Each organization has a short address like `ORG-3`. It keeps your app's own id out of the address bar and the browser history.
 
+## One organization, one page
+
+If your app map names the organizations, teams or workspaces people belong to, and everydeck reads them, each organization has one page: the page of its record in your app's data. The list and the old address like `ORG-3` lead there.
+
+If that is not possible, the page `ORG-3` stays and says why:
+
+- "This is the organization your app reports with its events. Your app map names no organizations, teams or workspaces that people belong to, so there is no record page for it."
+- "This is the organization your app reports with its events. everydeck does not read your organizations yet, so their names, members and record page are missing here."
+- "This is the organization your app reports with its events. None of the organizations everydeck read from your app has this key, so it stays a page of its own."
+
+The last one happens when your app sends a different id with its events than the key of its organizations. The setup asks your coding agent to send the key of the organization (`accountRef`). **First seen** and **Last seen** show the date in words, for example "on 4 Nov at 18:55".
+
 ## The page of an organization
+
+Everything the record page showed before stays. On top of it:
+
+- **A sentence under the name**, for example "active today at 10:21, 4 × Analyze CV this week".
+- **AI cost, 30 days**, only if your app reports AI calls. Otherwise "No AI call of this organization in the last 30 days."
+- **What L1VE GmbH did:** the visits of its people in the last 30 days, newest first, each line in your app's words with its cost, for example "Analyze CV: CV “Julia Hartmann” · $0.046". Similar lines are bundled after the first 2, with **Show n**.
+- **Runs, 30 days** and **Last opened** for the organization's own records, **Last active** and **AI cost, 30 days** for each member.
+- **What they cost in AI:** the AI costs by flow over the last 30 days, with **All n calls** to the list of every call.
+
+Costs show only if you may see money. Technical paths show only in the [developer view](/using/developer-view).
+
+Without a record page, the organization page shows:
 
 - **People:** who belongs to it, with the evidence.
 - **Functions used** over the chosen number of days.

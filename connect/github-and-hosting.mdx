@@ -9,6 +9,7 @@ For an app on GitHub, your agent ends the setup with a pull request. everydeck n
 
 When your agent is done, the setup page says **Almost live**: "Claude Code is done. Merge the pull request, then everydeck waits here until every part of Acme runs the new version."
 
+- **One extra step**, only if your own server does not read its everydeck settings from Supabase: three settings at your host, before you merge. See [Apps with their own server](#apps-with-their-own-server).
 - **Merge pull request #12**, with the title of the pull request and the state of its checks. Click **Open on GitHub** and merge it there.
 - **Deploy**: the page says who deploys each part, for example "Server on Render, starts by itself after the merge". For a part without a known host it says to deploy it where it runs, as usual.
 - **Every part reports in**: the server, the web app and scheduled jobs. For each part the page says whether it still runs the old version or has not reported yet. If a part has no new version 10 minutes after the merge, the page shows how to deploy the latest commit at that host, for example in Render **Manual Deploy › Deploy latest commit**.
@@ -30,7 +31,7 @@ If your app has no server of its own (for example a frontend with Supabase), eve
 A server like FastAPI, Express or a Next.js server needs a few everydeck settings.
 
 - **If your server talks to Supabase with the service key,** it reads its everydeck settings from Supabase by itself. Nothing to do.
-- **If not,** the setup page says: "One extra step: add these three settings to your host, then merge." Click **Show the values** and add them to your host. They are `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY` and `EVERYDECK_MANIFEST_DIGEST`. The values are shown once. Showing them again creates a new key.
+- **If not,** the setup page says: "One extra step: add these three settings to your host, then merge." and "Your server does not read its everydeck settings from Supabase, so your host needs them." With a pull request, this step stands in the list before **Merge pull request**. Click **Show the values** and add them to your host. They are `EVERYDECK_ENDPOINT`, `EVERYDECK_SERVER_KEY` and `EVERYDECK_MANIFEST_DIGEST`. The values are shown once. Showing them again creates a new key.
 
 The setup is live only when the first event of the new version arrives after the merge. everydeck knows Render, Railway, Fly, Vercel, Netlify and Heroku by name.
 

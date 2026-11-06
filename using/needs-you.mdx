@@ -11,6 +11,7 @@ description: "Needs you lists the cases and decisions that need a person. Learn 
 - **Security:** only points of level Error from Supabase's Security Advisor, together as one case. See [Security](/using/security).
 - **New permissions for the change door:** when everydeck can do more than you allowed, it asks here with **Allow** and **Not now**. See [Changing data](/using/changing-data#new-permissions).
 - **Reading your data stopped:** "everydeck isn't reading Acme's data", with the reason and the way to fix it.
+- **Reading a kind of data doesn't finish:** "everydeck can’t finish reading applications" (in production, after reading it stopped 2 runs in a row). "Everything else from Acme is read; applications in everydeck show their last state. everydeck keeps trying. The setup says why and what helps." The line opens the Setup page, and you get an email right away.
 - **A kind of data can't be read:** your database lacks a table or a column that the app map names. everydeck keeps what it read before, reads everything else, and says what to ask your coding agent.
 - **Supabase no longer accepts everydeck:** "everydeck can no longer reach the Supabase project of Acme", with **Reconnect**.
 

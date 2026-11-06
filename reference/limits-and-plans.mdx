@@ -124,7 +124,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Limit | Free | What happens when it is reached | Email |
 |---|---|---|---|
 | Length of a value read from your app | 256 characters | Longer values are shown shortened. | no |
-| Size of one read bridge answer | 256 KiB | The read fails and shows in Setup; after an hour without a good read you get an email. | yes |
+| Size of one read bridge answer | 256 KiB | everydeck asks for a smaller page right away, in the same run, down to one entry. Only a single entry larger than this stops reading that kind; it shows in Setup. | yes |
 | Capabilities of one read bridge | 1,000 | The bridge is rejected at setup. | no |
 | Data the read bridge may deliver at once when everydeck first reads your app | 50 MB | The first read ends there. The rest is read within the hourly budget, people, organizations and the main parts of your app first. Setup says what is still being read. | no |
 | Requests to the read bridge when everydeck first reads your app | 14,400 | As for the data of the first read. | no |
@@ -133,7 +133,7 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Wait for one read bridge answer | 30 s | That page counts as not arrived. Everything else is read; this kind goes on where it stopped, in smaller pages. | no |
 | Time of one read bridge query in your database | 20 s | The bridge stops the query and says why; everydeck asks for smaller pages next time. | no |
 | Wait of one read bridge query for a lock in your database | 5 s | The bridge stops waiting and says another connection holds a lock on the table; everything else is read. | no |
-| Runs in a row before a kind that stops shows in Setup | 3 | Setup shows "Reading … stops" with the reason. Everything else is read; the kind keeps what everydeck had. | no |
+| Runs in a row before a kind that stops shows in Setup | 2 | Setup shows "Reading … stops" with the reason. Everything else is read; the kind keeps what everydeck had. In production also on Needs you, with an email right away. | yes |
 | Old bridge key after a new one | 1 day | everydeck signs with both keys for this long, then only with the new one. If your app still has the old key, the bridge stops answering; you get an email and a banner. | yes |
 
 ### Keys, links and deadlines
@@ -183,6 +183,12 @@ The tables below list every limit you, the visitors of your app or your coding a
 | Scripts the security check loads, together | 40 MiB | Further scripts are not checked for keys. | yes |
 | Scripts the security check reads | 40 | Further scripts are not checked for keys. | yes |
 | Pages per list export | 50 | The export stops and says so. | no |
+| Longest period a card set up for your app counts | 30 days | A longer period in the app map counts only this far back; the card shows the period it counts. | no |
+| Longest period you can choose on Usage, Flows and People | 90 days | A longer period cannot be chosen. | no |
+| Events per source on "What … did" and "Visits", last 30 days | 500 | The newest count. The page says "More happened than this page shows."; everything is in Live and under All AI calls. | no |
+| Period of All AI calls | 30 days | Older calls are not in the list; their costs still count on Money. | no |
+| Events per source in "What happened" on the overview | 200 | The newest count. The card says "Only the latest events of this period are shown." | no |
+| People counted in "From sign-up to first value" | 20,000 | The latest who signed up count. The card says "Counted over the latest 20,000 people." | no |
 
 ### Warnings
 

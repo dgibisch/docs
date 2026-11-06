@@ -30,7 +30,7 @@ Each part has exactly one state:
 | Not checked yet | everydeck could not check this area. It does not count as missing. |
 | Last run failed | A scheduled job reported a failed run. It counts as working again after a run that succeeds. |
 | everydeck can't watch this job | Your agent says this job cannot send a heartbeat. |
-| Stops | Reading one kind of data from your app stops, for example with a timeout. Everything else is read. |
+| Stops | Reading one kind of data from your app stopped 2 runs in a row, with a timeout, an error, or because a single entry is larger than everydeck takes. Everything else is read. In production it also shows on [Needs you](/using/needs-you) and you get an email right away. |
 
 "Connected" is never the goal. "Working" is.
 
@@ -58,6 +58,10 @@ Some parts are steps at your host, like **Upload key at Vercel**. They show wher
 
 Scheduled jobs need no step from you. Your agent adds their heartbeat without a key or variable at your host. See [App parts and heartbeats](/using/app-parts-and-heartbeats#how-scheduled-jobs-report).
 
+## First value
+
+The part **First value** is the flow whose first result is what a new person came for, for example a first CV analyzed. It "Shows on Growth how many new people reach what they came for, and how long it takes. You can also set it under Settings › General." It is done once your agent named it or you chose it there. See [First value](/using/flows-and-journeys#first-value).
+
 ## Money not connected
 
 If a money part is open, Money is dimmed in the side bar and the page says "Payments aren't connected yet". If you say your app takes no money, Money disappears from the side bar.
@@ -65,6 +69,8 @@ If a money part is open, Money is dimmed in the side bar and the page says "Paym
 ## Update available
 
 When a newer version of everydeck's parts is available for your app, the Setup page shows **Update available**, with what it brings. If it closes a security gap, it says **Security update available**.
+
+An update can also bring a newer app map. Apps set up before these words existed are offered: "Timelines say what people did (“Analyzed CV”) instead of the name of the flow." and "Growth shows how many new people reach the first value of your app, and how long it takes." You confirm the first value again, like the first time.
 
 Click **Update**, then paste the sentence into your coding agent. "Your coding agent builds it as a pull request, the same way as the setup. Nothing changes in Acme until you merge it; then everydeck checks every part again." If the update lets everydeck read more of your app, you approve it again first.
 

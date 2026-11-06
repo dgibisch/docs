@@ -36,6 +36,8 @@ This sentence is your consent to three things: the read-only connection to your 
 
 Your agent writes down the facts of your app in a file called the **app map**: tables, pages, sign-in, payments, background jobs, AI calls, and the flows people go through. Every fact has its place in your code. everydeck checks the app map before it shows it to you.
 
+The app map also holds your app's own words, so everydeck can speak them: for each flow what a person did in it, in the past tense ("Analyzed CV", "Sent a message"), the name your app shows for each page ("Jobs" before `/jobs`), the first value, and, only if your app has them, its sides (like owners and guests) with their own first value.
+
 If your agent left something out, everydeck gives it back to the agent first, the most important parts first (money, scheduled jobs, email and push, sign-in, ways through the app). It sends at most 15 open parts at once.
 
 ### Rules your agent follows
@@ -55,6 +57,7 @@ When your agent has read your app, the setup page says **Acme is ready for your 
 - **What everydeck reads**: each kind of data, for example **Users** and listings, with its fields. Read only. You can change this later under **Settings › Data and privacy**. A switch **Text people write** decides whether everydeck shows free text on the page of each record. Phone numbers, IP addresses and e-mail addresses stay in your app.
 - **People**: if some people in your app have no name, you can turn on **Show the e-mail when someone has no name**. Without it they show as "Someone". everydeck then reads only the e-mail column of the users, nothing else.
 - **Messages**: if your app keeps messages, **Count messages and show failed ones**. everydeck sees that a message went out, to which person (never the address) and whether it arrived.
+- **First value**: the flow your agent names as the moment a new person first gets what they came for. "Growth shows how many reach it and how long it takes. Change it any time under Settings › General." With sides, like owners and guests, one line per side. If your agent found none, it says **Not set**. See [First value](/using/flows-and-journeys#first-value).
 - **Money**: if your app bills with a payment provider, choose **Connect it** or **Skip**. See [Payments in the setup](#payments-in-the-setup).
 - **Code**: GitHub, read only: pull requests, checks, deploys. If GitHub is not connected, the page says **Still open: GitHub is not connected.** You can still approve. Without GitHub, everydeck sees the new version of your app only when it first reports.
 - **What Claude Code changes in Acme**: the server, the web app, scheduled jobs and, with Supabase, a read-only function and its schedule that everydeck adds itself.

@@ -3,7 +3,7 @@ title: "Emails and notifications"
 description: "Which emails everydeck sends, which come right away and which wait for one daily summary at 8:00, how to choose per kind and per app, and the bell with your inbox."
 ---
 
-everydeck sends email only when it brings you something. Outages in production and possible data loss come right away. Everything else waits for one daily summary. You choose what you get under **Settings › Notifications**. Each setting is yours. It changes nothing for other people in your team.
+everydeck sends email only when it brings you something. Outages in production, possible data loss and reading that stops in production come right away. Everything else waits for one daily summary. You choose what you get under **Settings › Notifications**. Each setting is yours. It changes nothing for other people in your team.
 
 ## The rows
 
@@ -20,6 +20,7 @@ everydeck sends email only when it brings you something. Outages in production a
 | | Works again | Yes |
 | When everydeck stops for your app | Monthly limit | Always on |
 | | Something stopped | Always on |
+| | Reading stops | Always on |
 | | Possible data loss | Always on |
 | Summaries and your agent | Weekly report | Yes |
 | | Your coding agent | Yes |
@@ -38,7 +39,7 @@ For each row, choose under **When the email comes**:
 - **Daily summary**: one line in your daily summary.
 - **Off**: no email. Rows that are always on have no **Off**. They come right away or in the summary.
 
-**Right away** is the default only for outages in production: **App unreachable**, **Monitoring gap** and **Possible data loss**. In development these go to the summary too. Every other row goes to the daily summary unless you choose **Right away**. The **Weekly report** has no choice of time. It is on or off.
+**Right away** is the default only for outages in production: **App unreachable**, **Monitoring gap**, **Possible data loss** and **Reading stops**. In development these go to the summary too. Every other row goes to the daily summary unless you choose **Right away**. The **Weekly report** has no choice of time. It is on or off.
 
 ### The daily summary
 
@@ -83,12 +84,13 @@ If a large part of your data disappears at once, everydeck sends an urgent alert
 
 ## When everydeck stops for your app
 
-If everydeck stops accepting, reading, checking or delivering for your app, everyone who can set up the app gets an email: what happened, since when, what it means, what you can do, and when it works again by itself. These emails always arrive. You can only choose whether they come right away or in the daily summary. The summary is the default.
+If everydeck stops accepting, reading, checking or delivering for your app, everyone who can set up the app gets an email: what happened, since when, what it means, what you can do, and when it works again by itself. These emails always arrive. You can only choose whether they come right away or in the daily summary. The summary is the default, except for **Reading stops**, which comes right away.
 
 You get one email per cause, and a new one only after it ended and started again. While it lasts, the overview shows a banner. Causes are:
 
 - 80 %, 100 % and 120 % of the monthly event limit, and when everydeck stops accepting events,
 - the read bridge fails for 1 hour,
+- one kind of your app's data can't be read to the end in production, 2 runs in a row (row **Reading stops**, right away by default): "Sent right away when everydeck can’t finish reading a part of your app’s data in production, so what you see in everydeck gets out of date." The email says which kind, why, and that everydeck goes on where it stopped, in smaller pages. When it gets through again you get "everydeck reads … again".
 - processing of your events is stuck for 10 minutes (your events are kept, nothing is lost),
 - page load times or source maps reach their limit,
 - a repair waits for your coding agent for 1 day,

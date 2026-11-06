@@ -23,6 +23,15 @@ description: "Fix common everydeck problems: a paused Supabase project, a read b
     </Warning>
   </Accordion>
 
+  <Accordion title="Reading one kind of data stops">
+    Sometimes the read bridge answers, but one kind of data, like applications, does not get through. Everything else is still read.
+
+    - **A page is too large:** some rows are wide, so a page of them is larger than everydeck takes (256 KiB). everydeck asks for a smaller page right away, in the same run, and goes on. You see nothing of this. Only a single entry larger than that stops the kind.
+    - **A timeout or an error:** everydeck goes on where it stopped, in smaller pages.
+
+    If the kind does not get through 2 runs in a row, the Setup page says "Reading applications stops …" with the reason and what helps. In production, **Needs you** says "everydeck can’t finish reading applications" and you get an email right away (row **Reading stops**). Until it gets through, applications in everydeck show their last state. When it works again, you get an email.
+  </Accordion>
+
   <Accordion title="The change door does not answer">
     The page says "The change door in Acme does not answer everydeck, so changes from here are paused." with the reason. After a failure, the change door checks itself again, like the read bridge. It is also checked every hour and after every switch. Click **Check again** under **Settings › Acme › Permissions** once you fixed the cause.
   </Accordion>

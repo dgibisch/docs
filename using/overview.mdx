@@ -26,9 +26,15 @@ A short sentence sums up your app. everydeck builds it without AI, from a fixed 
 - new people compared with the period before,
 - **One thing needs you** whenever a case is open.
 
+When your app reports what people did, the sentence tells the week from these facts instead, and each number is a link. For example: "This week 2 organizations worked in Acme: analyzed CV 7× for $0.32. Most active: L1VE GmbH. Nothing needs you." Amounts appear only if you may see money. If your app has sides, like owners and guests, the sentence names each side, for example "This week 1 new owner published a property 1×. 4 new guests sent a message 4×." With no one active it says "No owners or guests were active this week." It never shows a 0.
+
+The words come from your app map: what a person did in each flow, like "Analyzed CV". If your app map does not have these words yet, the name of the flow shows instead. **Update available** on the Setup page offers them. See [Setup page](/using/setup-page#update-available).
+
 ## Key numbers
 
 Under the sentence, a row of numbers: new sign-ups (or new people), active people, monthly revenue or revenue, and how many things need you.
+
+If your app has sides, each side gets its own row: **New**, **Active** and how many reached its first value, for example **Owners** and **Guests**. See [First value](/using/flows-and-journeys#first-value).
 
 A number that is not there yet shows as a short grey word, never as a 0. For example **No visits yet**, or for revenue **Not connected**, **No amounts** or **No payment yet**, with a link like **Connect Stripe** (or **Connect payments**) to the setup.
 
@@ -51,15 +57,16 @@ With little data, the chart shows a sentence instead of a large area. Before any
 
 Each card appears only when it has data. Otherwise the next one moves up.
 
+- **What happened:** day by day, what people did, in your app's words, for example "Annette Hansen · L1VE GmbH opened job “System Integration Engineer” and analyzed CV 4× · $0.18". A person without an approved name shows as "Someone". The card shows the last 7 days with events, at most 4 people a day ("1 more person") and 6 lines per person ("and 1 more thing"). With many events it says "Only the latest events of this period are shown." **Open Live** shows everything. Before anything happened it says "Nothing happened in Acme in this period yet. Each thing a person does shows up here in Acme’s words."
 - **Needs you:** the open case, or a green area with what was checked and the last case that was repaired. See [Needs you](/using/needs-you).
-- **Money and AI costs:** only with payments everydeck saw or plans with an amount. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. See [Money and AI costs](/using/money-and-ai-costs).
+- **Money and AI costs:** only with payments everydeck saw or plans with an amount. A margin appears only when every AI call of the last 30 days has a known price and revenue is in USD. Under the AI costs, **Who caused them** names the organizations (or, without organizations, the people) with the highest AI costs, with their calls and cost. At most 5 rows, the rest as one line "N more". Calls without an organization or person show as one line. **All calls** opens the list of every AI call. See [Money and AI costs](/using/money-and-ai-costs).
 - **Coming back:** how many people came back, once a full week is measured.
 - **The way through your main flow:** the first funnel from [Growth](/using/flows-and-journeys).
 - **Your newest people**, with their way through the app.
 - **In your database:** the kinds of data in your approved read scope.
 - **How fast your app is:** duration per run for the three flows with the most measured runs. Under 2 s is "quick", over 4 s is "slow".
 - **Where people use Acme:** only if your app runs on more than one platform, like web and iPhone.
-- **Happening now:** the latest entries from [Live](/using/live), with **Open live view**.
+- **Happening now:** the latest entries from [Live](/using/live). A line about a person or an organization opens their page. Errors, cases, logs, data gaps and **Open live view** open Live.
 - **Most active** organizations, if your app has organizations. Otherwise **What people use most**.
 
 ## Footer

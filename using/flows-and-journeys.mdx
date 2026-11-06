@@ -1,6 +1,6 @@
 ---
 title: "Flows and growth"
-description: "Flows show what your app does again and again and how each run ended. Growth shows where new people come from, whether they come back and where they get lost."
+description: "Flows show what your app does again and again and how each run ended. Growth shows where new people come from, whether they reach the first value, come back and where they get lost."
 ---
 
 ## Flows
@@ -51,14 +51,27 @@ Choose the last 7, 30 (the default) or 90 days. If your app runs on more than on
 - **The sentence at the top,** for example "In the last 30 days 120 people used Acme. 40 were new, most of them from Google." and where most get lost.
 - **Four numbers:** **New people**, **Active people**, **Came back within 7 days** and **Became paying** (only if your app measures money), each compared with the days before.
 - **New people by source:** new people per day by where they came from, with a mark when a campaign started.
-- **Where they come from:** the first visit of each new person, by channel (like Search, Social, AI assistants, Referral, Email or Direct) and source, from the domain of the referring page and the UTM values, never its path or query. This works by itself. To tell two of your own posts apart, add `?utm_campaign=launch` to the link.
+- **People / Organizations:** if your app has organizations, a switch counts **Active** and **What is used** by organization instead of by person.
+- **From sign-up to first value:** **Signed up**, then the step before (for example creating a job), then the first value with the median time to it, then **Again within 7 days** ("of those who reached it"). Below it, links to the people who stopped on the way, for example "Stopped after created a job: 2". Each opens the list of these people. With sides, one card per side. Without a first value it says "No first value is set for Acme. Choose the flow whose first result is what a new person came for, and Growth shows how many reach it." with **Set it**. It counts the latest 20,000 people who signed up ("Counted over the latest 20,000 people.").
+- **What is used:** each flow of your app with **Uses** (results in the period), people or organizations, **First time** and **Came back** (used again on a later day). A flow your app does not report yet says "Acme doesn’t report it yet" with a link to the setup.
+- **Where they come from:** the first visit of each new person, by channel (like Search, Social, AI assistants, Referral, Email or Direct) and source, from the domain of the referring page and the UTM values, never its path or query. With a first value, a column says how many reached it. This works by itself. To tell two of your own posts apart, add `?utm_campaign=launch` to the link.
 - **Campaigns** (from `utm_campaign`) and **First page they saw**, once there are any.
 - **Do they come back?** For the new people of each week, the share that was active again in each following week. It appears once enough new people have arrived.
-- **Most used pages,** with visits, people and **Loads in**: the time until the main content shows, for three of four visits. A dash means too few measured visits so far. Click a page to see its load times in detail.
+- **Most used pages,** with the name your app shows for each page before its path, the record opened most on it ("most opened: …"), visits, people and **Loads in**: the time until the main content shows, for three of four visits. A dash means too few measured visits so far. Click a page to see its load times in detail.
 - **Funnels:** chains of flows from your app map, "the same people, step by step". The step that loses the most people is marked. **See the n** opens the list of these people.
 - **Identity check,** if your app has one: how many active people are verified, and why the others stopped.
 
 With little data, a card shows one sentence instead of an empty chart.
+
+## First value
+
+The first value is the moment a new person first gets what they came for, for example a first CV analyzed, a first post live or a first message sent. Never sign-up or sign-in.
+
+- **At setup** your coding agent names the flow in the app map. On the approval page you confirm it: "When a new person first gets what they came for. Growth shows how many reach it and how long it takes. Change it any time under Settings › General." If your agent found none, it says "Not set".
+- **Under Settings › General**, card **First value**, you choose the flow or **Not set**. The card says whether your agent suggested it or you chose it. The change goes to the protocol.
+- **Sides:** if your app has sides that use it differently, like owners who list and guests who book, each side has its own first value, for example **First value for Owners**.
+
+The first value shows on Growth, as a step in the way of each person through the app, and on the overview. It is also a part on the [Setup page](/using/setup-page#first-value).
 
 ## Active and new
 

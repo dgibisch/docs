@@ -110,9 +110,11 @@ from openai import OpenAI
 
 client = everydeck.wrap_openai(OpenAI())
 
-with everydeck.ai_context(flow="cv_analysis", subject_ref=user.id, account_ref=org.id):
+with everydeck.ai_context(flow="cv_analysis", subject_ref=user.id, account_ref=org.id, object_type="cv", object_ref=cv.id):
     client.chat.completions.create(...)
 ```
+
+`object_type` and `object_ref` (from 0.5.10) name the record the call worked on: its kind as your app map names it and its key, both or none. `subject_ref` is the person who started the work (in a worker, read it from the record), `account_ref` the key of their organization. They work the same at the wrappers and in `ai_call`. See [AI calls](/developers/sdk-javascript#ai-calls).
 
 `everydeck.wrap_anthropic(Anthropic())` works the same. Both also wrap the async clients `AsyncOpenAI` and `AsyncAnthropic`. You can name the flow, the person and the organization at the wrapper too: `everydeck.wrap_openai(OpenAI(), flow="cv_analysis", subject_ref=user.id, account_ref=org.id)`. For an AI API without such a client, report the numbers after each call:
 

@@ -307,12 +307,18 @@ Wrap each AI client where your app creates it. The wrapper returns the same clie
 const openai = everydeck.wrapOpenAI(new OpenAI());
 const anthropic = everydeck.wrapAnthropic(new Anthropic());
 
-await everydeck.aiContext({ flow: "cv_analysis", subjectRef: user.id, accountRef: org.id }, () =>
+await everydeck.aiContext({ flow: "cv_analysis", subjectRef: user.id, accountRef: org.id, objectType: "cv", objectRef: cv.id }, () =>
   anthropic.messages.create({ /* … */ }),
 );
 ```
 
 You can also name the flow, the person and the organization at the wrapper: `everydeck.wrapOpenAI(new OpenAI(), { flow: "cv_analysis", subjectRef, accountRef })`. All calls inside one `aiContext` belong to one run.
+
+- `subjectRef`: the person who started the work. In a background job, read it from the record. Without it, a call is counted for nobody.
+- `accountRef`: the key of their organization, the same key your app's organizations have.
+- `objectType` and `objectRef` (from 0.5.16): the kind of the record the call worked on, as your app map names it, and its key. Give both or none; one alone is left out with a warning. everydeck drops a kind your app map does not know. They also work at the wrapper and in `aiCall`.
+
+everydeck then shows each call with who, what and why: on the page of the person and the organization, and under [All AI calls](/using/money-and-ai-costs#all-ai-calls). Only identifiers are sent, never content.
 
 The wrappers measure `chat.completions.create`, `responses.create`, `embeddings.create` and `messages.create`, also with `stream`. `wrapOpenAI` also measures image and audio calls. everydeck's price list prices text tokens only, so these calls show their cost as unknown unless you set a price of your own.
 

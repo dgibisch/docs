@@ -64,7 +64,20 @@ If your app calls an AI model, your agent wraps the AI client during the setup. 
 
 ### Per flow and per model
 
-The Money page shows AI costs per day, week or month by flow, the table **AI cost by flow** with calls, tokens, cost and cost per call, and **By model**. **AI cost per run** names the most expensive flow. A run that costs more than ten times the median run of its flow, and at least USD 0.10 more, is pointed out, once the flow has at least three runs in the period. **Customers: pay vs. AI cost** compares what each customer pays per month with their AI costs.
+The Money page shows AI costs per day, week or month by flow, the table **AI cost by flow** with calls, tokens, cost and cost per call, and **By model**. **AI cost per run** names the most expensive flow. A run that costs more than ten times the median run of its flow, and at least USD 0.10 more, is pointed out, once the flow has at least three runs in the period. **Customers: pay vs. AI cost** compares what each customer pays per month with their AI costs. It names the plan a customer is on, also when no amount or payment was seen for it.
+
+### All AI calls
+
+**All calls**, next to **AI cost by flow**, opens **All AI calls**: every AI call of the last 30 days, newest first, 50 per page with **Older calls**. Each row shows **When**, **Person**, **Organization**, **Flow**, **Record**, **Model**, **Tokens in / out** and **Cost**. So you see who caused a cost, in which flow, and on which record.
+
+The cards on the page of a person or an organization open the same list for just them ("of this person or organization, newest first").
+
+- **Person** and **Organization** come from what your app sends with the call. A call without a person is counted for nobody.
+- **Record** needs SDK version 0.5.16 (Python 0.5.10) or later, which sends the kind and key of the record the call worked on. See [AI calls](/developers/sdk-javascript#ai-calls).
+- If your app sends no person with any call, the page says "Acme does not report who started an AI call yet." with **How to add it**. If only some calls lack one, it says how many name no person.
+- A call with a model everydeck does not know says "no known price". A failed call says "failed".
+
+Older calls are not in the list. Their costs still count in the totals of the Money page.
 
 ### How costs are calculated
 
